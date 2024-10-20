@@ -11,6 +11,11 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We d
 const int TURN_SPEED  = 90;
 const int SWING_SPEED = 90;
 
+lemlib::Pose redAllianceWallStake(-71,0);
+lemlib::Pose blueAllianceWallStake(71,0);
+
+
+
 using namespace std;
 
 
@@ -149,6 +154,11 @@ void skills() {
 
 void leftAuton() {
 
+}
+
+//Auton Development based on Barcbots (11101B)
+
+void leftAutonVirat() {
 }
 
 void rightAuton() {
