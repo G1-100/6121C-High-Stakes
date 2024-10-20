@@ -11,13 +11,43 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We d
 const int TURN_SPEED  = 90;
 const int SWING_SPEED = 90;
 
-lemlib::Pose redAllianceWallStake(-71,0);
-lemlib::Pose blueAllianceWallStake(71,0);
+// FIELD OBJECTS AND POSITIONS IN INCHES:
+// Wall Stakes (4):
+lemlib::Pose RAWS(-71,0); // Red Alliance Wall Stake
+lemlib::Pose BAWS(71,0); // Blue Alliance Wall Stake
+lemlib::Pose UWS(71,0); // Upper Wall Stake
+lemlib::Pose LWS(-71,0); // Lower Wall Stake
+// Mobile Goals (5)
+lemlib::Pose URMogo(-24,24); // Upper Red Side Mobile Goal
+lemlib::Pose LRMogo(-24,-24); // Lower Red Side Mobile Goal
+lemlib::Pose LC(0,-48); // Lower Center Mobile Goal
+lemlib::Pose UBMogo(24,24); // Upper Blue Side Mobile Goal
+lemlib::Pose LBMogo(24,-24); // Lower Blue Side Mobile Goal
+// Scoring Corners (4):
+lemlib::Pose NRC(-60,60); // Negative Red Corner
+lemlib::Pose PRC(-60,-60); // Positive Red Corner
+lemlib::Pose NBC(60,-60); // Negative Blue Corner
+lemlib::Pose PBC(60,60); // Positive Blue Corner
+// RING POSITIONS:
+// 2x2 Rings at center of field
+lemlib::Pose CTLR(-3.5,3.5); // Center Top Left: Blue Ring
+lemlib::Pose CTRR(3.5,3.5); // Center Top Right: Red Ring
+lemlib::Pose CBLR(-3.5,-3.5); // Center Bottom Left: Blue Ring
+lemlib::Pose CBRR(3.5,-3.5);// Center Bottom RIght: Red Ring
+// 2x2 2 Ring Stacks on center line
+lemlib::Pose TSTLR(-3.5,51.5); // Top Stack Top Left Rings: ↑:Blue ↓:Red
+lemlib::Pose TSTRR(3.5,51.5); // Top Stack Top Right Rings: ↑:Red ↓:Blue
+lemlib::Pose TSBLR(-3.5,44.5); // Top Stack Bottom Left Rings: ↑:Blue ↓:Red
+lemlib::Pose TSBRR(3.5,44.5); // Top Stack Bottom Right Rings: ↑:Red ↓:Blue
+// LADDER POSITIONS:
+lemlib::Pose LTC(0,24); // Ladder: Top Corner
+lemlib::Pose LLC(-24,0); // Ladder: Left Corner
+lemlib::Pose LBC(0,-24); // Ladder: Bottom Corner
+lemlib::Pose LRC(24,0); // Ladder: Right Corner
 
 
 
 using namespace std;
-
 
 int sgn(double num) {
     if (num >= 0) return 1;
@@ -145,11 +175,6 @@ void skills() {
   chassis.moveToPoint(24, 48, 3000); // move and intake last top ring
   chassis.waitUntilDone();
   // TODO: the rest of skills starting from 44 seconds in vid
-
-
-
-
-  
 }
 
 void leftAuton() {
@@ -159,6 +184,7 @@ void leftAuton() {
 //Auton Development based on Barcbots (11101B)
 
 void leftAutonVirat() {
+
 }
 
 void rightAuton() {
