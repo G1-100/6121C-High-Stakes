@@ -5,4 +5,5 @@ void moveMax(double dist, int timeout, double slowAt);
 void leftAuton();
 void rightAuton();
 
-void skills() {
+void skills();
+ASSET(skills1_txt);

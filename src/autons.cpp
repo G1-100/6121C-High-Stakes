@@ -13,28 +13,29 @@ const int SWING_SPEED = 90;
 
 using namespace std;
 
-ASSET(skills1_txt);
 
 int sgn(double num) {
     if (num >= 0) return 1;
     else return -1;
 }
 
+/*
+  goal: move as fast as possible in a straight line, ignoring accuracy
+ */
 void moveMax(double dist, int timeout) {
+  //these two variables used to track distance traveled
   lemlib::Pose lastPose = chassis.getPose();
   lemlib::Pose curPose = chassis.getPose();
   double distTravelled = 0;
-  long startMillis = pros::millis();
-  while (distTravelled < fabs(dist) && pros::millis() - startMillis < timeout) {
-    chassis.tank(127 * sgn(dist), 127 * sgn(dist));
+  long startMillis = pros::millis(); // used to see how much time has elapsed
+  while (distTravelled < fabs(dist) && pros::millis() - startMillis < timeout) { // if robot has traveled far enough or time has gone over the limit
+    chassis.tank(127 * sgn(dist), 127 * sgn(dist)); // move at max speed, account for backwards
     curPose = chassis.getPose();
-    distTravelled += curPose.distance(lastPose);
+    distTravelled += curPose.distance(lastPose); // find distance between positions and add to distance traveled
     lastPose = chassis.getPose();
     pros::delay(10);
   }
-  cout << "dist: " + to_string(fabs(dist)) << "\n";
-  cout << "distraveled: " + to_string(distTravelled) << "\n";
-  setDrive(0, 0);
+  setDrive(0, 0); // stop moving
 }
 
 void skills() {
