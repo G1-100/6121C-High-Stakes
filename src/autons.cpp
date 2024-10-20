@@ -18,25 +18,20 @@ int sgn(double num) {
     else return -1;
 }
 
-void moveMax(double dist, int timeout, double slowAt) {
+void moveMax(double dist, int timeout) {
   lemlib::Pose lastPose = chassis.getPose();
   lemlib::Pose curPose = chassis.getPose();
   double distTravelled = 0;
   long startMillis = pros::millis();
   while (distTravelled < fabs(dist) && pros::millis() - startMillis < timeout) {
     chassis.tank(127 * sgn(dist), 127 * sgn(dist));
-    if (slowAt != -1 && distTravelled > slowAt) {
-      setIntake(90);
-      cout << "hi" << "\n";
-    }
     curPose = chassis.getPose();
     distTravelled += curPose.distance(lastPose);
     lastPose = chassis.getPose();
-    
     pros::delay(10);
   }
   cout << "dist: " + to_string(fabs(dist)) << "\n";
-  cout << "distravveled: " + to_string(distTravelled) << "\n";
+  cout << "distraveled: " + to_string(distTravelled) << "\n";
   setDrive(0, 0);
 }
 

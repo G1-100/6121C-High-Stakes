@@ -117,6 +117,6 @@ void checkTemp() {
         double averageTempCelsius = totalTemp / count;
         double averageTempFahrenheit = averageTempCelsius * 9.0 / 5.0 + 32.0;
         master.set_text(0, 0, "Avg Temp: " + std::to_string(averageTempFahrenheit) + "F");
-        pros::delay(250);
+        pros::delay(500);
     }
 }
