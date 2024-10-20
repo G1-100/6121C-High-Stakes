@@ -18,16 +18,16 @@ lemlib::Pose BAWS(71,0); // Blue Alliance Wall Stake
 lemlib::Pose UWS(71,0); // Upper Wall Stake
 lemlib::Pose LWS(-71,0); // Lower Wall Stake
 // Mobile Goals (5)
-lemlib::Pose URMogo(-24,24); // Upper Red Side Mobile Goal
-lemlib::Pose LRMogo(-24,-24); // Lower Red Side Mobile Goal
+lemlib::Pose ULM(-24,24); // Upper Left (Red) Side Mobile Goal
+lemlib::Pose LLM(-24,-24); // Lower Left (Red) Side Mobile Goal
 lemlib::Pose LC(0,-48); // Lower Center Mobile Goal
-lemlib::Pose UBMogo(24,24); // Upper Blue Side Mobile Goal
-lemlib::Pose LBMogo(24,-24); // Lower Blue Side Mobile Goal
+lemlib::Pose URM(24,24); // Upper Right (Blue) Side Mobile Goal
+lemlib::Pose LBM(24,-24); // Lower Blue Side Mobile Goal
 // Scoring Corners (4):
-lemlib::Pose NRC(-60,60); // Negative Red Corner
-lemlib::Pose PRC(-60,-60); // Positive Red Corner
-lemlib::Pose NBC(60,-60); // Negative Blue Corner
-lemlib::Pose PBC(60,60); // Positive Blue Corner
+lemlib::Pose TRC(-60,60); // Top Left (Negative Red) Corner
+lemlib::Pose PRC(-60,-60); // Bottom Left (Positive Red) Corner
+lemlib::Pose BRC(60,-60); // Bottom Right (Positive Blue) Corner
+lemlib::Pose TRC(60,60); // Top Right (Negative Blue) Corner
 // RING POSITIONS:
 // 2x2 Rings at center of field
 lemlib::Pose CTLR(-3.5,3.5); // Center Top Left: Blue Ring
@@ -40,12 +40,18 @@ lemlib::Pose TSTRR(3.5,51.5); // Top Stack Top Right Rings: ↑:Red ↓:Blue
 lemlib::Pose TSBLR(-3.5,44.5); // Top Stack Bottom Left Rings: ↑:Blue ↓:Red
 lemlib::Pose TSBRR(3.5,44.5); // Top Stack Bottom Right Rings: ↑:Red ↓:Blue
 // LADDER POSITIONS:
-lemlib::Pose LTC(0,24); // Ladder: Top Corner
-lemlib::Pose LLC(-24,0); // Ladder: Left Corner
-lemlib::Pose LBC(0,-24); // Ladder: Bottom Corner
-lemlib::Pose LRC(24,0); // Ladder: Right Corner
-
-
+// Ladder Corners
+lemlib::Pose LTC(0,26); // Ladder: Top Corner Center Line
+lemlib::Pose LRC(-26,0); // Ladder: Left Corner
+lemlib::Pose LBC(0,-26); // Ladder: Bottom Corner
+lemlib::Pose LBC(26,0); // Ladder: Right Corner
+// Ladder Beams
+lemlib::Pose LTLB(-13,13); // Ladder: Top Left Beam (LTC-LLC)
+lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
+lemlib::Pose LBLB(-13,-13); // Ladder: Bottom Left Beam (LBC-LLC)
+lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
+// STARTING POSITIONS
+lemlib::Pose leftAutonViratPos(-54,34,90);
 
 using namespace std;
 
@@ -182,9 +188,31 @@ void leftAuton() {
 }
 
 //Auton Development based on Barcbots (11101B)
-
+//Preload one ring
 void leftAutonVirat() {
-
+  chassis.setPose(leftAutonViratPos); // Set position for left auton
+  chassis.turnToPoint(ULM.x,ULM.y,3000,{},false);
+  chassis.moveToPoint(ULM.x,ULM.y,3000,{},false); // Move to upper left mobile goal
+  // TODO: Mogo piston activate
+  // Turn to and move to bottom left rings of stack
+  setIntake(127);
+  chassis.turnToPoint(TSBLR.x,TSBLR.y,3000,{},false);
+  chassis.moveToPoint(TSBLR.x,TSBLR.y,3000,{},false);
+  // Turn to and move to top left rings of stack
+  chassis.turnToPoint(TSTLR.x,TSTLR.y,3000,{},false);
+  chassis.moveToPoint(TSTLR.x,TSTLR.y,3000,{},false);
+  // Turn to face ring and pick up
+  chassis.turnToPoint(-24,48,3000,{},false);
+  // Face ring
+  chassis.turnToPoint(-48,0,3000,{},false);
+  // TODO: Mogo piston relase
+  // TODO: Lift flexwheel intake
+  // move to point
+  chassis.moveToPoint(-48,0,3000,{},false);
+  // TODO: Load ring into ladybrown mech
+  chassis.turnToPoint(RAWS.x,RAWS.x,3000,{},false);
+  chassis.moveToPoint(RAWS.x,RAWS.y,3000,{},false);
+  // TODO: Activate ladybrown mech
 }
 
 void rightAuton() {

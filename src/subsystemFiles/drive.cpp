@@ -9,7 +9,7 @@
 #define CD_SENSITIVITY 1.00
 
 // Helper Functions
-void setDrive (int left, int right) {
+void setDrive(int left, int right) {
     driveLeftBack.move(left);
     driveLeftMiddle.move(left);
     driveLeftFront.move(left);
