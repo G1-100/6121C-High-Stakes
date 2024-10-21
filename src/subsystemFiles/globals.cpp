@@ -18,8 +18,16 @@ pros::Motor driveRightMiddle(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits
 //intake
 pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
+// ladybrown wall stake mech
+pros::Motor ladybrown(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+
+
 //pistons
-pros::adi::DigitalOut piston1('A');
+pros::adi::DigitalOut intakeLift('A');
+pros::adi::DigitalOut doinker('A');
+pros::adi::DigitalOut mogoClamp1('A');
+pros::adi::DigitalOut mogoClamp2('A');
+
 
 // inertial
 pros::Imu IMU(7);
@@ -27,6 +35,8 @@ pros::Imu IMU(7);
 // rotational sensor
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
+
+pros::Rotation LBRotations(19);
 
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);

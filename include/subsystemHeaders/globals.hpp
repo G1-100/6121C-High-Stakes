@@ -21,6 +21,9 @@ extern pros::MotorGroup right_side_motors;
 //intake
 extern pros::Motor intake;
 
+//ladybrown
+extern pros::Motor ladybrown;
+
 
 // Inertial
 extern pros::Imu IMU;
@@ -28,6 +31,8 @@ extern pros::Imu IMU;
 // Rotational Sensor
 extern pros::Rotation horizTracking;
 extern pros::Rotation vertTracking;
+
+extern pros::Rotation LBRotations;
 
 extern lemlib::TrackingWheel horizTrackingWheel;
 extern lemlib::TrackingWheel vertTrackingWheel;
@@ -38,7 +43,10 @@ extern  pros::Controller master;
 
 //MISCELLANEOUS
 
-extern pros::adi::DigitalOut piston1;
+extern pros::adi::DigitalOut intakeLift;
+extern pros::adi::DigitalOut doinker;
+extern pros::adi::DigitalOut mogoClamp1;
+extern pros::adi::DigitalOut mogoClamp2;
 
 extern lemlib::Chassis chassis;
 extern lemlib::OdomSensors sensors;
