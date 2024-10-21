@@ -36,7 +36,7 @@ pros::Imu IMU(7);
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
 
-pros::Rotation LBRotations(19);
+pros::Rotation LBRotation(19);
 
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);

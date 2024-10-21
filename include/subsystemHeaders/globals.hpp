@@ -32,7 +32,7 @@ extern pros::Imu IMU;
 extern pros::Rotation horizTracking;
 extern pros::Rotation vertTracking;
 
-extern pros::Rotation LBRotations;
+extern pros::Rotation LBRotation;
 
 extern lemlib::TrackingWheel horizTrackingWheel;
 extern lemlib::TrackingWheel vertTrackingWheel;
