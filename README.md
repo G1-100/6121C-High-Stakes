@@ -4,14 +4,15 @@
 
 ## Checklist
 
-- **Start a project** (Due: Nov 2nd)
-- **Import Libraries** (Due: Nov 2nd)
-- **Write Autons Safe** (Due: Nov 2nd)
+- [x] **Start a project** (Due: Nov 2nd)
+- [x] **Import Libraries** (Due: Nov 2nd)
+- [ ] **Write Autons Safe** (Due: Nov 2nd)
   - [x] `leftAutonRed()`
   - [ ] `leftAutonBlue()`
   - [ ] `rightAutonRed()`
   - [x] `rightAutonBlue()`
-- **Configure Driver Bot** (Due: Nov 2nd)
+  - [ ] Tune Auton Routes
+- [ ] **Configure Driver Bot** (Due: Nov 2nd)
   - [x] Setup Sensors
   - [ ] Setup Motors
   - [ ] Setup Pistons
@@ -20,8 +21,9 @@
   - [x] Write Mogo Mech Code
   - [x] Write Intake Code
   - [ ] Write Drive Code
-- [ ] **Write Autons Rush**
-- [ ] **Contingency & Edge Autons**
+  - [ ] Tune PID, and Odometry
+- [ ] **Write Autons Rush** (Due: Nov 16th)
+- [ ] **Contingency & Edge Autons** (Due: Dec 14th)
 - [ ] **Write Auton Selector** (Optional)
 
 ## Tasks:
