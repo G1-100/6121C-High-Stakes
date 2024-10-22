@@ -2,9 +2,9 @@ int sgn(double num);
 
 void moveMax(double dist, int timeout, double slowAt);
 
-void leftAuton();
-void leftAutonVirat();
-void rightAuton();
+void ringAuton();
+void ringAutonVirat();
+void mogoAuton();
 
 void skills();
 ASSET(skills1_txt);

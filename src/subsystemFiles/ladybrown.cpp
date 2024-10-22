@@ -15,7 +15,7 @@ const double STOP2 = 160; // angle of stop 2 - 130
 const double REST = 0;
 const double PROPPED = 1;
 const double EXTENDED = 2;
-double LBState = 0;
+int LBState = REST;
 
 bool LBLoopActive = false;
 
@@ -39,6 +39,11 @@ void LBExtend(int point) {
         pros::delay(10);
     }
     ladybrown.move(0); // stop once done
+    if (point == 1) {
+        LBState = PROPPED;
+    } else if (point == 2) {
+        LBState = EXTENDED;
+    }
     
 }
 
@@ -55,6 +60,7 @@ void LBRetract() {
         pros::delay(20);
     }
     ladybrown.move(0);
+    LBState = REST;
 }
 
 /**
@@ -64,6 +70,7 @@ void LBRetract() {
 void LBLoop() {
     LBLoopActive = true;
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    LBRotation.reset();
     while (true) {
         pros::lcd::print(2, "Angle: %f", LBRotation.get_position() / 100.0);
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press

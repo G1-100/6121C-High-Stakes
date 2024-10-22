@@ -43,6 +43,7 @@ void competition_initialize() {}
 void autonomous() {
 
 	//pros::Task ret1(LBLoop);
+	LBRotation.reset();
 
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -76,6 +77,10 @@ void opcontrol() {
 	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+
+	if (LBState == PROPPED || LBState == EXTENDED) {
+		LBRetract(); // reset ladybrown
+	}
 
 	pros::Task temp(checkTemp);
 
