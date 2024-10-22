@@ -279,7 +279,7 @@ void ringAuton() {
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
 void ringAutonVirat() {
-  chassis.setPose(leftAutonViratPos); // Set position for left auton
+  chassis.setPose(leftAutonRedPos); // Set position for left auton
   chassis.turnToPoint(ULM.x,ULM.y,3000,{},false);
   chassis.moveToPoint(ULM.x,ULM.y,3000,{},false); // Move to upper left mobile goal
   // Mogo piston activate
@@ -333,6 +333,29 @@ void rightAutonBlue() {
   // TODO: Activate ladybrown mech
 }
 
-void rightAuton() {
-
+void mogoAuton() { // SAFE
+  chassis.setPose(60, -15, 90); // starts at lower half of alliance starting line
+  chassis.turnToPoint(72, 0, 3000); // turn to wall stake
+  chassis.waitUntilDone();
+  // prop up ladybrown
+  LBExtend(1);
+  chassis.moveToPoint(64, -7, 3000); // move to wall stake
+  LBExtend(2);
+  chassis.waitUntilDone();
+  chassis.moveToPose(18, -26, 80, 3000, {.forwards = false}); // boomerang move to mogo
+  LBRetract();
+  chassis.waitUntilDone();
+  // clamp mogo
+  clampMogo(true);
+  chassis.turnToPoint(24, -48, 3000); // turn to two stack
+  chassis.waitUntilDone();
+  setIntake(127);
+  chassis.moveToPoint(24, -52, 3000); // move to two stack
+  chassis.waitUntilDone();
+  chassis.turnToPoint(8, 0, 3000);
+  chassis.waitUntilDone();
+  // extend ladybrown to touch ladder
+  LBExtend(2);
+  chassis.moveToPoint(14, -22, 3000);
+  chassis.waitUntilDone();
 }

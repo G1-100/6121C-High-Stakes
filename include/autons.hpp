@@ -6,5 +6,7 @@ void ringAuton();
 void ringAutonVirat();
 void mogoAuton();
 
+void rightAutonBlue();
+
 void skills();
 ASSET(skills1_txt);
