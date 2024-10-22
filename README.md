@@ -24,6 +24,9 @@
   - [ ] Tune PID, and Odometry
 - [ ] **Write Autons Rush** (Due: Nov 16th)
 - [ ] **Contingency & Edge Autons** (Due: Dec 14th)
+  - [ ] Center ring utilization (conflict: both, missed opportunity: none)
+  - [ ] Alliance Stake Instascore (conflict: both, missed opportunity: none)
+  - [ ] self-AWP, incase no show and for fun (optional)
 - [ ] **Write Auton Selector** (Optional)
 
 ## Tasks:
