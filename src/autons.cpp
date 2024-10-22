@@ -178,9 +178,12 @@ void skills() {
   chassis.waitUntilDone();
   // clamp mogo
   clampMogo(true);
-  setIntake(127);
+  setIntake(127); // intake touching ring
   chassis.turnToPoint(48, 60, 3000); // turn to two two-stack rings
   chassis.waitUntilDone();
+  // lift intake
+  intakeLift.set_value(true);
+
   chassis.moveToPoint(48, 60, 3000); // move to two two-stacks
   chassis.waitUntilDone();
   chassis.moveToPoint(48, 36, 3000); // move back a lot
@@ -191,6 +194,8 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(48, 36, 3000, {.forwards = false}); // move back a bit
   chassis.waitUntilDone();
+  // lower intake
+  intakeLift.set_value(false);
   chassis.turnToPoint(24, 48, 3000); // turn to last top ring
   chassis.waitUntilDone();
   chassis.moveToPoint(24, 48, 3000); // move and intake last top ring
@@ -205,6 +210,8 @@ void skills() {
   chassis.waitUntilDone();
   chassis.turnToPoint(48, -48, 3000); // turn to two stack
   chassis.waitUntilDone();
+  // lift intake
+  intakeLift.set_value(true);
   chassis.moveToPoint(48, -48, 3000); // intake two stack
   chassis.waitUntilDone();
   chassis.turnToHeading(90 - 5, 3000); // turn horizontal to go back
@@ -214,21 +221,23 @@ void skills() {
   chassis.turnToPoint(58, -64, 3000); // turn to 2nd two stack
   chassis.waitUntilDone();
   setIntake(0);
+  //lower intake
+  intakeLift.set_value(false);
   // Activate doinker
   doinker.set_value(true);
   chassis.moveToPoint(58, -64, 3000); // move farther into corner
   chassis.waitUntilDone();
   chassis.turnToHeading(-45, 3000); // sweep out all rings
   chassis.waitUntilDone();
+  // prop up ladybrown
+  LBExtend(1);
+  setIntake(127);
   // lift doinker
   doinker.set_value(false);
   chassis.moveToPoint(72, -72, 3000, {.forwards = false}); // move to corner
   chassis.waitUntilDone();
   // Unclamp mogo
   clampMogo(false);
-  // prop up ladybrown
-  LBExtend(1);
-  setIntake(127);
   chassis.moveToPose(-38, 0, 0, 3000); // boomerang to wall stake
   chassis.waitUntilDone();
   chassis.turnToHeading(90, 3000); // turn to wall stake
