@@ -51,7 +51,8 @@ lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
 lemlib::Pose LBLB(-13,-13); // Ladder: Bottom Left Beam (LBC-LLC)
 lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 // STARTING POSITIONS
-lemlib::Pose leftAutonViratPos(-54,34,90);
+lemlib::Pose leftAutonRedPos(-54,34,90);
+lemlib::Pose rightAutonBluePos(54,34,270);
 
 using namespace std;
 
@@ -277,8 +278,8 @@ void leftAuton() {
 
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
-void leftAutonVirat() {
-  chassis.setPose(leftAutonViratPos); // Set position for left auton
+void leftAutonRed() {
+  chassis.setPose(leftAutonRedPos); // Set position for left auton
   chassis.turnToPoint(ULM.x,ULM.y,3000,{},false);
   chassis.moveToPoint(ULM.x,ULM.y,3000,{},false); // Move to upper left mobile goal
   // TODO: Mogo piston activate
@@ -302,7 +303,33 @@ void leftAutonVirat() {
   chassis.moveToPoint(RAWS.x,RAWS.y,3000,{},false);
   // TODO: Activate ladybrown mech
 }
+//Mirror of leftAutonRed() {...}
+void rightAutonBlue() {
+  chassis.setPose(rightAutonBluePos); // Set position for left auton
+  chassis.turnToPoint(URM.x,URM.y,3000,{},false);
+  chassis.moveToPoint(URM.x,URM.y,3000,{},false); // Move to upper left mobile goal
+  // TODO: Mogo piston activate
+  // Turn to and move to bottom left rings of stack
+  setIntake(127);
+  chassis.turnToPoint(TSBRR.x,TSBRR.y,3000,{},false);
+  chassis.moveToPoint(TSBRR.x,TSBRR.y,3000,{},false);
+  // Turn to and move to top left rings of stack
+  chassis.turnToPoint(TSTRR.x,TSTRR.y,3000,{},false);
+  chassis.moveToPoint(TSTRR.x,TSTRR.y,3000,{},false);
+  // Turn to face ring and pick up
+  chassis.turnToPoint(24,48,3000,{},false);
+  // Face ring
+  chassis.turnToPoint(48,0,3000,{},false);
+  // TODO: Mogo piston relase
+  // TODO: Lift flexwheel intake
+  // move to point
+  chassis.moveToPoint(48,0,3000,{},false);
+  // TODO: Load ring into ladybrown mech
+  chassis.turnToPoint(BAWS.x,BAWS.x,3000,{},false);
+  chassis.moveToPoint(BAWS.x,BAWS.y,3000,{},false);
+  // TODO: Activate ladybrown mech
+}
 
 void rightAuton() {
-
+  
 }
