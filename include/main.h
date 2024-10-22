@@ -43,6 +43,7 @@
 #include "subsystemHeaders/globals.hpp"
 #include "subsystemHeaders/intake.hpp"
 #include "subsystemHeaders/drive.hpp"
+#include "subsystemHeaders/ladybrown.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

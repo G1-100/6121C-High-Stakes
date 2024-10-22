@@ -85,20 +85,25 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(-48, -24, 3000, {.forwards = false}); // move to mogo
   chassis.waitUntilDone();
-  // TODO: Piston clamp here
+  // Piston clamp
+  clampMogo(true);
   setIntake(127);
   chassis.follow(skills1_txt, 10, 5000);
   chassis.waitUntilDone();
   chassis.turnToPoint(0, -59, 3000); // turn to ring near wall stake
   chassis.waitUntilDone();
-  // TODO: Change to intake to ladybrown
   chassis.moveToPoint(0, -59, 3000); // move to ring near wall stake
+  // ladybrown prop up
+  LBExtend(1);
   chassis.waitUntilDone();
   chassis.turnToHeading(180, 3000); // turn to wall stake
   chassis.waitUntilDone();
-  // TODO: score ring on wall stake
+  // score ring on wall stake
+  LBExtend(2);
   chassis.moveToPoint(0, -48, 3000, {.forwards = false}); // move back a little
   chassis.waitUntilDone();
+  // retract ladybrown
+  LBRetract();
   chassis.moveToPoint(-58.5, -48, 3000); // collect two bottom-left rings
   chassis.waitUntilDone();
   chassis.turnToPoint(-48, -60, 3000); // turn to last bottom-left ring
@@ -109,14 +114,16 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(-72, -65, 3000, {.forwards = false}); // back into corner
   chassis.waitUntilDone();
-  // TODO: unclamp mogo
+  // unclamp mogo
+  clampMogo(false);
   chassis.moveToPoint(-48, -60, 3000); // move to last bottom-left ring
   chassis.waitUntilDone();
   chassis.turnToHeading(180, 3000); // turn to next mogo
   chassis.waitUntilDone();
   chassis.moveToPoint(-48, 24, 3000, {.minSpeed = 90}); // move to next mogo - FAST
   chassis.waitUntilDone();
-  // TODO: clamp mogo
+  // clamp mogo
+  clampMogo(true);
   chassis.turnToHeading(90, 3000);
   chassis.waitUntilDone();
   chassis.moveToPoint(-24, 24, 3000); // move to ring outside ladder
@@ -143,17 +150,24 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(-72, 67, 3000, {.forwards = false}); // back into corner
   chassis.waitUntilDone();
-  // TODO : unclamp mogo
+  // unclamp mogo
+  clampMogo(false);
   chassis.moveToPoint(0, 60, 3000); // move to middle ring
+  chassis.waitUntil(15);
+  // prop up ladybrown
+  LBExtend(1);
   chassis.waitUntilDone();
   chassis.turnToHeading(0, 3000); // turn to wall stake
   chassis.waitUntilDone();
-  // TODO: activate wall stake mech
+  // activate wall stake mech
   chassis.moveToPoint(0, 72, 3000); // move to wall stake
+  LBExtend(2);
   chassis.waitUntilDone();
   chassis.moveToPoint(0, 48, 3000, {.forwards = false}); // move back a little
   chassis.waitUntilDone();
   chassis.turnToPoint(22, 26, 3000); // turn to ring
+  //retract ladybrown
+  LBRetract();
   chassis.waitUntilDone();
   chassis.moveToPoint(22, 26, 3000); // move to ring
   chassis.waitUntilDone();
@@ -162,7 +176,8 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(52, -4, 3000, {.forwards = false}); // move to mogo
   chassis.waitUntilDone();
-  // TODO: clamp mogo
+  // clamp mogo
+  clampMogo(true);
   setIntake(127);
   chassis.turnToPoint(48, 60, 3000); // turn to two two-stack rings
   chassis.waitUntilDone();
@@ -180,7 +195,71 @@ void skills() {
   chassis.waitUntilDone();
   chassis.moveToPoint(24, 48, 3000); // move and intake last top ring
   chassis.waitUntilDone();
-  // TODO: the rest of skills starting from 44 seconds in vid
+  // chassis.turnToPoint(48, 0, 3000, {.forwards = false});
+  // chassis.waitUntilDone();
+  chassis.moveToPose(48, 0, 0, 3000, {.forwards = false}); // boomerang move backwards to point
+  chassis.waitUntilDone();
+  chassis.turnToPoint(24, -24, 3000); // turn to bottom ring
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24, -24, 3000); // intake ring
+  chassis.waitUntilDone();
+  chassis.turnToPoint(48, -48, 3000); // turn to two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint(48, -48, 3000); // intake two stack
+  chassis.waitUntilDone();
+  chassis.turnToHeading(90 - 5, 3000); // turn horizontal to go back
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24, -50, 3000, {.forwards = false}); // go back
+  chassis.waitUntilDone();
+  chassis.turnToPoint(58, -64, 3000); // turn to 2nd two stack
+  chassis.waitUntilDone();
+  setIntake(0);
+  // Activate doinker
+  doinker.set_value(true);
+  chassis.moveToPoint(58, -64, 3000); // move farther into corner
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-45, 3000); // sweep out all rings
+  chassis.waitUntilDone();
+  // lift doinker
+  doinker.set_value(false);
+  chassis.moveToPoint(72, -72, 3000, {.forwards = false}); // move to corner
+  chassis.waitUntilDone();
+  // Unclamp mogo
+  clampMogo(false);
+  // prop up ladybrown
+  LBExtend(1);
+  setIntake(127);
+  chassis.moveToPose(-38, 0, 0, 3000); // boomerang to wall stake
+  chassis.waitUntilDone();
+  chassis.turnToHeading(90, 3000); // turn to wall stake
+  chassis.waitUntilDone();
+  chassis.moveToPoint(72, 0, 3000); // move to wall stake
+  // ladybrown extend
+  LBExtend(2);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(65, 0, 3000); // move back a little
+  chassis.waitUntilDone();
+  // ladybrown
+  LBRetract();
+  chassis.turnToHeading(180, 3000); // turn to mogo
+  chassis.waitUntilDone();
+  chassis.moveToPoint(60, 28, 3000, {.forwards = false}); // move to mogo
+  // Clamp mogo
+  clampMogo(true);
+  chassis.turnToHeading(5, 3000); // turn to corner
+  chassis.waitUntilDone();
+  // activate doinker
+  doinker.set_value(false);
+  chassis.moveToPoint(68, 66, 3000); // move to corner
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-135, 3000); // sweep out rings
+  chassis.waitUntilDone();
+  // lift up doinker
+  doinker.set_value(false);
+  chassis.moveToPoint(72, 72, 3000, {.forwards = false}); // back into corner
+  chassis.waitUntilDone();
+  // Unclamp mogo
+  clampMogo(false);
 }
 
 void leftAuton() {

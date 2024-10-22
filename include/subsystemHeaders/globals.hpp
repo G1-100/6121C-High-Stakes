@@ -48,5 +48,7 @@ extern pros::adi::DigitalOut doinker;
 extern pros::adi::DigitalOut mogoClamp1;
 extern pros::adi::DigitalOut mogoClamp2;
 
+void clampMogo(bool active);
+
 extern lemlib::Chassis chassis;
 extern lemlib::OdomSensors sensors;

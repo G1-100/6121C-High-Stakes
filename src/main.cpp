@@ -42,6 +42,8 @@ void competition_initialize() {}
  */
 void autonomous() {
 
+	//pros::Task ret1(LBLoop);
+
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -76,6 +78,10 @@ void opcontrol() {
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
 	pros::Task temp(checkTemp);
+
+	if (!LBLoopActive) {
+		pros::Task ret2(LBLoop);
+	}
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,

@@ -28,6 +28,10 @@ pros::adi::DigitalOut doinker('A');
 pros::adi::DigitalOut mogoClamp1('A');
 pros::adi::DigitalOut mogoClamp2('A');
 
+void clampMogo(bool active) {
+    mogoClamp1.set_value(active);
+    mogoClamp2.set_value(active);
+}
 
 // inertial
 pros::Imu IMU(7);

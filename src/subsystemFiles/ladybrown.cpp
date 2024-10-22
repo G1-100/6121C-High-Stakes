@@ -17,6 +17,8 @@ const double PROPPED = 1;
 const double EXTENDED = 2;
 double LBState = 0;
 
+bool LBLoopActive = false;
+
 
 /**
  * @brief extend ladybrown to stopping point 1
@@ -60,6 +62,7 @@ void LBRetract() {
  * 
  */
 void LBLoop() {
+    LBLoopActive = true;
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     while (true) {
         pros::lcd::print(2, "Angle: %f", LBRotation.get_position() / 100.0);
