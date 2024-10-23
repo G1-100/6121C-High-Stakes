@@ -276,6 +276,54 @@ void ringAuton() {
 
 }
 
+void soloAWPAuton(bool isBlue) {
+  int sgn;
+  if (isBlue) {
+    sgn = 1;
+  } else {
+    sgn = -1;
+  }
+  chassis.setPose(60 * sgn, 24, 90 * sgn);
+  setIntake(127);
+  chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}); // move to mogo
+  chassis.waitUntilDone();
+  clampMogo(true);
+  chassis.turnToPoint(3 * sgn, 43, 3000); // turn to two stacks
+  chassis.waitUntilDone();
+  chassis.moveToPoint(3 * sgn, 43, 3000); // move to two stacks
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}); // move back a bunch
+  chassis.waitUntilDone();
+  chassis.turnToPoint(24 * sgn, 48, 3000); // turn to 2nd two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24 * sgn, 48, 3000); // move to 2nd two stack
+  chassis.waitUntilDone();
+  chassis.turnToPoint(3 * sgn, 50, 3000); // turn to 3rd two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint(3 * sgn, 50, 3000); // move to 3rd two stack
+  chassis.waitUntilDone();
+  chassis.moveToPose(42 * sgn, -13, -20 * sgn, 3000, {.forwards = false}); // move backwards to next mogo
+  chassis.waitUntilDone();
+  clampMogo(false);
+  chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards = false}); // turn to mogo
+  chassis.waitUntilDone();
+  
+  chassis.moveToPoint(22 * sgn, -24, 3000, {.forwards = false}); // move to mogo
+  chassis.waitUntilDone();
+  clampMogo(true);
+  chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24 * sgn, -50, 3000); // move to two stack
+  chassis.waitUntilDone();
+  chassis.turnToPoint(0 * sgn, 0, 3000); // turn to ladder
+  chassis.waitUntilDone();
+  chassis.moveToPoint(9 * sgn, -15, 3000); // move to ladder
+  chassis.waitUntil(10);
+  LBExtend(2); // extend ladybrown to touch ladder
+  chassis.waitUntilDone();
+
+}
+
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
 void ringAutonVirat(bool isBlue) {
@@ -349,7 +397,7 @@ void mogoAuton(bool isBlue) { // SAFE
   } else {
     sgn = -1;
   }
-  chassis.setPose(60 * sgn, -15, -90 * sgn); // starts at lower half of alliance starting line
+  chassis.setPose(60 * sgn, -15, 90 * sgn); // starts at lower half of alliance starting line
   chassis.turnToPoint(72 * sgn, 0, 3000); // turn to wall stake
   chassis.waitUntilDone();
   // prop up ladybrown
