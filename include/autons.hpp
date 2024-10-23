@@ -3,8 +3,8 @@ int sgn(double num);
 void moveMax(double dist, int timeout, double slowAt);
 
 void ringAuton();
-void ringAutonVirat();
-void mogoAuton();
+void ringAutonVirat(bool isBlue);
+void mogoAuton(bool isBlue);
 
 void rightAutonBlue();
 
