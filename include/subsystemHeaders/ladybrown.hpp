@@ -6,9 +6,9 @@ extern double STOP1;
 extern double STOP2;
 
 extern int LBState;
-const double REST;
-const double PROPPED;
-const double EXTENDED;
+double REST;
+double PROPPED;
+double EXTENDED;
 
 extern bool LBLoopActive;
 

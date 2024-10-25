@@ -12,9 +12,9 @@ const double STOP1 = 20; // angle of stopping point 1 actual -10
 const double STOP2 = 160; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
-const double REST = 0;
-const double PROPPED = 1;
-const double EXTENDED = 2;
+double REST = 0;
+double PROPPED = 1;
+double EXTENDED = 2;
 int LBState = REST;
 
 bool LBLoopActive = false;

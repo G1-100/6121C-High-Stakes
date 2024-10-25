@@ -14,23 +14,29 @@
   - [ ] Tune Auton Routes
 - [ ] **Configure Driver Bot** (Due: Nov 2nd)
   - [x] Setup Sensors
-  - [ ] Setup Motors
-  - [ ] Setup Pistons
+  - [x] Setup Motors
+  - [x] Setup Pistons
   - [x] Setup Odometry
   - [x] Write Lady Brown Mech Code
   - [x] Write Mogo Mech Code
   - [x] Write Intake Code
-  - [ ] Write Drive Code
+  - [x] Write Drive Code
   - [ ] Tune PID, and Odometry
 - [ ] **Write Autons Rush** (Due: Nov 16th)
 - [ ] **Contingency & Edge Autons** (Due: Dec 14th)
   - [ ] Center ring utilization (conflict: both, missed opportunity: none)
   - [ ] Alliance Stake Instascore (conflict: both, missed opportunity: none)
-  - [ ] self-AWP, incase no show and for fun (Due: ASAP)
+  - [x] self-AWP, incase other team has insufficient autons (Due: ASAP)
 - [ ] **Write Auton Selector** (Optional)
+- [ ] **Write Notebook Pages** (Due: Nov 2nd)
+  - [ ] Ladybrown Code Explanation
+  - [ ] Auton Route Explanation
+  - [ ] Github Uses Explanation
+  - [ ] 2 Wheel + IMU Odometry Explanation
 
 ## Tasks:
 - Write Code
 - Write Prog Notebook
+- Research Better Auton Routes
 - Maintain/Document Code
 - Understand Code
