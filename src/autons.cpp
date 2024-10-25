@@ -24,7 +24,7 @@ lemlib::Pose LC(0,-48); // Lower Center Mobile Goal
 lemlib::Pose URM(24,24); // Upper Right (Blue) Side Mobile Goal
 lemlib::Pose LBM(24,-24); // Lower Blue Side Mobile Goal
 // Scoring Corners (4):
-lemlib::Pose TRC(-60,60); // Top Left (Negative Red) Corner
+lemlib::Pose TLC(-60,60); // Top Left (Negative Red) Corner
 lemlib::Pose PRC(-60,-60); // Bottom Left (Positive Red) Corner
 lemlib::Pose BRC(60,-60); // Bottom Right (Positive Blue) Corner
 lemlib::Pose TRC(60,60); // Top Right (Negative Blue) Corner
@@ -42,9 +42,9 @@ lemlib::Pose TSBRR(3.5,44.5); // Top Stack Bottom Right Rings: ↑:Red ↓:Blue
 // LADDER POSITIONS:
 // Ladder Corners
 lemlib::Pose LTC(0,26); // Ladder: Top Corner Center Line
-lemlib::Pose LRC(-26,0); // Ladder: Left Corner
+lemlib::Pose LLC(-26,0); // Ladder: Left Corner
 lemlib::Pose LBC(0,-26); // Ladder: Bottom Corner
-lemlib::Pose LBC(26,0); // Ladder: Right Corner
+lemlib::Pose LRC(26,0); // Ladder: Right Corner
 // Ladder Beams
 lemlib::Pose LTLB(-13,13); // Ladder: Top Left Beam (LTC-LLC)
 lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
@@ -276,6 +276,8 @@ void ringAuton() {
 
 }
 
+
+
 void soloAWPAuton(bool isBlue) {
   int sgn;
   if (isBlue) {
@@ -285,8 +287,7 @@ void soloAWPAuton(bool isBlue) {
   }
   chassis.setPose(60 * sgn, 24, 90 * sgn);
   setIntake(127);
-  chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}); // move to mogo
-  chassis.waitUntilDone();
+  chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}, false); // move to mogo
   clampMogo(true);
   chassis.turnToPoint(3 * sgn, 43, 3000); // turn to two stacks
   chassis.waitUntilDone();
