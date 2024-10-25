@@ -393,12 +393,7 @@ void rightAutonBlue() {
 }
 
 void mogoAuton(bool isBlue) { // SAFE
-  int sgn;
-  if (isBlue) {
-    sgn = 1;
-  } else {
-    sgn = -1;
-  }
+  int sgn = isBlue?1:-1;
   chassis.setPose(60 * sgn, -15, 90 * sgn); // starts at lower half of alliance starting line
   chassis.turnToPoint(72 * sgn, 0, 3000); // turn to wall stake
   chassis.waitUntilDone();
