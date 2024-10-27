@@ -355,15 +355,13 @@ void mogoAuton(bool isBlue) { // SAFE
   chassis.setPose(60 * sgn, -15, 90 * sgn); // starts at lower half of alliance starting line
   chassis.turnToPoint(72 * sgn, 0, 3000); // turn to wall stake
   chassis.waitUntilDone();
-  // prop up ladybrown
-  LBExtend(1);
+  LBExtend(1); // activate lady brown
   chassis.moveToPoint(sgn * 64, -7, 3000); // move to wall stake
   LBExtend(2);
   chassis.waitUntilDone();
   chassis.moveToPose(sgn * 18, -26, 80 * sgn, 3000, {.forwards = false}); // boomerang move to mogo
-  LBRetract();
-  // clamp mogo
-  clampMogo(true);
+  LBRetract(); // deactivate lady brown
+  clampMogo(true); // clamp mogo
   chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
   chassis.waitUntilDone();
   setIntake(127);
@@ -371,8 +369,7 @@ void mogoAuton(bool isBlue) { // SAFE
   chassis.waitUntilDone();
   chassis.turnToPoint(8 * sgn, 0, 3000);
   chassis.waitUntilDone();
-  // extend ladybrown to touch ladder
-  LBExtend(2);
+  LBExtend(2); // extend to ladder
   chassis.moveToPoint(14 * sgn, -22, 3000);
   chassis.waitUntilDone();
 }
