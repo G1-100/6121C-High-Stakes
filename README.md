@@ -6,10 +6,10 @@
 
 - [x] **Start a project** (Due: Nov 2nd)
 - [x] **Import Libraries** (Due: Nov 2nd)
-- [ ] **Write Autons Safe** (Due: Nov 2nd)
+- [x] **Write Autons Safe** (Due: Nov 2nd)
   - [x] `leftAutonRed()`
-  - [ ] `leftAutonBlue()`
-  - [ ] `rightAutonRed()`
+  - [x] `leftAutonBlue()`
+  - [x] `rightAutonRed()`
   - [x] `rightAutonBlue()`
   - [ ] Tune Auton Routes
 - [ ] **Configure Driver Bot** (Due: Nov 2nd)
@@ -30,8 +30,11 @@
 - [ ] **Write Auton Selector** (Optional)
 - [ ] **Write Notebook Pages** (Due: Nov 2nd)
   - [ ] Ladybrown Code Explanation
-  - [ ] Auton Route Explanation
-  - [ ] Github Uses Explanation
+  - [x] Auton Route Explanation
+    - [x] Safe
+    - [ ] Rush
+    - [x] Self-AWP
+  - [x] Github Uses Explanation
   - [ ] 2 Wheel + IMU Odometry Explanation
 
 ## Tasks:
