@@ -272,19 +272,8 @@ void skills() {
   clampMogo(false);
 }
 
-void ringAuton() {
-
-}
-
-
-
 void soloAWPAuton(bool isBlue) {
-  int sgn;
-  if (isBlue) {
-    sgn = 1;
-  } else {
-    sgn = -1;
-  }
+  int sgn=isBlue?1:-1;
   chassis.setPose(60 * sgn, 24, 90 * sgn);
   setIntake(127);
   chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}, false); // move to mogo
