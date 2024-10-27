@@ -328,12 +328,7 @@ void soloAWPAuton(bool isBlue) {
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
 void ringAutonVirat(bool isBlue) {
-  int sgn;
-  if (isBlue) {
-    sgn = -1;
-  } else {
-    sgn = 1;
-  }
+  int sgn=isBlue?-1:1;
   chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, leftAutonRedPos.theta * sgn); // Set position for left auton
   chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{},false);
   chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{},false); // Move to upper left mobile goal
