@@ -365,32 +365,6 @@ void ringAutonVirat(bool isBlue) {
   LBExtend(2);
 
 }
-//Mirror of leftAutonRed() {...}
-void rightAutonBlue() {
-  chassis.setPose(rightAutonBluePos); // Set position for left auton
-  chassis.turnToPoint(URM.x,URM.y,3000,{},false);
-  chassis.moveToPoint(URM.x,URM.y,3000,{},false); // Move to upper left mobile goal
-  // TODO: Mogo piston activate
-  // Turn to and move to bottom left rings of stack
-  setIntake(127);
-  chassis.turnToPoint(TSBRR.x,TSBRR.y,3000,{},false);
-  chassis.moveToPoint(TSBRR.x,TSBRR.y,3000,{},false);
-  // Turn to and move to top left rings of stack
-  chassis.turnToPoint(TSTRR.x,TSTRR.y,3000,{},false);
-  chassis.moveToPoint(TSTRR.x,TSTRR.y,3000,{},false);
-  // Turn to face ring and pick up
-  chassis.turnToPoint(24,48,3000,{},false);
-  // Face ring
-  chassis.turnToPoint(48,0,3000,{},false);
-  // TODO: Mogo piston relase
-  // TODO: Lift flexwheel intake
-  // move to point
-  chassis.moveToPoint(48,0,3000,{},false);
-  // TODO: Load ring into ladybrown mech
-  chassis.turnToPoint(BAWS.x,BAWS.x,3000,{},false);
-  chassis.moveToPoint(BAWS.x,BAWS.y,3000,{},false);
-  // TODO: Activate ladybrown mech
-}
 
 void mogoAuton(bool isBlue) { // SAFE
   int sgn = isBlue?1:-1;
