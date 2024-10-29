@@ -272,19 +272,8 @@ void skills() {
   clampMogo(false);
 }
 
-void ringAuton() {
-
-}
-
-
-
 void soloAWPAuton(bool isBlue) {
-  int sgn;
-  if (isBlue) {
-    sgn = 1;
-  } else {
-    sgn = -1;
-  }
+  int sgn=isBlue?1:-1;
   chassis.setPose(60 * sgn, 24, 90 * sgn);
   setIntake(127);
   chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}, false); // move to mogo
@@ -328,12 +317,7 @@ void soloAWPAuton(bool isBlue) {
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
 void ringAutonVirat(bool isBlue) {
-  int sgn;
-  if (isBlue) {
-    sgn = -1;
-  } else {
-    sgn = 1;
-  }
+  int sgn=isBlue?-1:1;
   chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, leftAutonRedPos.theta * sgn); // Set position for left auton
   chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{},false);
   chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{},false); // Move to upper left mobile goal
@@ -365,53 +349,19 @@ void ringAutonVirat(bool isBlue) {
   LBExtend(2);
 
 }
-//Mirror of leftAutonRed() {...}
-void rightAutonBlue() {
-  chassis.setPose(rightAutonBluePos); // Set position for left auton
-  chassis.turnToPoint(URM.x,URM.y,3000,{},false);
-  chassis.moveToPoint(URM.x,URM.y,3000,{},false); // Move to upper left mobile goal
-  // TODO: Mogo piston activate
-  // Turn to and move to bottom left rings of stack
-  setIntake(127);
-  chassis.turnToPoint(TSBRR.x,TSBRR.y,3000,{},false);
-  chassis.moveToPoint(TSBRR.x,TSBRR.y,3000,{},false);
-  // Turn to and move to top left rings of stack
-  chassis.turnToPoint(TSTRR.x,TSTRR.y,3000,{},false);
-  chassis.moveToPoint(TSTRR.x,TSTRR.y,3000,{},false);
-  // Turn to face ring and pick up
-  chassis.turnToPoint(24,48,3000,{},false);
-  // Face ring
-  chassis.turnToPoint(48,0,3000,{},false);
-  // TODO: Mogo piston relase
-  // TODO: Lift flexwheel intake
-  // move to point
-  chassis.moveToPoint(48,0,3000,{},false);
-  // TODO: Load ring into ladybrown mech
-  chassis.turnToPoint(BAWS.x,BAWS.x,3000,{},false);
-  chassis.moveToPoint(BAWS.x,BAWS.y,3000,{},false);
-  // TODO: Activate ladybrown mech
-}
 
 void mogoAuton(bool isBlue) { // SAFE
-  int sgn;
-  if (isBlue) {
-    sgn = 1;
-  } else {
-    sgn = -1;
-  }
+  int sgn = isBlue?1:-1;
   chassis.setPose(60 * sgn, -15, 90 * sgn); // starts at lower half of alliance starting line
   chassis.turnToPoint(72 * sgn, 0, 3000); // turn to wall stake
   chassis.waitUntilDone();
-  // prop up ladybrown
-  LBExtend(1);
+  LBExtend(1); // activate lady brown
   chassis.moveToPoint(sgn * 64, -7, 3000); // move to wall stake
   LBExtend(2);
   chassis.waitUntilDone();
   chassis.moveToPose(sgn * 18, -26, 80 * sgn, 3000, {.forwards = false}); // boomerang move to mogo
-  LBRetract();
-  chassis.waitUntilDone();
-  // clamp mogo
-  clampMogo(true);
+  LBRetract(); // deactivate lady brown
+  clampMogo(true); // clamp mogo
   chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
   chassis.waitUntilDone();
   setIntake(127);
@@ -419,8 +369,7 @@ void mogoAuton(bool isBlue) { // SAFE
   chassis.waitUntilDone();
   chassis.turnToPoint(8 * sgn, 0, 3000);
   chassis.waitUntilDone();
-  // extend ladybrown to touch ladder
-  LBExtend(2);
+  LBExtend(2); // extend to ladder
   chassis.moveToPoint(14 * sgn, -22, 3000);
   chassis.waitUntilDone();
 }
