@@ -7,9 +7,9 @@
 #include "main.h"
 #include <string>
 
-const double RESTANGLE = 0; // actual -30
-const double STOP1 = 20; // angle of stopping point 1 actual -10
-const double STOP2 = 160; // angle of stop 2 - 130
+double RESTANGLE = 0; // actual -30
+double STOP1 = 20; // angle of stopping point 1 actual -10
+double STOP2 = 160; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
 double REST = 0;
