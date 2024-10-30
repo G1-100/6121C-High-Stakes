@@ -10,12 +10,8 @@
 
 // Helper Functions
 void setDrive(int left, int right) {
-    driveLeftBack.move(left);
-    driveLeftMiddle.move(left);
-    driveLeftFront.move(left);
-    driveRightBack.move(right);
-    driveRightMiddle.move(right);
-    driveRightFront.move(right); 
+    left_side_motors.move(left);
+    right_side_motors.move(right); 
 }
 
 void setDriveVelocity(int left, int right) {

@@ -1,5 +1,7 @@
 #include "main.h"
 
+using namespace std;
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -9,7 +11,9 @@
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
+
 }
+
 
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -29,6 +33,17 @@ void disabled() {}
  */
 void competition_initialize() {}
 
+
+void logger() {
+	//chassis.cancelAllMotions();
+	std::cout << "Hi, Gavin!" << "\n";
+	std::printf("Hi, Gavin!");
+	pros::lcd::set_text(2,(lemlib::format_as(chassis.getPose()).c_str()));
+		std::printf(lemlib::format_as(chassis.getPose()).c_str());
+		pros::delay(100);
+	
+}
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -43,7 +58,7 @@ void competition_initialize() {}
 void autonomous() {
 
 	//pros::Task ret1(LBLoop);
-	LBRotation.reset();
+	//LBRotation.reset();
 
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -51,9 +66,15 @@ void autonomous() {
 	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	
+	cout << "Hi, Gavin!" << "\n";
 
-
-
+	// set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // turn to face heading 90 with a very long timeout
+    chassis.turnToHeading(90, 100000);
+	
+	//chassis.waitUntilDone();
 }
 
 /**
@@ -70,35 +91,40 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-
+	// OP CONTROL RESET:
+	// Drive brake settings
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	// Reset lady brown before drive period
+	// if (LBState == PROPPED || LBState == EXTENDED) {
+	// 	LBRetract();
+	// }
 
-	if (LBState == PROPPED || LBState == EXTENDED) {
-		LBRetract(); // reset ladybrown
-	}
+	pros::Task temp(checkTemp); // Check temp
+	// // INIT LADY BROWN:
+	// if (!LBLoopActive) { 
+	// 	pros::Task ret2(LBLoop); 
+	// }
+	// DRIVE CODE:
+	// while (true) {
+	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
+	// 	                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
+	// 	                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
-	pros::Task temp(checkTemp);
-
-	if (!LBLoopActive) {
-		pros::Task ret2(LBLoop);
-	}
-
+	// 	// Arcade control scheme
+	// 	int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
+	// 	int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+	// 	left_side_motors.move(dir - turn);                      // Sets left motor voltage
+	// 	right_side_motors.move(dir + turn);                     // Sets right motor voltage         
+	// }
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-		// Arcade control scheme
-		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		left_side_motors.move(dir - turn);                      // Sets left motor voltage
-		right_side_motors.move(dir + turn);                     // Sets right motor voltage
-		pros::delay(20);                               // Run for 20 ms then update
+		runArcadeDrive();
+		setIntakeMotors();
+		pros::delay(20); // Run for 20 ms then update
 	}
 }
 
