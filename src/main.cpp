@@ -11,7 +11,8 @@ using namespace std;
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
-
+	IMU.reset();
+	pros::delay(5000);
 }
 
 
@@ -35,12 +36,11 @@ void competition_initialize() {}
 
 
 void logger() {
-	//chassis.cancelAllMotions();
-	std::cout << "Hi, Gavin!" << "\n";
-	std::printf("Hi, Gavin!");
-	pros::lcd::set_text(2,(lemlib::format_as(chassis.getPose()).c_str()));
-		std::printf(lemlib::format_as(chassis.getPose()).c_str());
+	while (true) {
+		cout << IMU.get_heading() << "\n";
 		pros::delay(100);
+	}
+		
 	
 }
 
@@ -66,13 +66,12 @@ void autonomous() {
 	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	
-	cout << "Hi, Gavin!" << "\n";
 
 	// set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
     chassis.turnToHeading(90, 100000);
+	logger();
 	
 	//chassis.waitUntilDone();
 }
