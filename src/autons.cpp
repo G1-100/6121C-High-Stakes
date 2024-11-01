@@ -372,12 +372,12 @@ void ringAutonVirat(bool isBlue) {
   // move to point
   chassis.moveToPoint(-48 * sgn,0,3000,{},false);
   // Load ring into ladybrown mech
-  LBExtend(1);
+  //LBExtend(1);
   chassis.turnToPoint(RAWS.x * sgn,RAWS.x,3000,{},false);
   setIntake(0);
   chassis.moveToPoint(RAWS.x * sgn,RAWS.y,3000,{},false);
   // Activate ladybrown mech
-  LBExtend(2);
+  //LBExtend(2);
 
 }
 

@@ -72,7 +72,7 @@ void autonomous() {
     //chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
 	
-	simpleMogoAuton();
+	ringAutonVirat(true);
 	
 	
 	
