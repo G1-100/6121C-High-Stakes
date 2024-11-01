@@ -11,8 +11,8 @@ using namespace std;
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
-	IMU.reset();
-	pros::delay(5000);
+	chassis.calibrate();
+	pros::delay(1000);
 }
 
 
@@ -37,7 +37,7 @@ void competition_initialize() {}
 
 void logger() {
 	while (true) {
-		cout << IMU.get_heading() << "\n";
+		cout << lemlib::format_as(chassis.getPose()) << "\n";
 		pros::delay(100);
 	}
 		
@@ -68,10 +68,13 @@ void autonomous() {
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
+	pros::Task ret4(logger);
+    //chassis.setPose(0, 0, 0);
     // turn to face heading 90 with a very long timeout
-    chassis.turnToHeading(90, 100000);
-	logger();
+	
+	simpleMogoAuton();
+	
+	
 	
 	//chassis.waitUntilDone();
 }
@@ -120,9 +123,12 @@ void opcontrol() {
 	// 	left_side_motors.move(dir - turn);                      // Sets left motor voltage
 	// 	right_side_motors.move(dir + turn);                     // Sets right motor voltage         
 	// }
+	
+        
 	while (true) {
 		runArcadeDrive();
 		setIntakeMotors();
+		setMogoMotors();
 		pros::delay(20); // Run for 20 ms then update
 	}
 }

@@ -1,5 +1,4 @@
 #include "main.h"
-#include "autons.hpp"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "lemlib/api.hpp"
@@ -270,6 +269,38 @@ void skills() {
   chassis.waitUntilDone();
   // Unclamp mogo
   clampMogo(false);
+}
+
+void simpleMogoAuton() {
+    chassis.setPose(55, -20, 90);
+    mogoClamp.toggle();
+    pros::delay(1000);
+    chassis.turnToHeading(80, 3000);
+    chassis.waitUntilDone();
+    //cout <<"hi" << "\n";
+    pros::delay(1000);
+    chassis.moveToPoint(24 - 4, -24 - 4, 3000, {.forwards = false}); // move to mogo
+    chassis.waitUntil(30);
+    mogoClamp.toggle();
+    chassis.waitUntilDone();
+    pros::delay(1000);
+    setIntake(127);
+    chassis.turnToPoint(24, -52 + 6, 3000); // turn to two stack
+    chassis.waitUntilDone();
+    pros::delay(1000);
+    intake.move(127);
+    chassis.moveToPoint(24, -52 + 6, 3000, {.maxSpeed = 60}); // move to two stack
+    chassis.waitUntilDone();
+    pros::delay(3000);
+
+    chassis.moveToPoint(24, -36, 3000, {.forwards = false}); // move back
+    chassis.waitUntilDone();
+    chassis.turnToPoint(8, 0, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(14, -22, 3000);
+    chassis.waitUntilDone();
+
+
 }
 
 void soloAWPAuton(bool isBlue) {

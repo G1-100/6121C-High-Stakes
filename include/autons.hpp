@@ -10,5 +10,7 @@ void rightAutonBlue();
 
 void soloAWPAuton(bool isBlue);
 
+void simpleMogoAuton();
+
 void skills();
 ASSET(skills1_txt);

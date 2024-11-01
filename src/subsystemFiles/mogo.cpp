@@ -1,11 +1,15 @@
 #include "main.h"
 
+using namespace std;
+
+void clampMogo(bool active) {
+    mogoClamp.toggle();
+}
+
 // Driver Control Functions
 void setMogoMotors() {
-    static bool toggleState = false;    // Tracks if clamp is open/closed
     
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-        toggleState = !toggleState;
-        clampMogo(toggleState);  // Uses helper from globals.cpp to control both pistons
+        mogoClamp.toggle();
     }
 }

@@ -45,10 +45,9 @@ extern  pros::Controller master;
 
 extern pros::adi::DigitalOut intakeLift;
 extern pros::adi::DigitalOut doinker;
-extern pros::adi::DigitalOut mogoClamp1;
-extern pros::adi::DigitalOut mogoClamp2;
+extern pros::adi::Pneumatics mogoClamp;
 
-void clampMogo(bool active);
+//extern pros::adi::Port sensor;
 
 extern lemlib::Chassis chassis;
 extern lemlib::OdomSensors sensors;

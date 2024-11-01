@@ -6,10 +6,10 @@
 // Uses velocity control for consistent intake speed
 
 // Constants
-const int INTAKE_VELOCITY = 600; // Maximum motor velocity in RPM
+const int INTAKE_POWER = 127; // Maximum motor power
 
 // Helper functions
-void setIntakeVelocity(int velocity);  // Sets intake motor velocity in RPM
+void setIntake(int power);  // Sets intake motor power
 
 // Driver Control Functions
 void setIntakeMotors();  // Handles R1/R2 button input for intake control

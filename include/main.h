@@ -42,6 +42,8 @@
 //#include "okapi/api.hpp"
 #include "subsystemHeaders/globals.hpp"
 #include "subsystemHeaders/intake.hpp"
+#include "subsystemHeaders/mogo.hpp"
+#include "autons.hpp"
 #include "subsystemHeaders/drive.hpp"
 #include "subsystemHeaders/ladybrown.hpp"
 

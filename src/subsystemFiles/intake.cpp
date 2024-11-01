@@ -2,11 +2,11 @@
 #include "pros/misc.h"
 
 // Helper functions
-void setIntakeVelocity(int velocity) {
+void setIntake(int power) {
     // Sets the intake motor velocity directly using PROS motor control
     // Positive velocity = intake in, Negative velocity = intake out
     // velocity: target velocity in RPM (-600 to 600)
-    intake.move_velocity(velocity);
+    intake.move(power);
 }
 
 // Driver Control Functions
@@ -18,16 +18,16 @@ void setIntakeMotors() {
     //   - R1: Outtake/reverse (release game elements) at -600 RPM
     //   - Neither pressed: Stop intake (0 RPM)
     
-    int intakeVelocity = 0;  // Default state: stopped
+    int intakePower = 0;  // Default state: stopped
     
     // Priority system: if both buttons pressed, R2 takes priority
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-        intakeVelocity = INTAKE_VELOCITY;     // Full speed intake
+        intakePower = INTAKE_POWER;     // Full speed intake
     } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-        intakeVelocity = -INTAKE_VELOCITY;    // Full speed outtake
+        intakePower = -INTAKE_POWER;    // Full speed outtake
     }
     // If neither button is pressed, intakeVelocity remains 0
     
     // Apply the calculated velocity to the intake motor
-    setIntakeVelocity(intakeVelocity);
+    setIntake(intakePower);
 }
