@@ -50,8 +50,8 @@ lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
 lemlib::Pose LBLB(-13,-13); // Ladder: Bottom Left Beam (LBC-LLC)
 lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 // STARTING POSITIONS
-lemlib::Pose leftAutonRedPos(-54,34,90);
-lemlib::Pose rightAutonBluePos(54,34,270);
+lemlib::Pose leftAutonRedPos(-54,24,90);
+lemlib::Pose rightAutonBluePos(54,24,270);
 
 using namespace std;
 
@@ -350,32 +350,42 @@ void soloAWPAuton(bool isBlue) {
 void ringAutonVirat(bool isBlue) {
   int sgn=isBlue?-1:1;
   chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, leftAutonRedPos.theta * sgn); // Set position for left auton
+  pros::delay(1000);
   chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{},false);
   chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{},false); // Move to upper left mobile goal
   // Mogo piston activate
   clampMogo(true);
   // Turn to and move to bottom left rings of stack
   setIntake(127);
+  pros::delay(1000);
   chassis.turnToPoint(TSBLR.x * sgn, TSBLR.y, 3000,{},false);
   chassis.moveToPoint(TSBLR.x * sgn, TSBLR.y, 3000, {},false);
+  pros::delay(1000);
   // Turn to and move to top left rings of stack
   chassis.turnToPoint(TSTLR.x * sgn, TSTLR.y, 3000, {},false);
   chassis.moveToPoint(TSTLR.x * sgn,TSTLR.y,3000,{},false);
+  pros::delay(1000);
   // Turn to face ring and pick up
   chassis.turnToPoint(-24 * sgn,48,3000,{},false);
+  chassis.moveToPoint(-24 * sgn,48,3000,{},false);
+  pros::delay(1000);
   // Face ring
   chassis.turnToPoint(-48 * sgn,0,3000,{},false);
+  chassis.moveToPoint(-48 * sgn,0,3000,{},false);
   // Mogo piston relase
+  pros::delay(1000);
   clampMogo(false);
   // Lift flexwheel intake
   intakeLift.set_value(true);
   // move to point
   chassis.moveToPoint(-48 * sgn,0,3000,{},false);
+  pros::delay(1000);
   // Load ring into ladybrown mech
   //LBExtend(1);
   chassis.turnToPoint(RAWS.x * sgn,RAWS.x,3000,{},false);
   setIntake(0);
   chassis.moveToPoint(RAWS.x * sgn,RAWS.y,3000,{},false);
+  pros::delay(1000);
   // Activate ladybrown mech
   //LBExtend(2);
 
