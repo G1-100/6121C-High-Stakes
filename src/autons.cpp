@@ -305,13 +305,17 @@ void simpleMogoAuton() {
 
 void soloAWPAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
+  clampMogo(false);
   chassis.setPose(60 * sgn, 24, 90 * sgn);
-  setIntake(127);
-  chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}, false); // move to mogo
-  clampMogo(true);
-  chassis.turnToPoint(3 * sgn, 43, 3000); // turn to two stacks
+  chassis.moveToPoint(29 * sgn, 24, 3000, {.forwards = false}); // move to mogo
   chassis.waitUntilDone();
-  chassis.moveToPoint(3 * sgn, 43, 3000); // move to two stacks
+  clampMogo(true);
+  pros::delay(500);
+  chassis.turnToPoint(3 * sgn, 43, 3000); // turn to two stacks
+  pros::delay(300);
+  setIntake(127);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(3 * sgn, 44, 3000); // move to two stacks
   chassis.waitUntilDone();
   chassis.moveToPoint(24 * sgn, 24, 3000, {.forwards = false}); // move back a bunch
   chassis.waitUntilDone();
@@ -339,8 +343,8 @@ void soloAWPAuton(bool isBlue) {
   chassis.turnToPoint(0 * sgn, 0, 3000); // turn to ladder
   chassis.waitUntilDone();
   chassis.moveToPoint(9 * sgn, -15, 3000); // move to ladder
-  chassis.waitUntil(10);
-  LBExtend(2); // extend ladybrown to touch ladder
+  // chassis.waitUntil(10);
+  // LBExtend(2); // extend ladybrown to touch ladder
   chassis.waitUntilDone();
 
 }
@@ -349,10 +353,11 @@ void soloAWPAuton(bool isBlue) {
 //Preload one ring
 void ringAutonVirat(bool isBlue) {
   int sgn=isBlue?-1:1;
-  chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, leftAutonRedPos.theta * sgn); // Set position for left auton
+  clampMogo(false);
+  chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, 90 * sgn); // Set position for left auton
   pros::delay(1000);
-  chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{},false);
-  chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{},false); // Move to upper left mobile goal
+  chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{.forwards=false});
+  chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{.forwards=false}); // Move to upper left mobile goal
   // Mogo piston activate
   clampMogo(true);
   // Turn to and move to bottom left rings of stack
@@ -363,7 +368,7 @@ void ringAutonVirat(bool isBlue) {
   pros::delay(1000);
   // Turn to and move to top left rings of stack
   chassis.turnToPoint(TSTLR.x * sgn, TSTLR.y, 3000, {},false);
-  chassis.moveToPoint(TSTLR.x * sgn,TSTLR.y,3000,{},false);
+  chassis.moveToPoint(TSTLR.x * sgn, TSTLR.y,3000,{},false);
   pros::delay(1000);
   // Turn to face ring and pick up
   chassis.turnToPoint(-24 * sgn,48,3000,{},false);
@@ -376,19 +381,47 @@ void ringAutonVirat(bool isBlue) {
   pros::delay(1000);
   clampMogo(false);
   // Lift flexwheel intake
-  intakeLift.set_value(true);
+  // intakeLift.set_value(true);
   // move to point
-  chassis.moveToPoint(-48 * sgn,0,3000,{},false);
-  pros::delay(1000);
+  // chassis.moveToPoint(-48 * sgn,0,3000,{},false);
+  // pros::delay(1000);
   // Load ring into ladybrown mech
   //LBExtend(1);
-  chassis.turnToPoint(RAWS.x * sgn,RAWS.x,3000,{},false);
-  setIntake(0);
-  chassis.moveToPoint(RAWS.x * sgn,RAWS.y,3000,{},false);
-  pros::delay(1000);
+  // chassis.turnToPoint(RAWS.x * sgn,RAWS.x,3000,{},false);
+  // setIntake(0);
+  // chassis.moveToPoint(RAWS.x * sgn,RAWS.y,3000,{},false);
+  // pros::delay(1000);
   // Activate ladybrown mech
   //LBExtend(2);
 
+}
+
+void mogoAdvayAuton(bool isBlue) {
+  int sgn=isBlue?1:-1;
+  clampMogo(false);
+	chassis.setPose(60*sgn,-60,90);
+	chassis.moveToPoint(24*sgn,-60,3000,{.forwards=false});
+	chassis.waitUntilDone();
+	chassis.moveToPoint(5*sgn,-53,3000,{.forwards=false});
+	chassis.waitUntilDone();
+	clampMogo(true);
+	pros::delay(250);
+	setIntake(127);
+	pros::delay(1000);
+	clampMogo(false);
+	pros::delay(500);
+	chassis.turnToPoint(27*sgn,-21,3000,{.forwards=false});
+	chassis.waitUntilDone();
+	chassis.moveToPoint(27*sgn,-21,3000,{.forwards=false});
+	chassis.waitUntilDone();
+	clampMogo(true);
+	pros::delay(250);
+	chassis.turnToPoint(25*sgn,-66,3000);
+	chassis.waitUntilDone();
+	chassis.moveToPoint(25*sgn,-66,3000);
+	chassis.waitUntilDone();
+	pros::delay(1000);
+	clampMogo(false);
 }
 
 void mogoAuton(bool isBlue) { // SAFE

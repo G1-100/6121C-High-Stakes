@@ -37,7 +37,7 @@ void competition_initialize() {}
 
 void logger() {
 	while (true) {
-		cout << lemlib::format_as(chassis.getPose()) << "\n";
+		std::printf(lemlib::format_as(chassis.getPose()).c_str());
 		pros::delay(100);
 	}
 		
@@ -67,14 +67,9 @@ void autonomous() {
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-	// set position to x:0, y:0, heading:0
-	pros::Task ret4(logger);
-    //chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
+	// Debug: pros::Task ret4(logger);
 	
-	ringAutonVirat(false);
-	
-	
+	ringAutonVirat(true);
 	
 	//chassis.waitUntilDone();
 }
@@ -107,10 +102,10 @@ void opcontrol() {
 	// }
 
 	pros::Task temp(checkTemp); // Check temp
-	// // INIT LADY BROWN:
-	// if (!LBLoopActive) { 
-	// 	pros::Task ret2(LBLoop); 
-	// }
+	// INIT LADY BROWN:
+	if (!LBLoopActive) { 
+		pros::Task ret2(LBLoop); 
+	}
 	// DRIVE CODE:
 	// while (true) {
 	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
