@@ -24,7 +24,7 @@ pros::Motor ladybrown(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degre
 
 //pistons
 pros::adi::DigitalOut intakeLift('C');
-pros::adi::DigitalOut doinker('C');
+pros::adi::Pneumatics doinker('D', false);
 pros::adi::Pneumatics mogoClamp('F', false);
 
 //pros::adi::Port sensor("A", pros::E_ADI_DIGITAL_OUT);
@@ -37,7 +37,7 @@ pros::Imu IMU(19);
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
 
-pros::Rotation LBRotation(19);
+pros::Rotation LBRotation(-6);
 
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);

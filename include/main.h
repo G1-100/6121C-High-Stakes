@@ -67,6 +67,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void setDoinker(void);
+
 void autonomous(void);
 void initialize(void);
 void disabled(void);

@@ -10,6 +10,8 @@ void rightAutonBlue();
 
 void soloAWPAuton(bool isBlue);
 
+void simpleSkills();
+
 void simpleMogoAuton(bool isBlue);
 
 void mogoAdvayAuton(bool isBlue);

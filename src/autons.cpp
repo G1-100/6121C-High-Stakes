@@ -79,6 +79,34 @@ void moveMax(double dist, int timeout) {
   setDrive(0, 0); // stop moving
 }
 
+void simpleSkills() {
+  chassis.setPose(-55, 0, 90); // starts at middle of red alliance line
+  chassis.turnToHeading(-5, 3000); // turn towards mogo
+  chassis.waitUntilDone();
+  pros::delay(1000);
+  chassis.moveToPoint(-48, -24 - 4, 3000, {.forwards = false}); // move to mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle();
+  pros::delay(1000);
+  setIntake(127);
+  chassis.turnToHeading(180, 3000);
+  chassis.waitUntilDone();
+  pros::delay(1000);
+  chassis.moveToPoint(-48, -60 - 4, 3000);
+  chassis.waitUntilDone();
+  chassis.turnToPoint(-60, -48, 3000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(-60, -48, 3000);
+  chassis.waitUntilDone();
+  pros::delay(2000);
+  chassis.turnToPoint(24, -48, 3000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24, -48, 3000);
+  chassis.waitUntilDone();
+  
+  
+}
+
 void skills() {
   chassis.setPose(-51.5f, 0, 90); // starts at middle of red alliance line
   chassis.turnToHeading(-5, 3000); // turn towards mogo
@@ -86,7 +114,7 @@ void skills() {
   chassis.moveToPoint(-48, -24, 3000, {.forwards = false}); // move to mogo
   chassis.waitUntilDone();
   // Piston clamp
-  clampMogo(true);
+  mogoClamp.toggle();
   setIntake(127);
   chassis.follow(skills1_txt, 10, 5000);
   chassis.waitUntilDone();
@@ -279,39 +307,47 @@ void simpleMogoAuton(bool isBlue) {
         sgn = -1;
     }
     chassis.setPose(55 * sgn, -20, 90 * sgn);
-    mogoClamp.toggle();
-    pros::delay(1000);
+    //pros::delay(500);
     chassis.turnToHeading(80 * sgn, 3000);
     chassis.waitUntilDone();
     //cout <<"hi" << "\n";
-    pros::delay(1000);
+    //pros::delay(500);
     chassis.moveToPoint(20 * sgn, -24 - 4, 3000, {.forwards = false}); // move to mogo
     chassis.waitUntil(30);
     mogoClamp.toggle();
     chassis.waitUntilDone();
-    pros::delay(1000);
+    pros::delay(500);
     setIntake(127);
-    chassis.turnToPoint(24 * sgn, -52 + 6, 3000); // turn to two stack
+    chassis.turnToPoint((24 - 2) * sgn, -52, 3000); // turn to two stack
+    chassis.waitUntilDone();
+    pros::delay(500);
+    intake.move(127);
+    chassis.moveToPoint((24 - 2) * sgn, -52, 3000, {.maxSpeed = 60}); // move to two stack
     chassis.waitUntilDone();
     pros::delay(1000);
-    intake.move(127);
-    chassis.moveToPoint(24 * sgn, -52 + 6, 3000, {.maxSpeed = 60}); // move to two stack
-    chassis.waitUntilDone();
-    pros::delay(3000);
-
+    intake.move(0);
     chassis.moveToPoint(24 * sgn, -36, 3000, {.forwards = false}); // move back
     chassis.waitUntilDone();
-    chassis.turnToPoint(8 * sgn, 0, 3000);
+    chassis.turnToPoint((-47) * sgn, -72 + 20, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(14 * sgn, -22, 3000);
+    chassis.moveToPoint((47 - 3) * sgn, -72 + 20, 3000, {.forwards = false});
     chassis.waitUntilDone();
+    mogoClamp.toggle();
+    chassis.turnToHeading(75, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(35 * sgn, -48 + 5, 3000, {.forwards = false});
+    
+    // chassis.turnToPoint(8 * sgn, 0, 3000);
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint((14 - 3) * sgn, -22 + 1, 3000);
+    // chassis.waitUntilDone();
 
 
 }
 
 void soloAWPAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
-  clampMogo(false);
+  //clampMogo(false);
   chassis.setPose(60 * sgn, 24, 90 * sgn);
   chassis.moveToPoint(29 * sgn, 24, 3000, {.forwards = false}); // move to mogo
   chassis.waitUntilDone();

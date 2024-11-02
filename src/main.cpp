@@ -12,6 +12,7 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 	chassis.calibrate();
+	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 }
 
@@ -35,9 +36,16 @@ void disabled() {}
 void competition_initialize() {}
 
 
+void setDoinker() {
+    // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+    //     doinker.toggle();
+    // }
+}
+
 void logger() {
 	while (true) {
-		std::printf(std::to_string(LBRotation.get_position() / 100).c_str());
+
+		cout << "ANGLE: " + std::to_string(LBRotation.get_position() / 100) << "\n";
 		pros::delay(100);
 	}
 		
@@ -69,8 +77,8 @@ void autonomous() {
 
 	// Debug: pros::Task ret4(logger);
 	
-	ringAutonVirat(true);
-	
+	//simpleSkills();
+	simpleMogoAuton(true);
 	//chassis.waitUntilDone();
 }
 
@@ -96,16 +104,18 @@ void opcontrol() {
 	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	// Reset lady brown before drive period
 	// if (LBState == PROPPED || LBState == EXTENDED) {
 	// 	LBRetract();
 	// }
-	pros::Task ret4(logger);
+	//pros::Task ret4(logger);
 	pros::Task temp(checkTemp); // Check temp
+	LBRotation.reset_position();
 	// INIT LADY BROWN:
-	if (!LBLoopActive) { 
-		pros::Task ret2(LBLoop); 
-	}
+	// if (!LBLoopActive) { 
+	// 	pros::Task ret2(LBLoop); 
+	// }
 	// DRIVE CODE:
 	// while (true) {
 	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -123,6 +133,7 @@ void opcontrol() {
 	while (true) {
 		runArcadeDrive();
 		setIntakeMotors();
+		setDoinker();
 		setMogoMotors();
 		pros::delay(20); // Run for 20 ms then update
 	}
