@@ -271,33 +271,39 @@ void skills() {
   clampMogo(false);
 }
 
-void simpleMogoAuton() {
-    chassis.setPose(55, -20, 90);
+void simpleMogoAuton(bool isBlue) {
+    int sgn;
+    if (isBlue) {
+        sgn = 1;
+    } else {
+        sgn = -1;
+    }
+    chassis.setPose(55 * sgn, -20, 90 * sgn);
     mogoClamp.toggle();
     pros::delay(1000);
-    chassis.turnToHeading(80, 3000);
+    chassis.turnToHeading(80 * sgn, 3000);
     chassis.waitUntilDone();
     //cout <<"hi" << "\n";
     pros::delay(1000);
-    chassis.moveToPoint(24 - 4, -24 - 4, 3000, {.forwards = false}); // move to mogo
+    chassis.moveToPoint(20 * sgn, -24 - 4, 3000, {.forwards = false}); // move to mogo
     chassis.waitUntil(30);
     mogoClamp.toggle();
     chassis.waitUntilDone();
     pros::delay(1000);
     setIntake(127);
-    chassis.turnToPoint(24, -52 + 6, 3000); // turn to two stack
+    chassis.turnToPoint(24 * sgn, -52 + 6, 3000); // turn to two stack
     chassis.waitUntilDone();
     pros::delay(1000);
     intake.move(127);
-    chassis.moveToPoint(24, -52 + 6, 3000, {.maxSpeed = 60}); // move to two stack
+    chassis.moveToPoint(24 * sgn, -52 + 6, 3000, {.maxSpeed = 60}); // move to two stack
     chassis.waitUntilDone();
     pros::delay(3000);
 
-    chassis.moveToPoint(24, -36, 3000, {.forwards = false}); // move back
+    chassis.moveToPoint(24 * sgn, -36, 3000, {.forwards = false}); // move back
     chassis.waitUntilDone();
-    chassis.turnToPoint(8, 0, 3000);
+    chassis.turnToPoint(8 * sgn, 0, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(14, -22, 3000);
+    chassis.moveToPoint(14 * sgn, -22, 3000);
     chassis.waitUntilDone();
 
 
