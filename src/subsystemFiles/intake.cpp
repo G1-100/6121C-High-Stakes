@@ -21,9 +21,9 @@ void setIntakeMotors() {
     int intakePower = 0;  // Default state: stopped
     
     // Priority system: if both buttons pressed, R2 takes priority
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         intakePower = INTAKE_POWER;     // Full speed intake
-    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         intakePower = -INTAKE_POWER;    // Full speed outtake
     }
     // If neither button is pressed, intakeVelocity remains 0

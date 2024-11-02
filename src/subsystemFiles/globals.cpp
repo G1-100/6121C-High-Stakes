@@ -48,7 +48,7 @@ pros::MotorGroup right_side_motors({9, 12, 11}, pros::v5::MotorGears::blue, pros
 	lemlib::Drivetrain drivetrain(
 		&left_side_motors, 
 		&right_side_motors, 
-		11.75, // track width
+		12, // track width
 		lemlib::Omniwheel::NEW_325, // wheel diameter
 		450, // rpm
 		6 // chase power

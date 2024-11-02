@@ -37,7 +37,7 @@ void competition_initialize() {}
 
 void logger() {
 	while (true) {
-		std::printf(lemlib::format_as(chassis.getPose()).c_str());
+		std::printf(std::to_string(LBRotation.get_position() / 100).c_str());
 		pros::delay(100);
 	}
 		
@@ -100,7 +100,7 @@ void opcontrol() {
 	// if (LBState == PROPPED || LBState == EXTENDED) {
 	// 	LBRetract();
 	// }
-
+	pros::Task ret4(logger);
 	pros::Task temp(checkTemp); // Check temp
 	// INIT LADY BROWN:
 	if (!LBLoopActive) { 
