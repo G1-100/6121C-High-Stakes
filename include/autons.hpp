@@ -12,6 +12,7 @@ void soloAWPAuton(bool isBlue);
 void simpleSkills();
 
 void simpleMogoAuton(bool isBlue);
+void rushMogoAuton(bool isBlue);
 
 void mogoAdvayAuton(bool isBlue);
 

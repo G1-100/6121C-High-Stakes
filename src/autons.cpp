@@ -484,3 +484,35 @@ void mogoAuton(bool isBlue) { // SAFE
   chassis.moveToPoint(14 * sgn, -22, 3000);
   chassis.waitUntilDone();
 }
+
+void rushMogoAuton(bool isBlue) {
+    int sgn = isBlue?1:-1;
+    chassis.setPose(50 * sgn, -60, 90 * sgn); // starts at bottom of alliance starting line
+    chassis.moveToPose(4 * sgn, -52, 135 * sgn, 3000, {.forwards = false, .minSpeed = 100}); // move to middle goal
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // clamp mogo
+    chassis.moveToPoint(12 * sgn, -55, 3000); // move away from middle
+    setIntake(127);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(0, 3000); // turn to face upward
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // declamp mogo
+    chassis.moveToPoint(12 * sgn, -32, 3000);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards = false}); // turn to clamp 2nd mogo
+    chassis.waitUntilDone();
+    chassis.moveToPoint((24 + 3) * sgn, -24 + 3, 3000, {.forwards = false}); // turn to clamp 2nd mogo
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // clamp 2nd mogo
+    chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
+    chassis.waitUntilDone();
+    chassis.moveToPoint((24) * sgn, -48 - 3, 3000); // move to two stack
+    chassis.waitUntilDone();
+
+    
+    
+
+
+
+
+}
