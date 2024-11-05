@@ -78,7 +78,7 @@ void autonomous() {
 	// Debug: pros::Task ret4(logger);
 	//simpleSkills();
 	//simpleMogoAuton(true);
-	ringAutonVirat(true);
+	ringAuton(true);
 	//chassis.waitUntilDone();
 }
 
