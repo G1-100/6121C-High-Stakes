@@ -76,9 +76,9 @@ void autonomous() {
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-	
 	//simpleSkills();
-	simpleMogoAuton(true);
+	//simpleMogoAuton(true);
+	ringAutonVirat(true);
 	//chassis.waitUntilDone();
 }
 
@@ -109,25 +109,13 @@ void opcontrol() {
 	// if (LBState == PROPPED || LBState == EXTENDED) {
 	// 	LBRetract();
 	// }
-	//pros::Task ret4(logger);
+	pros::Task ret4(logger);
 	pros::Task temp(checkTemp); // Check temp
 	LBRotation.reset_position();
 	// INIT LADY BROWN:
-	// if (!LBLoopActive) { 
-	// 	pros::Task ret2(LBLoop); 
-	// }
-	// DRIVE CODE:
-	// while (true) {
-	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-	// 	// Arcade control scheme
-	// 	int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-	// 	int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-	// 	left_side_motors.move(dir - turn);                      // Sets left motor voltage
-	// 	right_side_motors.move(dir + turn);                     // Sets right motor voltage         
-	// }
+	if (!LBLoopActive) { 
+		pros::Task ret2(LBLoop); 
+	}
 	
         
 	while (true) {

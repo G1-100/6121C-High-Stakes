@@ -50,8 +50,8 @@ lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
 lemlib::Pose LBLB(-13,-13); // Ladder: Bottom Left Beam (LBC-LLC)
 lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 // STARTING POSITIONS
-lemlib::Pose leftAutonRedPos(-54,24,90);
-lemlib::Pose rightAutonBluePos(54,24,270);
+lemlib::Pose leftAutonRedPos(-50,24,270);
+lemlib::Pose rightAutonBluePos(50,24,90);
 
 using namespace std;
 
@@ -393,48 +393,43 @@ void soloAWPAuton(bool isBlue) {
 
 //Auton Development based on Barcbots (11101B)
 //Preload one ring
-void ringAutonVirat(bool isBlue) {
-  int sgn=isBlue?-1:1;
-  clampMogo(false);
-  chassis.setPose(leftAutonRedPos.x * sgn, leftAutonRedPos.y, 90 * sgn); // Set position for left auton
-  pros::delay(1000);
-  chassis.turnToPoint(ULM.x * sgn, ULM.y , 3000 ,{.forwards=false});
-  chassis.moveToPoint(ULM.x * sgn, ULM.y ,3000,{.forwards=false}); // Move to upper left mobile goal
+void ringAuton(bool isBlue) {
+  int sgn=isBlue?1:-1;
+  chassis.setPose(rightAutonBluePos.x * sgn, rightAutonBluePos.y, 90 * sgn); // Set position for left auton
+  chassis.turnToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false}, false);
+  chassis.moveToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false}); // Move to upper left mobile goal
+  chassis.waitUntil(17);
   // Mogo piston activate
-  clampMogo(true);
-  // Turn to and move to bottom left rings of stack
-  setIntake(127);
+  mogoClamp.toggle();
+  chassis.waitUntilDone();
+  // Turn to and move to bottom right rings of stack
+  chassis.turnToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 3), 3000,{},false);
+  chassis.waitUntilDone();
+  setIntake(127); // turn on intake
+  chassis.moveToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 3), 3000, {},false);
+  chassis.waitUntilDone();
+  chassis.swingToHeading(-90 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT,3000); // swing to intake ring
+  chassis.waitUntilDone();
+  chassis.moveToPoint((24 - 9) * sgn,45 - 8,3000,{.forwards=false},false); // move back
+  chassis.waitUntilDone();
+  chassis.turnToPoint((24 - 3) * sgn, 48, 3000); // turn to two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint((24) * sgn, 48 + 3, 3000);
+  chassis.waitUntilDone();
   pros::delay(1000);
-  chassis.turnToPoint(TSBLR.x * sgn, TSBLR.y, 3000,{},false);
-  chassis.moveToPoint(TSBLR.x * sgn, TSBLR.y, 3000, {},false);
+  // Turn to and move to top right rings of stack
+  chassis.turnToPoint(TSTRR.x * sgn, TSTRR.y, 3000, {}, false);
+  mogoClamp.toggle(); // unclamp mogo
+  chassis.moveToPoint(TSTRR.x * sgn, TSTRR.y, 3000, {}, false);
+  mogoClamp.toggle(); // clamp to compact robot
   pros::delay(1000);
-  // Turn to and move to top left rings of stack
-  chassis.turnToPoint(TSTLR.x * sgn, TSTLR.y, 3000, {},false);
-  chassis.moveToPoint(TSTLR.x * sgn, TSTLR.y,3000,{},false);
-  pros::delay(1000);
-  // Turn to face ring and pick up
-  chassis.turnToPoint(-24 * sgn,48,3000,{},false);
-  chassis.moveToPoint(-24 * sgn,48,3000,{},false);
-  pros::delay(1000);
-  // Face ring
-  chassis.turnToPoint(-48 * sgn,0,3000,{},false);
-  chassis.moveToPoint(-48 * sgn,0,3000,{},false);
-  // Mogo piston relase
-  pros::delay(1000);
-  clampMogo(false);
-  // Lift flexwheel intake
-  // intakeLift.set_value(true);
-  // move to point
-  // chassis.moveToPoint(-48 * sgn,0,3000,{},false);
-  // pros::delay(1000);
-  // Load ring into ladybrown mech
-  //LBExtend(1);
-  // chassis.turnToPoint(RAWS.x * sgn,RAWS.x,3000,{},false);
-  // setIntake(0);
-  // chassis.moveToPoint(RAWS.x * sgn,RAWS.y,3000,{},false);
-  // pros::delay(1000);
-  // Activate ladybrown mech
-  //LBExtend(2);
+  setIntake(0); // stop intaking to keep ring in intake
+  // move to alliance wall stake
+  chassis.moveToPose(72 * sgn, 0 , -90, 3000, {.forwards = false}, false);
+  //chassis.moveToPoint(72 * sgn,0,3000,{},false);
+  setIntake(127); // score ring on alliance wall stake
+  chassis.moveToPoint(21 * sgn, 0, 3000); // touch ladder
+  chassis.waitUntilDone();
 
 }
 

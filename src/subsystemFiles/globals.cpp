@@ -19,7 +19,7 @@ pros::Motor driveRightMiddle(12, pros::v5::MotorGears::blue, pros::v5::MotorUnit
 pros::Motor intake(20, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
-pros::Motor ladybrown(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 
 //pistons
