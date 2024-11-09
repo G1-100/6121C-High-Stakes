@@ -97,33 +97,31 @@ void autonomous() {
  */
 void opcontrol() {
 	// OP CONTROL RESET:
-	// Drive brake settings
-	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	// Reset lady brown before drive period
-	// if (LBState == PROPPED || LBState == EXTENDED) {
-	// 	LBRetract();
-	// }
-	pros::Task ret4(logger);
-	pros::Task temp(checkTemp); // Check temp
-	LBRotation.reset_position();
+	// Set Brake Mode to Coast
+	brakeModeCoast();
 	// INIT LADY BROWN:
+	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	LBRotation.reset_position();
 	if (!LBLoopActive) { 
 		pros::Task ret2(LBLoop); 
 	}
+	pros::Task ret4(logger);
 	
-        
+	// Check Temperature of Motors
+	pros::Task temp(checkTemp);
+  
+	// DRIVE CODE:
 	while (true) {
+       	// Arcade drive
 		runArcadeDrive();
+      	// Activate Intake Logic
 		setIntakeMotors();
+		// Activate Doinker Logic
 		setDoinker();
+      	// Activate Mogo Logic
 		setMogoMotors();
-		pros::delay(20); // Run for 20 ms then update
+      	// Run Every 20 Seconds
+		pros::delay(20);
 	}
 }
 

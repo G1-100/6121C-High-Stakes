@@ -40,9 +40,8 @@ double averageDriveEncoderValues(){
             fabs(driveRightMiddle.get_position()) +
             fabs(driveLeftBack.get_position()) +
             fabs(driveRightBack.get_position())) / 6;
-
-
 }
+
 void resetDriveEncoders() {
     driveLeftBack.tare_position();
     driveLeftMiddle.tare_position();
@@ -50,6 +49,15 @@ void resetDriveEncoders() {
     driveRightBack.tare_position();
     driveRightMiddle.tare_position();
     driveRightFront.tare_position();
+}
+
+void brakeModeCoast() {
+    driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
 // Driver Control Functions
@@ -116,14 +124,14 @@ void rotate(int degrees, int voltage) {
 }
 
 void runArcadeDrive() {
+    // Get the power and turn values from the joystick
 	int power = master.get_analog(ANALOG_LEFT_Y);
 	int turn = master.get_analog(ANALOG_RIGHT_X);
-
+    // Calculate the left and right side powers
 	int left = power + turn;
 	int right = power - turn;
-
-	setDrive(left, right);
-	
+    // Set the drive motors
+	setDrive(left, right);	
 }
 
 void runCheesyDrive() {

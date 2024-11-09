@@ -12,6 +12,7 @@ void resetDriveEncoders();
 // Driver Control Functions
 void setDriveMotors();
 
+void brakeModeCoast();
 
 // Autonomous Functions
 void translate(int units, int voltage);
