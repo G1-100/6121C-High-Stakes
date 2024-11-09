@@ -46,6 +46,7 @@
 #include "autons.hpp"
 #include "subsystemHeaders/drive.hpp"
 #include "subsystemHeaders/ladybrown.hpp"
+#include "selection.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -76,6 +77,7 @@ void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
 void checkTemp(void);
+//void initializeSelector(void);
 #ifdef __cplusplus
 }
 #endif

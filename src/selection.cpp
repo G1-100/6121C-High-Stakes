@@ -1,139 +1,124 @@
-// #include "main.h"
-// #include "selection.h"
-// #include "liblvgl/lvgl.h"
+/*#include "selection.hpp"
+#include "pros/misc.h"
+#include "pros/rtos.hpp"
 
-// namespace selector{
+// Initialize static member
+AutonomousSelector* AutonomousSelector::instance = nullptr;
 
-// int auton;
-// int autonCount;
-// int hue;
-// const char *btnmMap[] = {"","","","","","","","","","",""}; // up to 10 autons
+// Implementation of the singleton constructor
+AutonomousSelector::AutonomousSelector() : currentRoutine(AutonomousRoutine::DISABLED) {
+    const char* names[] = {
+        "Ring Blue", "Ring Red", "Mogo Blue", "Mogo Red",
+        "Solo AWP Blue", "Solo AWP Red", "Rush Mogo Blue",
+        "Rush Mogo Red", "Skills", "Disabled"
+    };
+    std::copy(std::begin(names), std::end(names), routineNames);
+    
+    // Initialize selector UI
+    pros::lcd::initialize();
+    updateDisplay();
+}
 
-// lv_obj_t *tabview;
-// lv_obj_t *redBtnm;
-// lv_obj_t *blueBtnm;
+// Implement the rest of the member functions
+// ...rest of the implementation remains the same...
 
-// lv_res_t redBtnmAction(lv_obj_t *btnm, const char *txt){
-// 	//printf("red button: %s released\n", txt);
+void AutonomousSelector::nextRoutine() {
+    int next = static_cast<int>(currentRoutine) + 1;
+    if (next >= 10) next = 0;
+    currentRoutine = static_cast<AutonomousRoutine>(next);
+    updateDisplay();
+}
 
-// 	for(int i = 0; i < autonCount; i++){
-// 		if(strcmp(txt, btnmMap[i]) == 0){
-// 			auton = i+1;
-// 		}
-// 	}
+void AutonomousSelector::previousRoutine() {
+    int prev = static_cast<int>(currentRoutine) - 1;
+    if (prev < 0) prev = 9;
+    currentRoutine = static_cast<AutonomousRoutine>(prev);
+    updateDisplay();
+}
 
-// 	return LV_RES_OK; // return OK because the button matrix is not deleted
-// }
+void AutonomousSelector::updateDisplay() {
+    // Clear each line individually since there's no clear() function
+    pros::lcd::clear_line(1);
+    pros::lcd::clear_line(2);
+    pros::lcd::clear_line(3);
+    
+    pros::lcd::set_text(1, "Selected Autonomous:");
+    pros::lcd::set_text(2, routineNames[static_cast<int>(currentRoutine)]);
+    
+    // Display competition status
+    std::string status = "Status: ";
+    if (pros::competition::is_connected()) {
+        status += "Connected";
+        if (pros::competition::is_autonomous()) {
+            status += " (Autonomous)";
+        } else if (pros::competition::is_disabled()) {
+            status += " (Disabled)";
+        } else {
+            status += " (Opcontrol)";
+        }
+    } else {
+        status += "Not Connected";
+    }
+    pros::lcd::set_text(3, status);
+}
 
-// lv_res_t blueBtnmAction(lv_obj_t *btnm, const char *txt)
-// {
-// 	//printf("blue button: %s released\n", txt);
+void AutonomousSelector::runSelectedAutonomous() {
+    // Set brake modes before running autonomous
+    driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-// 	for(int i = 0; i < autonCount; i++){
-// 		if(strcmp(txt, btnmMap[i]) == 0){
-// 			auton = -(i+1);
-// 		}
-// 	}
+    switch (currentRoutine) {
+        case AutonomousRoutine::RING_BLUE:
+            ringAuton(true);
+            break;
+        case AutonomousRoutine::RING_RED:
+            ringAuton(false); 
+            break;
+        case AutonomousRoutine::MOGO_BLUE:
+            mogoAuton(true);
+            break;
+        case AutonomousRoutine::MOGO_RED:
+            mogoAuton(false);
+            break;
+        case AutonomousRoutine::SOLO_AWP_BLUE:
+            soloAWPAuton(true);
+            break;
+        case AutonomousRoutine::SOLO_AWP_RED:
+            soloAWPAuton(false);
+            break;
+        case AutonomousRoutine::RUSH_MOGO_BLUE:
+            rushMogoAuton(true);
+            break;
+        case AutonomousRoutine::RUSH_MOGO_RED:
+            rushMogoAuton(false);
+            break;
+        case AutonomousRoutine::SKILLS:
+            skills();
+            break;
+        case AutonomousRoutine::DISABLED:
+        default:
+            break;
+    }
+}
 
-// 	return LV_RES_OK; // return OK because the button matrix is not deleted
-// }
+void initializeSelector() {
+    selector = AutonomousSelector::getInstance();
+    
+    // Register button callbacks for the LCD using correct PROS API
+    pros::lcd::register_btn0_cb([]() {
+        if(selector) selector->previousRoutine(); 
+    });
+    
+    pros::lcd::register_btn1_cb([]() {
+        if(selector) selector->updateDisplay();
+    });
 
-// lv_res_t skillsBtnAction(lv_obj_t *btn){
-//   //printf("skills pressed");
-// 	auton = 0;
-// 	return LV_RES_OK;
-// }
-
-// int tabWatcher() {
-// 	int activeTab;
-// 	while(1){
-// 		int currentTab = lv_tabview_get_tab_act(tabview);
-
-// 		if(currentTab != activeTab){
-// 			//printf("Current Tab: %d\n", currentTab);
-// 			if(currentTab == 0){
-// 				if(auton == 0) auton = -1;
-// 				auton = -abs(auton);
-// 				lv_btnm_set_one_toggle(redBtnm, true, abs(auton)-1);
-// 			}else if(currentTab == 1){
-// 				if(auton == 0) auton = 1;
-// 				auton = abs(auton);
-// 				lv_btnm_set_one_toggle(blueBtnm, true, abs(auton)-1);
-// 			}else{
-// 				auton = 0;
-// 			}
-// 		}
-
-// 		activeTab = currentTab;
-
-// 		pros::delay(20);
-// 	}
-// }
-
-// void init(int hue, int default_auton, const char **autons){
-
-// 	int i = 0;
-// 	do{
-// 		memcpy(&btnmMap[i], &autons[i], sizeof(&autons));
-// 		i++;
-// 	}while(strcmp(autons[i], "") != 0);
-
-// 	selector::autonCount = i;
-// 	selector::hue = hue;
-// 	selector::auton = default_auton;
-
-// 	// lvgl theme
-// 	lv_theme_t *th = lv_theme_alien_init(hue, NULL); //Set a HUE value and keep font default RED
-// 	lv_theme_set_current(th);
-
-// 	// create a tab view object
-// 	tabview = lv_tabview_create(lv_scr_act(), NULL);
-
-// 	// add 3 tabs (the tabs are page (lv_page) and can be scrolled
-// 	lv_obj_t *redTab = lv_tabview_add_tab(tabview, "Red");
-// 	lv_obj_t *blueTab = lv_tabview_add_tab(tabview, "Blue");
-// 	lv_obj_t *skillsTab = lv_tabview_add_tab(tabview, "Skills");
-
-// 	//set default tab
-// 	if(auton < 0){
-// 		lv_tabview_set_tab_act(tabview, 1, LV_ANIM_NONE);
-// 	}else if(auton == 0){
-// 		lv_tabview_set_tab_act(tabview, 2, LV_ANIM_NONE);
-// 	}
-
-// 	// add content to the tabs
-// 	// button matrix
-// 	redBtnm = lv_btnm_create(redTab, NULL);
-// 	lv_btnm_set_map(redBtnm, btnmMap);
-// 	lv_btnm_set_action(redBtnm, redBtnmAction);
-// 	lv_btnm_set_one_toggle(redBtnm, true, abs(auton)-1);//3
-//     lv_b
-// 	lv_obj_set_size(redBtnm, 450, 50);
-// 	lv_obj_set_pos(redBtnm, 0, 100);
-// 	lv_obj_align(redBtnm, NULL, LV_ALIGN_CENTER, 0, 0);
-
-// 	// blue tab
-// 	blueBtnm = lv_btnm_create(blueTab, NULL);
-// 	lv_btnm_set_map(blueBtnm, btnmMap);
-// 	lv_btnm_set_action(blueBtnm, *blueBtnmAction);
-// 	lv_btnm_set_one_toggle(blueBtnm, true, abs(auton)-1);
-// 	lv_obj_set_size(blueBtnm, 450, 50);
-// 	lv_obj_set_pos(blueBtnm, 0, 100);
-// 	lv_obj_align(blueBtnm, NULL, LV_ALIGN_CENTER, 0, 0);
-
-// 	// skills tab
-// 	lv_obj_t *skillsBtn = lv_btn_create(skillsTab, NULL);
-// 	lv_obj_t *label = lv_label_create(skillsBtn, NULL);
-// 	lv_label_set_text(label, "Skills");
-// 	lv_btn_set_action(skillsBtn, LV_BTN_ACTION_CLICK, *skillsBtnAction);
-// 	// lv_btn_set_state(skillsBtn, LV_BTN_STATE_TGL_REL);
-// 	lv_obj_set_size(skillsBtn, 450, 50);
-// 	lv_obj_set_pos(skillsBtn, 0, 100);
-// 	lv_obj_align(skillsBtn, NULL, LV_ALIGN_CENTER, 0, 0);
-
-// 	// start tab watcher
-// 	pros::Task drive_task(tabWatcher);
-
-// }
-
-// } // namespace selector
+    pros::lcd::register_btn2_cb([]() {
+        if(selector) selector->nextRoutine();
+    });
+}
+*/

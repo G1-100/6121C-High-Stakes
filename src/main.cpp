@@ -14,6 +14,7 @@ void initialize() {
 	chassis.calibrate();
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
+	// initializeSelector();  // Commented out selector initialization
 }
 
 
@@ -43,13 +44,13 @@ void setDoinker() {
 }
 
 void logger() {
-	while (true) {
-
-		cout << "ANGLE: " + std::to_string(LBRotation.get_position() / 100) << "\n";
-		pros::delay(100);
-	}
-		
-	
+    while (!pros::competition::is_disabled()) {
+        std::cout << "ANGLE: " << std::to_string(LBRotation.get_position() / 100) << "\n";
+        pros::delay(100);
+        
+        // Add a way to break the loop if needed
+        if (pros::competition::is_disabled()) break;
+    }
 }
 
 /**
@@ -64,22 +65,8 @@ void logger() {
  * from where it left off.
  */
 void autonomous() {
-
-	//pros::Task ret1(LBLoop);
-	//LBRotation.reset();
-
-	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-	// Debug: pros::Task ret4(logger);
-	//simpleSkills();
-	//simpleMogoAuton(true);
-	ringAuton(true);
-	//chassis.waitUntilDone();
+    // Remove direct call to ringAuton and only use selector
+    // selector->runSelectedAutonomous();  // Commented out selector usage
 }
 
 /**
@@ -97,27 +84,17 @@ void autonomous() {
  */
 void opcontrol() {
 	// OP CONTROL RESET:
-	// Set Brake Mode to Coast
 	brakeModeCoast();
 	// INIT LADY BROWN:
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	LBRotation.reset_position();
 	if (!LBLoopActive) { 
-		pros::Task ret2(LBLoop); 
+		pros::Task lb_task(LBLoop); 
 	}
 
-	// Drive brake settings
-	// Reset lady brown before drive period
-	// if (LBState == PROPPED || LBState == EXTENDED) {
-	// 	LBRetract();
-	// }
-	pros::Task ret4(logger);
-	pros::Task temp(checkTemp); // Check temp
-	
-	
-	
-	// Check Temperature of Motors
-	pros::Task temp(checkTemp);
+	// Create tasks with proper handling
+	pros::Task logger_task(logger);
+	pros::Task temp_task(checkTemp);
   
 	// DRIVE CODE:
 	while (true) {
@@ -131,7 +108,12 @@ void opcontrol() {
 		setMogoMotors();
       	// Run Every 20 Seconds
 		pros::delay(20);
+		
 	}
+	
+	// Ensure tasks are terminated properly
+    logger_task.remove();
+    temp_task.remove();
 }
 
 void checkTemp() {
