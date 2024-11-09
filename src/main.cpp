@@ -105,7 +105,16 @@ void opcontrol() {
 	if (!LBLoopActive) { 
 		pros::Task ret2(LBLoop); 
 	}
+
+	// Drive brake settings
+	// Reset lady brown before drive period
+	// if (LBState == PROPPED || LBState == EXTENDED) {
+	// 	LBRetract();
+	// }
 	pros::Task ret4(logger);
+	pros::Task temp(checkTemp); // Check temp
+	
+	
 	
 	// Check Temperature of Motors
 	pros::Task temp(checkTemp);
