@@ -19,12 +19,12 @@ pros::Motor driveRightMiddle(12, pros::v5::MotorGears::blue, pros::v5::MotorUnit
 pros::Motor intake(20, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
-pros::Motor ladybrown(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 
 //pistons
 pros::adi::DigitalOut intakeLift('C');
-pros::adi::DigitalOut doinker('C');
+pros::adi::Pneumatics doinker('D', false);
 pros::adi::Pneumatics mogoClamp('F', false);
 
 //pros::adi::Port sensor("A", pros::E_ADI_DIGITAL_OUT);
@@ -37,7 +37,7 @@ pros::Imu IMU(19);
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
 
-pros::Rotation LBRotation(19);
+pros::Rotation LBRotation(-6);
 
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -48,7 +48,7 @@ pros::MotorGroup right_side_motors({9, 12, 11}, pros::v5::MotorGears::blue, pros
 	lemlib::Drivetrain drivetrain(
 		&left_side_motors, 
 		&right_side_motors, 
-		11.75, // track width
+		12, // track width
 		lemlib::Omniwheel::NEW_325, // wheel diameter
 		450, // rpm
 		6 // chase power

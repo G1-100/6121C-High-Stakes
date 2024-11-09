@@ -44,7 +44,7 @@ extern  pros::Controller master;
 //MISCELLANEOUS
 
 extern pros::adi::DigitalOut intakeLift;
-extern pros::adi::DigitalOut doinker;
+extern pros::adi::Pneumatics doinker;
 extern pros::adi::Pneumatics mogoClamp;
 
 //extern pros::adi::Port sensor;
