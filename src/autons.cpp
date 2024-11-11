@@ -435,30 +435,33 @@ void ringAuton(bool isBlue) {
 
 void mogoAdvayAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
-  clampMogo(false);
-	chassis.setPose(60*sgn,-60,90);
-	chassis.moveToPoint(24*sgn,-60,3000,{.forwards=false});
-	chassis.waitUntilDone();
-	chassis.moveToPoint(5*sgn,-53,3000,{.forwards=false});
+  mogoClamp.toggle();
+	chassis.setPose(48*sgn,-60,90);
+	chassis.moveToPoint((24 - 3)*sgn,-60,3000,{.forwards=false});
+	chassis.waitUntil(27 - 2);
+  chassis.cancelMotion();
+	chassis.moveToPoint((5.5 + 1)*sgn,(-53 - 1),3000,{.forwards=false});
 	chassis.waitUntilDone();
 	clampMogo(true);
-	pros::delay(250);
 	setIntake(127);
-	pros::delay(1000);
-	clampMogo(false);
 	pros::delay(500);
-	chassis.turnToPoint(27*sgn,-21,3000,{.forwards=false});
+	clampMogo(false);
+	chassis.turnToPoint((27 - 6)*sgn,-21,3000,{.forwards=false});
 	chassis.waitUntilDone();
-	chassis.moveToPoint(27*sgn,-21,3000,{.forwards=false});
+	chassis.moveToPoint((27 - 6)*sgn,-21,3000,{.forwards=false});
 	chassis.waitUntilDone();
 	clampMogo(true);
-	pros::delay(250);
-	chassis.turnToPoint(25*sgn,-66,3000);
+	chassis.turnToPoint(25*sgn,-55,3000);
 	chassis.waitUntilDone();
-	chassis.moveToPoint(25*sgn,-66,3000);
+	chassis.moveToPoint(25*sgn,-55,3000);
 	chassis.waitUntilDone();
-	pros::delay(1000);
-	clampMogo(false);
+  chassis.moveToPoint(25*sgn,(-55 + 20),3000, {.forwards = false});
+	chassis.waitUntilDone();
+  chassis.turnToPoint(0, 0, 3000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(10 * sgn, -10, 3000);
+  chassis.waitUntilDone();
+
 }
 
 void mogoAuton(bool isBlue) { // SAFE

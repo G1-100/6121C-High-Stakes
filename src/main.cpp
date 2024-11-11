@@ -67,6 +67,21 @@ void logger() {
 void autonomous() {
     // Remove direct call to ringAuton and only use selector
     // selector->runSelectedAutonomous();  // Commented out selector usage
+	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+	// Debug: pros::Task ret4(logger);
+	//simpleSkills();
+	//simpleMogoAuton(true);
+	//ringAuton(true);
+	mogoAdvayAuton(true);
+	//chassis.waitUntilDone();
 }
 
 /**

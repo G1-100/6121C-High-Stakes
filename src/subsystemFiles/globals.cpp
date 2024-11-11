@@ -8,15 +8,15 @@
 
 
 //drive
-pros::Motor driveLeftBack(-18, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor driveLeftFront(-10, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor driveLeftMiddle(-8, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor driveRightBack(11, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor driveRightFront(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor driveRightMiddle(12, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveLeftBack(-20, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveLeftFront(-2, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveLeftMiddle(-3, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveRightBack(10, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveRightFront(4, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor driveRightMiddle(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //intake
-pros::Motor intake(20, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
 pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
@@ -25,13 +25,13 @@ pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degre
 //pistons
 pros::adi::DigitalOut intakeLift('C');
 pros::adi::Pneumatics doinker('D', false);
-pros::adi::Pneumatics mogoClamp('F', false);
+pros::adi::Pneumatics mogoClamp('H', false);
 
 //pros::adi::Port sensor("A", pros::E_ADI_DIGITAL_OUT);
 
 
 // inertial
-pros::Imu IMU(19);
+pros::Imu IMU(8);
 
 // rotational sensor
 pros::Rotation horizTracking(12);
@@ -42,8 +42,8 @@ pros::Rotation LBRotation(-6);
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-pros::MotorGroup left_side_motors({-10, -8, -18}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::MotorGroup right_side_motors({9, 12, 11}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::MotorGroup left_side_motors({-20, -2, -3}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::MotorGroup right_side_motors({10, 4, 9}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 	lemlib::Drivetrain drivetrain(
 		&left_side_motors, 
