@@ -1,5 +1,5 @@
 # 6121C Robot Code Repo
-### *By: Gavin H. (Lead), Meghanadh V, Jacob Y, and Virat P
+### By: Gavin H. (Lead), Meghanadh V, Jacob Y, and Virat P
 <sup><sup><sub>And Raahil Russel*</sub></sup></sup>
 
 ---
