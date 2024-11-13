@@ -1,5 +1,6 @@
 # 6121C Robot Code Repo
 ### *By: Gavin H. (Lead), and Virat P.*
+*And Raahil Russel\**
 ---
 
 ## Checklist
