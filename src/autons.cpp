@@ -446,21 +446,27 @@ void mogoAdvayAuton(bool isBlue) {
 	chassis.moveToPoint((24 - 3)*sgn,-60,3000,{.forwards=false});
 	chassis.waitUntil(27 - 2);
   chassis.cancelMotion();
-	chassis.moveToPoint((5.5 + 1)*sgn,(-53 - 1),3000,{.forwards=false});
+	chassis.moveToPoint((6)*sgn,(-53),3000,{.forwards=false});
 	chassis.waitUntilDone();
 	clampMogo(true);
+  pros::delay(100);
 	setIntake(127);
-	pros::delay(500);
+  pros::delay(500);
+	chassis.turnToPoint((27 - 7)*sgn,-21,3000,{.forwards=false});
 	clampMogo(false);
-	chassis.turnToPoint((27 - 6)*sgn,-21,3000,{.forwards=false});
 	chassis.waitUntilDone();
 	chassis.moveToPoint((27 - 6)*sgn,-21,3000,{.forwards=false});
+  chassis.waitUntil(10);
+  setIntake(0);
 	chassis.waitUntilDone();
-	clampMogo(true);
-	chassis.turnToPoint(25*sgn,-55,3000);
+  clampMogo(true);
+  pros::delay(700);
+	chassis.turnToPoint(25*sgn,-56,3000);
 	chassis.waitUntilDone();
-	chassis.moveToPoint(25*sgn,-55,3000);
+  setIntake(127);
+	chassis.moveToPoint(25*sgn,-56,3000);
 	chassis.waitUntilDone();
+  pros::delay(100);
   chassis.moveToPoint(25*sgn,(-55 + 20),3000, {.forwards = false});
 	chassis.waitUntilDone();
   chassis.turnToPoint(0, 0, 3000);
@@ -468,4 +474,53 @@ void mogoAdvayAuton(bool isBlue) {
   chassis.moveToPoint(10 * sgn, -10, 3000);
   chassis.waitUntilDone();
 
+}
+
+void mogoAuton(bool isBlue) { // SAFE
+  int sgn = isBlue?1:-1;
+  chassis.setPose(60 * sgn, -15, 90 * sgn); // starts at lower half of alliance starting line
+  chassis.turnToPoint(72 * sgn, 0, 3000); // turn to wall stake
+  chassis.waitUntilDone();
+  LBExtend(1); // activate lady brown
+  chassis.moveToPoint(sgn * 64, -7, 3000); // move to wall stake
+  LBExtend(2);
+  chassis.waitUntilDone();
+  chassis.moveToPose(sgn * 18, -26, 80 * sgn, 3000, {.forwards = false}); // boomerang move to mogo
+  LBRetract(); // deactivate lady brown
+  clampMogo(true); // clamp mogo
+  chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
+  chassis.waitUntilDone();
+  setIntake(127);
+  chassis.moveToPoint(24 * sgn, -52, 3000); // move to two stack
+  chassis.waitUntilDone();
+  chassis.turnToPoint(8 * sgn, 0, 3000);
+  chassis.waitUntilDone();
+  LBExtend(2); // extend to ladder
+  chassis.moveToPoint(14 * sgn, -22, 3000);
+  chassis.waitUntilDone();
+}
+
+void rushMogoAuton(bool isBlue) {
+    int sgn = isBlue?1:-1;
+    chassis.setPose(50 * sgn, -60, 90 * sgn); // starts at bottom of alliance starting line
+    chassis.moveToPose(4 * sgn, -52, 135 * sgn, 3000, {.forwards = false, .minSpeed = 100}); // move to middle goal
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // clamp mogo
+    chassis.moveToPoint(12 * sgn, -55, 3000); // move away from middle
+    setIntake(127);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(0, 3000); // turn to face upward
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // declamp mogo
+    chassis.moveToPoint(12 * sgn, -32, 3000);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards = false}); // turn to clamp 2nd mogo
+    chassis.waitUntilDone();
+    chassis.moveToPoint((24 + 3) * sgn, -24 + 3, 3000, {.forwards = false}); // turn to clamp 2nd mogo
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // clamp 2nd mogo
+    chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
+    chassis.waitUntilDone();
+    chassis.moveToPoint((24) * sgn, -48 - 3, 3000); // move to two stack
+    chassis.waitUntilDone();
 }
