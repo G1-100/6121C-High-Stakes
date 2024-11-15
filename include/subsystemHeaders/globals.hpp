@@ -18,6 +18,9 @@ extern pros::Motor driveRightFront;
 extern pros::MotorGroup left_side_motors;
 extern pros::MotorGroup right_side_motors;
 
+
+extern pros::Optical optical;
+
 //intake
 extern pros::Motor intake;
 

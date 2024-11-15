@@ -1,4 +1,6 @@
 #pragma once
-#include "pros"
+#include "main.h"
 
-pros::Optical optical_sensor(OPTICAL_PORT);
+extern bool ColorLoopActive;
+
+void colorSortLoop();

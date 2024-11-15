@@ -105,9 +105,11 @@ void opcontrol() {
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	LBRotation.reset_position();
 	if (!LBLoopActive) { 
-		pros::Task lb_task(LBLoop); 
+		pros::Task lb_task(LBLoop);
 	}
-
+	if (!ColorLoopActive) {
+		pros::Task colorSorting(colorSortLoop);
+	}
 	// Create tasks with proper handling
 	pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);

@@ -37,6 +37,8 @@ pros::Imu IMU(8);
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
 
+pros::Optical optical(6);
+
 pros::Rotation LBRotation(-6);
 
 //CONTROLLERS
