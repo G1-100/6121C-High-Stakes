@@ -79,6 +79,8 @@ void autonomous() {
 	// Debug: pros::Task ret4(logger);
 	//simpleSkills();
 	//simpleMogoAuton(true);
+	//ringAuton(true);
+	//soloAWPAutonTunedLMSD(true);
 	mogoAdvayAuton(true);
 	//chassis.waitUntilDone();
 }

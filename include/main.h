@@ -43,6 +43,7 @@
 #include "subsystemHeaders/globals.hpp"
 #include "subsystemHeaders/intake.hpp"
 #include "subsystemHeaders/mogo.hpp"
+#include "subsystemHeaders/colorSort.hpp"
 #include "autons.hpp"
 #include "subsystemHeaders/drive.hpp"
 #include "subsystemHeaders/ladybrown.hpp"
