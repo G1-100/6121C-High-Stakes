@@ -23,7 +23,7 @@ void setIntakeMotors() {
     // Priority system: if both buttons pressed, R2 takes priority
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
         intakePower = INTAKE_POWER;     // Full speed intake
-        
+
     } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
         intakePower = -INTAKE_POWER;    // Full speed outtake
     }
@@ -31,4 +31,5 @@ void setIntakeMotors() {
     
     // Apply the calculated velocity to the intake motor
     setIntake(intakePower);
+    doColorSort();
 }

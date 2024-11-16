@@ -21,6 +21,8 @@ extern pros::MotorGroup right_side_motors;
 
 extern pros::Optical optical;
 
+extern bool allianceColorBlue;
+
 //intake
 extern pros::Motor intake;
 

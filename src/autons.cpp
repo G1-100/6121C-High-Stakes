@@ -428,7 +428,68 @@ void soloAWPAutonTunedLMSD(bool isBlue) {
 void ringAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
   chassis.setPose(rightAutonBluePos.x * sgn, rightAutonBluePos.y, 90 * sgn); // Set position for left auton
+  //mogoClamp.toggle();
+  //chassis.turnToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false}, false);
+  chassis.moveToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
+  //chassis.waitUntil(17 + 2);
+  // Mogo piston activate
+  chassis.waitUntilDone();
   mogoClamp.toggle();
+  //pros::delay(3000);
+  setIntake(127); // turn on intake
+  pros::delay(400);
+  // Turn to and move to bottom right rings of stack
+  //chassis.turnToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 5), 3000,{},false);
+  chassis.moveToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 5 - 2), 3000, {.minSpeed = 60},false);
+  chassis.swingToHeading(-90 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT,3000); // swing to intake first stack
+  chassis.waitUntilDone();
+  pros::delay(200);
+  chassis.moveToPoint((24 - 9) * sgn, 37 - 5,3000,{.forwards=false, .minSpeed=70},false); // move back
+  chassis.moveToPoint((18) * sgn, 48 - 3.5, 3000);
+  chassis.waitUntilDone();
+  pros::delay(550);
+  setIntake(-127);
+  chassis.moveToPoint((18) * sgn, 48 - 8.5 + 1.5, 1000);
+  chassis.waitUntilDone();
+  mogoClamp.toggle(); // clamp to compact robot
+  // Turn to and move to top right rings of stack
+  chassis.turnToPoint((TSTRR.x-6 - 6) * sgn, TSTRR.y - 2, 3000, {}, false);
+  setIntake(127);
+  chassis.moveToPoint((TSTRR.x-4 + 3.5) * sgn,TSTRR.y - 4 - 3, 3000,{.minSpeed = 80},false);
+  chassis.swingToHeading((-90 - 5) * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT,3000); // swing to intake first stack
+  chassis.waitUntilDone();
+  //setIntake(0);
+  pros::delay(300);
+  setIntake(0);
+  chassis.moveToPoint((TSTRR.x+10 + 30)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
+  chassis.waitUntil(8);
+  setIntake(0);
+  chassis.waitUntilDone();
+  mogoClamp.toggle();
+  chassis.turnToPoint((46 + 2)*sgn, 2, 3000,{.forwards=false},false); // turn to alliance wall stake
+  chassis.moveToPoint((46 + 2)*sgn, 2, 3000,{.forwards=false, .minSpeed = 80}); // move to alliance wall stake
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-90 * sgn,1000); // turn to AWS
+  chassis.waitUntilDone();
+  chassis.moveToPoint((48 + 6)*sgn, -5 + 2, 3000, {.forwards = false});
+  chassis.waitUntilDone();
+  setIntake(127);
+  pros::delay(400);
+  setIntake(0);
+  chassis.moveToPoint(20*sgn, -3, 3000);
+  // move to alliance wall stake
+  //chassis.moveToPose(72 * sgn, 0 , -90, 3000, {.forwards = false}, false);
+  //chassis.moveToPoint(72 * sgn,0,3000,{},false);
+  //setIntake(127); // score ring on alliance wall stake
+  //chassis.moveToPoint(21 * sgn, 0, 3000); // touch ladder
+  //chassis.waitUntilDone();
+
+}
+
+void ringAutonSimpler(bool isBlue) {
+  int sgn=isBlue?1:-1;
+  chassis.setPose(rightAutonBluePos.x * sgn, rightAutonBluePos.y, 90 * sgn); // Set position for left auton
+  //mogoClamp.toggle();
   //chassis.turnToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false}, false);
   chassis.moveToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
   //chassis.waitUntil(17 + 2);
@@ -450,47 +511,20 @@ void ringAuton(bool isBlue) {
   setIntake(-127);
   chassis.moveToPoint((18) * sgn, 48 - 3.5 - 5, 1000);
   chassis.waitUntilDone();
-  mogoClamp.toggle(); // clamp to compact robot
-  // Turn to and move to top right rings of stack
-  chassis.turnToPoint((TSTRR.x-6 - 6) * sgn, TSTRR.y - 2, 3000, {}, false);
-  setIntake(127);
-  chassis.moveToPoint((TSTRR.x-4 + 2) * sgn,TSTRR.y - 4 - 3, 3000,{.minSpeed = 80},false);
-  chassis.swingToHeading((-90 - 10) * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT,3000); // swing to intake first stack
+  chassis.moveToPoint(21*sgn, -3, 3000); // move to ladder cone
   chassis.waitUntilDone();
-  //setIntake(0);
-  pros::delay(450);
-  setIntake(0);
-  chassis.moveToPoint((TSTRR.x+24-14)*sgn,TSTRR.y - 4,3000,{.forwards=false});
-  chassis.waitUntil(8);
-  setIntake(0);
+  chassis.moveToPoint(21*sgn, -3, 3000); // move to ladder cone
   chassis.waitUntilDone();
-  mogoClamp.toggle();
-  // chassis.turnToPoint(46*sgn, -2, 3000,{.forwards=false},false);
-  chassis.moveToPoint((46 + 2)*sgn, -2, 3000,{.forwards=false, .minSpeed = 80});
-  chassis.waitUntilDone();
-  chassis.swingToHeading(-90 * sgn, isBlue?lemlib::DriveSide::RIGHT:lemlib::DriveSide::LEFT,1000); // swing to intake ring
-  chassis.waitUntilDone();
-  setIntake(127);
-  pros::delay(400);
-  setIntake(0);
-  chassis.moveToPoint(21*sgn, -3, 3000);
-  // move to alliance wall stake
-  //chassis.moveToPose(72 * sgn, 0 , -90, 3000, {.forwards = false}, false);
-  //chassis.moveToPoint(72 * sgn,0,3000,{},false);
-  //setIntake(127); // score ring on alliance wall stake
-  //chassis.moveToPoint(21 * sgn, 0, 3000); // touch ladder
-  //chassis.waitUntilDone();
-
 }
 
 void mogoAdvayAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
-  mogoClamp.toggle();
+  //mogoClamp.toggle();
 	chassis.setPose(48*sgn,-60,90); //Starting Line
 	chassis.moveToPoint((24 - 3)*sgn,-60,3000,{.forwards=false, .minSpeed = 90}); //Move next to ring stack
 	chassis.waitUntil(27 - 2);
   chassis.cancelMotion();
-	chassis.moveToPoint((5.5)*sgn,(-51.5),3000,{.forwards=false, .minSpeed = 60}); //Move to Mogo
+	chassis.moveToPoint((5.5+4)*sgn,(-51.5-4 - 2),3000,{.forwards=false, .minSpeed = 80}); //Move to Mogo
 	chassis.waitUntilDone();
 	clampMogo(true);
   pros::delay(100);
@@ -513,10 +547,12 @@ void mogoAdvayAuton(bool isBlue) {
   pros::delay(100);
   chassis.moveToPoint(25*sgn,(-55 + 20),3000, {.forwards = false});//Move backwards
 	chassis.waitUntilDone();
-  chassis.turnToPoint(0, 0, 3000);//Turn to ladder
+  chassis.turnToPoint(24*sgn, 0, 3000);//Turn to ladder
   chassis.waitUntilDone();
-  chassis.moveToPoint(10 * sgn, -10, 3000);//Move to ladder
+  setIntake(0);
+  chassis.moveToPoint(24 + 3 * sgn, 0, 3000);//Move to ladder
   chassis.waitUntilDone();
+  setIntake(0);
 }
 
 /*void mogoAuton(bool isBlue) { // SAFE

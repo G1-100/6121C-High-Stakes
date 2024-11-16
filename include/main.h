@@ -44,6 +44,7 @@
 #include "subsystemHeaders/intake.hpp"
 #include "subsystemHeaders/mogo.hpp"
 #include "subsystemHeaders/colorSort.hpp"
+#include "subsystemHeaders/doinker.hpp"
 #include "autons.hpp"
 #include "subsystemHeaders/drive.hpp"
 #include "subsystemHeaders/ladybrown.hpp"
@@ -70,7 +71,6 @@
 extern "C" {
 #endif
 
-void setDoinker(void);
 
 void autonomous(void);
 void initialize(void);

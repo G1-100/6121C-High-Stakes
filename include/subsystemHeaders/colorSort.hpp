@@ -3,4 +3,6 @@
 
 extern bool ColorLoopActive;
 
-void colorSortLoop();
+void initColorSort();
+
+void doColorSort();

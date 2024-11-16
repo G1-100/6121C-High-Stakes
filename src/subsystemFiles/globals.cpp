@@ -22,13 +22,11 @@ pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees)
 pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 
+
 //pistons
 pros::adi::DigitalOut intakeLift('C');
-pros::adi::Pneumatics doinker('D', false);
+pros::adi::Pneumatics doinker('B', false);
 pros::adi::Pneumatics mogoClamp('H', false);
-
-//pros::adi::Port sensor("A", pros::E_ADI_DIGITAL_OUT);
-
 
 // inertial
 pros::Imu IMU(8);
@@ -36,6 +34,8 @@ pros::Imu IMU(8);
 // rotational sensor
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
+
+bool allianceColorBlue = true;
 
 pros::Optical optical(6);
 
