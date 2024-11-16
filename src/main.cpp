@@ -15,7 +15,7 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 }
 
@@ -74,10 +74,10 @@ void autonomous() {
 	// Debug: pros::Task ret4(logger);
 	//simpleSkills();
 	//simpleMogoAuton(true);
-	//ringAuton(allianceColorBlue);
+	ringAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(true);
 	//mogoAdvayAuton(allianceColorBlue);
-	LMSDSkills();
+	//LMSDSkills();
 	//chassis.waitUntilDone();
 }
 
@@ -100,9 +100,9 @@ void opcontrol() {
 	// INIT LADY BROWN:
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	LBRotation.reset_position();
-	// if (!LBLoopActive) { 
-	// 	pros::Task lb_task(LBLoop);
-	// }
+	if (!LBLoopActive) { 
+		pros::Task lb_task(LBLoop);
+	}
 	// Create tasks with proper handling
 	//pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);
