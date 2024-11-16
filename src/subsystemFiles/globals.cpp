@@ -37,7 +37,7 @@ pros::Rotation vertTracking(19);
 
 bool allianceColorBlue = true;
 
-pros::Optical optical(6);
+pros::Optical optical(7);
 
 pros::Rotation LBRotation(-6);
 

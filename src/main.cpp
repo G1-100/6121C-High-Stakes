@@ -16,6 +16,7 @@ void initialize() {
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = true; // VERY IMPORTANT
+	initColorSort();
 }
 
 
@@ -39,7 +40,7 @@ void competition_initialize() {}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
-        std::cout << "ANGLE: " << std::to_string(LBRotation.get_position() / 100) << "\n";
+        std::cout << "HUE: " << std::to_string(optical.get_hue()) << "\n";
         pros::delay(100);
         
         // Add a way to break the loop if needed
@@ -102,7 +103,7 @@ void opcontrol() {
 	// 	pros::Task lb_task(LBLoop);
 	// }
 	// Create tasks with proper handling
-	pros::Task logger_task(logger);
+	//pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);
   
 	// DRIVE CODE:
@@ -116,12 +117,12 @@ void opcontrol() {
       	// Activate Mogo Logic
 		setMogoMotors();
       	// Run Every 20 Seconds
-		pros::delay(20);
+		pros::delay(10);
 		
 	}
 	
 	// Ensure tasks are terminated properly
-    logger_task.remove();
+    //logger_task.remove();
     temp_task.remove();
 }
 

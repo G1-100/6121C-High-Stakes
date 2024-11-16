@@ -6,3 +6,7 @@ extern bool ColorLoopActive;
 void initColorSort();
 
 void doColorSort();
+
+void intakeUntilColor();
+
+void colorSortLoop();

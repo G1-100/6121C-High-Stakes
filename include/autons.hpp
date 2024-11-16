@@ -16,5 +16,7 @@ void simpleMogoAuton(bool isBlue);
 
 void mogoAdvayAuton(bool isBlue);
 
+void safeSoloAWP(bool isBlue);
+
 void skills();
 ASSET(skills1_txt);
