@@ -76,7 +76,8 @@ void autonomous() {
 	//simpleMogoAuton(true);
 	//ringAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(true);
-	mogoAdvayAuton(allianceColorBlue);
+	//mogoAdvayAuton(allianceColorBlue);
+	LMSDSkills();
 	//chassis.waitUntilDone();
 }
 

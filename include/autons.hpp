@@ -19,4 +19,7 @@ void mogoAdvayAuton(bool isBlue);
 void safeSoloAWP(bool isBlue);
 
 void skills();
+
+void LMSDSkills();
+
 ASSET(skills1_txt);
