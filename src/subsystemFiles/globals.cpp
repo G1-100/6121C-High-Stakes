@@ -19,7 +19,7 @@ pros::Motor driveRightMiddle(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits
 pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
-pros::Motor ladybrown(-1, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
+pros::Motor ladybrown(-6, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 
 
@@ -37,9 +37,9 @@ pros::Rotation vertTracking(19);
 
 bool allianceColorBlue = true;
 
-pros::Optical optical(7);
+pros::Optical optical(5);
 
-pros::Rotation LBRotation(-6);
+pros::Rotation LBRotation(7);
 
 //CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);

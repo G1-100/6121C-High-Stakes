@@ -8,8 +8,8 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 20; // angle of stopping point 1 actual -10
-double STOP2 = 160; // angle of stop 2 - 130
+double STOP1 = 20 - 10; // angle of stopping point 1 actual -10
+double STOP2 = 160 - 80; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
 double REST = 0;
@@ -85,11 +85,11 @@ void LBLoop() {
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //LBRotation.reset();
     while (true) {
-       //pros::lcd::print(2, "Angle: %f", LBRotation.get_position() / 100.0);
+       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             double curAngle = LBRotation.get_position() * -1 / 100.0;
             
-            if (curAngle < STOP1 + 5 && curAngle > STOP1 - 5) { // at stopping point 1
+            if (curAngle < (STOP1 + 10) + 5 && curAngle > (STOP1 + 10) - 5) { // at stopping point 1
                 LBExtend(2); // go to stopping point 2
             } else if (curAngle > STOP2 - 5) { // at stopping point 2
                 LBRetract(); // go to rest
@@ -98,5 +98,6 @@ void LBLoop() {
             }
         }
         pros::delay(20);
+        ladybrown.move(10);
     }
 }

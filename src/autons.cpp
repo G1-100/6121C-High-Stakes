@@ -340,38 +340,40 @@ void LMSDSkills() {
     chassis.waitUntilDone();
     chassis.turnToPoint(-48+2,22,3000, {.forwards=false, .maxSpeed=75});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48+2,22, 3000, {.forwards=false, .maxSpeed=75}); // move to mogo
+    setIntake(0);
+    chassis.moveToPoint(-48+2,22 + 4, 3000, {.forwards=false, .maxSpeed=75}); // move to mogo
     chassis.waitUntilDone();
     mogoClamp.toggle(); // clamp mogo
     pros::delay(600);
-    chassis.turnToPoint(-20, 24, 3000, {.maxSpeed=75});
+    chassis.turnToPoint(-20, 24 + 2, 3000, {.maxSpeed=75});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-20, 24, 3000, {.maxSpeed=75}); // move to ring outside ladder
+    setIntake(127);
+    chassis.moveToPoint(-20, 24 + 2, 3000, {.maxSpeed=75}); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
     chassis.moveToPoint(-24, 24, 3000, {.forwards = false, .maxSpeed=75}); // move back
     chassis.waitUntilDone();
     chassis.turnToPoint(-3, 55, 3000, {.maxSpeed=75});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-3, 55, 3000, {.maxSpeed=75}); // move to ring next to wall stake
+    chassis.moveToPoint(-3 - 2, 55 + 2, 3000, {.maxSpeed=75}); // move to ring next to wall stake
     chassis.waitUntilDone();
     pros::delay(1000);
-    chassis.turnToPoint(-26, 46, 3000, {.maxSpeed=75});
+    chassis.turnToPoint(-26, 46 + 3, 3000, {.maxSpeed=75});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-26, 46, 3000, {.maxSpeed=75}); // move to ring outside ladder
+    chassis.moveToPoint(-26, 46 + 3, 3000, {.maxSpeed=75}); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
-    chassis.moveToPoint(-24, 48, 3000, {.forwards=false, .maxSpeed=75});
+    chassis.moveToPoint(-24, 48 + 2, 3000, {.forwards=false, .maxSpeed=75});
     chassis.waitUntilDone();
-    chassis.turnToPoint(-60, 48, 3000, {.maxSpeed=60});
+    chassis.turnToPoint(-60, 48 + 2, 3000, {.maxSpeed=60});
     chassis.waitUntilDone();
     chassis.moveToPoint(-60, 48, 3000, {.maxSpeed=60}); // move to two top-left rings
     chassis.waitUntilDone();
-    pros::delay(700);
-    chassis.turnToPoint(-48, 60, 3000, {.maxSpeed=60});
+    pros::delay(700 + 500);
+    chassis.turnToPoint(-48, 60 + 3, 1500, {.maxSpeed=60});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48, 60, 3000, {.maxSpeed=60}); // move to top ring
-    pros::delay(700);
+    chassis.moveToPoint(-48, 60 + 3, 3000, {.maxSpeed=60}); // move to top ring
+    pros::delay(400);
     chassis.waitUntilDone();
     chassis.turnToPoint(-57.2, 57.2, 3000, {.forwards=false, .maxSpeed=60});
     chassis.waitUntilDone();
@@ -398,9 +400,9 @@ void LMSDSkills() {
     chassis.waitUntilDone();
     mogoClamp.toggle(); // clamp mogo
     pros::delay(200);
-    chassis.turnToPoint(24, -24, 3000, {.maxSpeed=100});
+    chassis.turnToPoint(24 - 3, -24, 3000, {.maxSpeed=100});
     chassis.waitUntilDone();
-    chassis.moveToPoint(24, -24, 3000, {.maxSpeed=100}); // move to ring
+    chassis.moveToPoint(24 - 3, -24, 3000, {.maxSpeed=100}); // move to ring
     chassis.waitUntilDone();
     chassis.turnToPoint(24, -48, 3000, {.maxSpeed=100});
     chassis.waitUntilDone();
@@ -410,7 +412,9 @@ void LMSDSkills() {
     chassis.waitUntilDone();
     chassis.moveToPoint(72, -72, 3000, {.forwards=false, .maxSpeed=127}); // move to corner
     chassis.waitUntilDone();
-
+    mogoClamp.toggle();
+    chassis.moveToPoint(72 - 10, -72 + 5, 3000);
+    chassis.waitUntilDone();
     
     /*chassis.turnToPoint(36, 36, 3000, {.forwards=false, .maxSpeed=60});
     chassis.waitUntilDone();
@@ -615,7 +619,7 @@ void ringAuton(bool isBlue) {
   pros::delay(400);
   // Turn to and move to bottom right rings of stack
   //chassis.turnToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 5), 3000,{},false);
-  chassis.moveToPoint((TSBRR.x + 6) * sgn, (TSBRR.y - 5 - 2), 3000, {.minSpeed = 60},false);
+  chassis.moveToPoint((TSBRR.x + 6 - 4) * sgn, (TSBRR.y - 5 - 2), 3000, {.minSpeed = 60},false);
   chassis.swingToHeading(-90 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT,3000); // swing to intake first stack
   chassis.waitUntilDone();
   pros::delay(200);
@@ -697,7 +701,7 @@ void ringAutonSimpler(bool isBlue) {
 void mogoAdvayAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
   //mogoClamp.toggle();
-	chassis.setPose(48*sgn,-60,90); //Starting Line
+	chassis.setPose(48*sgn,-60,90 * sgn); //Starting Line
 	chassis.moveToPoint((21 + 2.5)*sgn,-60,3000,{.forwards=false, .minSpeed = 90}); //Move next to ring stack
 	chassis.waitUntil(27 - 2);
   chassis.cancelMotion();
@@ -712,7 +716,7 @@ void mogoAdvayAuton(bool isBlue) {
 	chassis.turnToPoint((27 - 7 - 3)*sgn,-21 + 2,3000,{.forwards=false}); //Turn to mogo #2
 	clampMogo(false); //unclamp mogo#1
 	chassis.waitUntilDone();
-  pros::Task colorTask(colorSortLoop);
+  //pros::Task colorTask(colorSortLoop);
 	chassis.moveToPoint((27 - 6)*sgn,-21,3000,{.forwards=false});//Move to mogo #2
   chassis.waitUntil(10);
 	chassis.waitUntilDone();
@@ -721,12 +725,12 @@ void mogoAdvayAuton(bool isBlue) {
 	chassis.turnToPoint(25*sgn,-54,3000);//Turn to ring stack
 	chassis.waitUntilDone();
   setIntake(127);
-	chassis.moveToPoint((25 - 4)*sgn,-48 - 10,3000);//Move to ring stack
+	chassis.moveToPoint((21)*sgn,-48 - 10,3000);//Move to ring stack
 	chassis.waitUntilDone();
   pros::delay(800);
   chassis.moveToPoint(25*sgn,(-55 + 20),3000, {.forwards = false});//Move backwards
 	chassis.waitUntilDone();
-  colorTask.remove();
+  //colorTask.remove();
   chassis.turnToHeading(-5*sgn, 3000);//Turn to ladder
   chassis.waitUntilDone();
   setIntake(0);
@@ -750,7 +754,7 @@ void mogoAdvayAuton(bool isBlue) {
   chassis.turnToPoint(24 * sgn, -48, 3000); // turn to two stack
   chassis.waitUntilDone();
   setIntake(127);
-  chassis.moveToPoint(24 * sgn, -52, 3000); // move to two stack
+  chassis.moveToPoint(24 * sgn, -52 + 8, 3000); // move to two stack
   chassis.waitUntilDone();
   chassis.turnToPoint(8 * sgn, 0, 3000);
   chassis.waitUntilDone();
