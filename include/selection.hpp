@@ -1,38 +1,17 @@
-/*#pragma once
+#pragma once
 
 #include "main.h"
+#include <vector>
+#include <functional>
 
-// Autonomous routine options
-enum class AutonomousRoutine {
-    RING_BLUE,
-    RING_RED,
-    MOGO_BLUE,
-    MOGO_RED, 
-    SOLO_AWP_BLUE,
-    SOLO_AWP_RED,
-    RUSH_MOGO_BLUE,
-    RUSH_MOGO_RED,
-    SKILLS,
-    DISABLED
+class Selection {
+    public:
+        Selection(bool isBlue);
+        void handleSelection();
+        void displayMenu();
+        void registerAuton(const std::string& name, const std::string& description, std::function<void()> autonFunction);
+    private:
+        bool color;
+        int selectedAuton;
+        std::vector<std::tuple<std::string, std::string, std::function<void()>>> autons;
 };
-
-class AutonomousSelector {
-private:
-    static AutonomousSelector* instance;
-    AutonomousRoutine currentRoutine;
-    const char* routineNames[10];
-
-    AutonomousSelector(); // Private constructor for singleton
-
-public:
-    static AutonomousSelector* getInstance();
-    void nextRoutine();
-    void previousRoutine(); 
-    void updateDisplay();
-    void runSelectedAutonomous();
-};
-
-// Function to initialize the selector
-void initializeSelector();
-
-AutonomousSelector* selector;*/
