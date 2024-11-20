@@ -4,11 +4,7 @@ void moveMax(double dist, int timeout, double slowAt);
 
 void ringAuton(bool isBlue);
 
-void rightAutonBlue();
-
 void soloAWPAuton(bool isBlue);
-
-void simpleSkills();
 
 void soloAWPAutonTunedLMSD(bool isBlue);
 

@@ -17,6 +17,7 @@ void initialize() {
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
+
 }
 
 
@@ -74,9 +75,9 @@ void autonomous() {
 	// Debug: pros::Task ret4(logger);
 	//simpleSkills();
 	//simpleMogoAuton(true);
-	ringAuton(allianceColorBlue);
+	//ringAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(true);
-	//mogoAdvayAuton(allianceColorBlue);
+	mogoAdvayAuton(allianceColorBlue);
 	//LMSDSkills();
 	//chassis.waitUntilDone();
 }
