@@ -10,11 +10,9 @@ using namespace std;
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
 	chassis.calibrate();
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
-	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 }
@@ -36,7 +34,23 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    Selection selector = Selection(allianceColorBlue);
+    selector.registerAuton("Ring Auton", "Autonomous routine for rings", []() {
+        ringAuton(allianceColorBlue);
+    });
+    selector.registerAuton("Solo AWP Auton", "Autonomous routine for solo AWP", []() {
+        soloAWPAutonTunedLMSD(allianceColorBlue);
+    });
+    selector.registerAuton("Mogo Auton", "Autonomous routine for mogo", []() {
+        mogoAdvayAuton(allianceColorBlue);
+    });
+    selector.registerAuton("Skills", "Autonomous routine for skills", []() {
+        LMSDSkills();
+    });
+    selector.displayMenu();
+    selector.handleSelection();
+}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
@@ -72,13 +86,6 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-	//simpleSkills();
-	//simpleMogoAuton(true);
-	ringAuton(allianceColorBlue);
-	//soloAWPAutonTunedLMSD(true);
-	//mogoAdvayAuton(allianceColorBlue);
-	//LMSDSkills();
-	//chassis.waitUntilDone();
 }
 
 /**
