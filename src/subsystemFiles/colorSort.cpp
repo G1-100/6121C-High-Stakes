@@ -12,22 +12,23 @@ void initColorSort() {
 
 void doColorSort() {
         double hue = optical.get_hue();
-        cout << "HUE: " + to_string(hue) << "\n";
-        // if (ColorLoopActive) {
-        //     if (!allianceColorBlue && (hue > 80 && hue < 130)) { // alliance red and its blue
-        //     setIntake(127);
-        //     pros::delay(180);
-        //     setIntake(-127);
-        //     pros::delay(100);
-        //     }
-        //     else if (allianceColorBlue && hue < 30) { // alliance blue and its red
-        //         //cout << "RED DETECTED" << "\n";
-        //         setIntake(127);
-        //         pros::delay(180);
-        //         setIntake(-127);
-        //         pros::delay(100);
-        //     }
-        // }
+        //cout << "HUE: " + to_string(hue) << "\n";
+        if (ColorLoopActive) {
+            if (!allianceColorBlue && (hue > 80)) { // alliance red and its blue
+                cout << "BLUE DETECTED" << "\n";
+                setIntake(127);
+                pros::delay(180);
+                setIntake(-127);
+                pros::delay(100);
+            }
+            else if (allianceColorBlue && hue < 30) { // alliance blue and its red
+                cout << "RED DETECTED" << "\n";
+                setIntake(127);
+                pros::delay(180);
+                setIntake(-127);
+                pros::delay(100);
+            }
+        }
         
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
             ColorLoopActive = !ColorLoopActive;
@@ -36,7 +37,10 @@ void doColorSort() {
 
 void colorSortLoop() {
     while (true) {
+        setIntake(127);
         doColorSort();
+        
+        pros::delay(10);
     }
 }
 

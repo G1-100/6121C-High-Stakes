@@ -77,8 +77,8 @@ void autonomous() {
 	//simpleMogoAuton(true);
 	//ringAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(true);
-	mogoAdvayAuton(allianceColorBlue);
-	//LMSDSkills();
+	//mogoAdvayAuton(allianceColorBlue);
+	LMSDSkills();
 	//chassis.waitUntilDone();
 }
 
@@ -105,7 +105,7 @@ void opcontrol() {
 		pros::Task lb_task(LBLoop);
 	}
 	// Create tasks with proper handling
-	//pros::Task logger_task(logger);
+	pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);
   
 	// DRIVE CODE:
@@ -124,7 +124,7 @@ void opcontrol() {
 	}
 	
 	// Ensure tasks are terminated properly
-    //logger_task.remove();
+    logger_task.remove();
     temp_task.remove();
 }
 
