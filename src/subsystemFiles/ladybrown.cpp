@@ -8,8 +8,8 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 20 - 10; // angle of stopping point 1 actual -10
-double STOP2 = 160 - 80; // angle of stop 2 - 130
+double STOP1 = 20 - 7.5; // angle of stopping point 1 actual -10
+double STOP2 = 160 - 50; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
 double REST = 0;
@@ -91,8 +91,8 @@ void LBLoop() {
             
             if (curAngle < (STOP1 + 10) + 5 && curAngle > (STOP1 + 10) - 5) { // at stopping point 1
                 LBExtend(2); // go to stopping point 2
-            } else if (curAngle > STOP2 - 5) { // at stopping point 2
-                LBRetract(); // go to rest
+            //} else if (curAngle > STOP2 - 5) { // at stopping point 2
+            //    LBRetract(); // go to rest
             } else { // at rest
                 LBExtend(1); // go to stopping point 1
             }
