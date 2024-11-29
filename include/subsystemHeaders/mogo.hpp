@@ -10,4 +10,3 @@ void clampMogo(bool active);
 // Driver Control Functions
 void setMogoMotors();
 
-extern long buttonPressedTime;
