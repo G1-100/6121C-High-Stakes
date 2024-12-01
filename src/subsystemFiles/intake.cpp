@@ -1,6 +1,8 @@
 #include "main.h"
 #include "pros/misc.h"
 
+auto liftButton = pros::E_CONTROLLER_DIGITAL_A;
+
 // Helper functions
 void setIntake(int power) {
     // Sets the intake motor velocity directly using PROS motor control
@@ -32,4 +34,14 @@ void setIntakeMotors() {
     // Apply the calculated velocity to the intake motor
     setIntake(intakePower);
     doColorSort();
+}
+
+
+// Driver Control Functions
+void setIntakeLift() {
+    if (master.get_digital(liftButton)) { // button pressed
+        intakeLift.extend();
+    } else {
+        intakeLift.retract();
+    }
 }

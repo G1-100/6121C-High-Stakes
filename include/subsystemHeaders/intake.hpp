@@ -14,3 +14,4 @@ void setIntake(int power);  // Sets intake motor power
 // Driver Control Functions
 void setIntakeMotors();  // Handles R1/R2 button input for intake control
 
+void setIntakeLift();  // Handles L1 button input for intake lift control

@@ -28,9 +28,3 @@ static double _turnRemapping(double iturn);
 static void _updateAccumulators(double& quickStopAccumlator, double& negInertiaAccumlator);
 
 std::pair<double, double> cheesyDrive(double ithrottle, double iturn, double prevTurn, double prevThrottle, double& quickStopAccumlator, double& negInertiaAccumlator);
-
-static void turnToHeading(lemlib::Chassis chassis, float theta, int timeout, lemlib::TurnToHeadingParams params = {}, bool async = true);
-
-static void moveToPose(lemlib::Chassis chassis, float x, float y, float theta, int timeout, lemlib::MoveToPoseParams params = {}, bool async = true);
-
-static void moveToPoint(lemlib::Chassis chassis, float x, float y, int timeout, lemlib::MoveToPointParams params = {}, bool async = true);

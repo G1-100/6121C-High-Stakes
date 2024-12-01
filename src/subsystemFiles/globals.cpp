@@ -24,7 +24,7 @@ pros::Motor ladybrown(-6, pros::v5::MotorGears::red, pros::v5::MotorUnits::degre
 
 
 //pistons
-pros::adi::DigitalOut intakeLift('C');
+pros::adi::Pneumatics intakeLift('D', false);
 pros::adi::Pneumatics doinker('B', false);
 pros::adi::Pneumatics mogoClamp('H', false);
 

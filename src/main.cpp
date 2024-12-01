@@ -41,7 +41,7 @@ void competition_initialize() {}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
-        std::cout << "HUE: " << std::to_string(optical.get_hue()) << "\n";
+        //std::cout << "HUE: " << std::to_string(optical.get_hue()) << "\n";
         pros::delay(100);
         
         // Add a way to break the loop if needed
@@ -114,6 +114,7 @@ void opcontrol() {
 		runArcadeDrive();
       	// Activate Intake Logic
 		setIntakeMotors();
+		setIntakeLift();
 		// Activate Doinker Logic
 		setDoinker();
       	// Activate Mogo Logic
