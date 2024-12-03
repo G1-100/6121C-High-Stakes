@@ -653,6 +653,30 @@ void ringAuton(bool isBlue) {
 
 }
 
+void VexmenSoloAWP(bool isBlue) {
+  int sgn=isBlue?1:-1;
+  chassis.setPose(60*sgn,24,0);
+  intakeLift.retract();
+  setIntake(127);
+  clampMogo(false);
+  chassis.moveToPoint(60*sgn,0,3000);
+  chassis.waitUntilDone();
+  pros::delay(100);
+  setIntake(0);
+  chassis.turnToPoint(72*sgn,0,3000):
+  chassis.waitUntilDone();
+  setIntake(127);
+  pros::delay(200);
+  chassis.moveToPoint(22*sgn,22,3000,{.forwards=false});
+  chassis.waitUntilDone();
+  clampMogo(true);
+  chassis.turnToPoint(24*sgn,50,3000);
+  chassis.waitUntilDone();
+  chassis.moveToPoint(24*sgn,50,3000);
+  chassis.waitUntilDone();
+
+}
+
 void mogoAdvayAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
   //mogoClamp.toggle();
