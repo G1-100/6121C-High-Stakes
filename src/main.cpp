@@ -15,8 +15,8 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
-	initColorSort();
+	allianceColorBlue = true; // VERY IMPORTANT
+	//initColorSort();
 
 }
 
@@ -78,7 +78,8 @@ void autonomous() {
 	//ringAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(true);
 	//mogoAdvayAuton(allianceColorBlue);
-	LMSDSkills();
+	//LMSDSkills();
+	VexmenSoloAWP(true);
 	//chassis.waitUntilDone();
 }
 

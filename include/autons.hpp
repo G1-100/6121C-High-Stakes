@@ -14,6 +14,8 @@ void mogoAdvayAuton(bool isBlue);
 
 void safeSoloAWP(bool isBlue);
 
+void VexmenSoloAWP(bool isBlue);
+
 void skills();
 
 void LMSDSkills();
