@@ -665,7 +665,7 @@ void VexmenSoloAWP(bool isBlue) {
   chassis.moveToPoint(9.5*sgn,48-9.5,3000);
   chassis.waitUntilDone();
   pros::delay(200);
-  chassis.moveToPoint(24-)
+  //chassis.moveToPoint(24);
   /*chassis.turnToPoint(72-4*sgn,0,3000,{.forwards=false});
   chassis.waitUntilDone();
   chassis.moveToPoint(72-4*sgn,0,3000,{.forwards=false});

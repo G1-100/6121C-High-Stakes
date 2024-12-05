@@ -87,6 +87,8 @@ void LBRetract() {
                     //LBState = EXTENDED;
                     //pros::delay(300);
                     //LBRetract();
+                    timer = pros::millis();
+                    ladybrown.move(-127); // move beyond stopping point 2
                     break;
                 }
             }
@@ -95,6 +97,7 @@ void LBRetract() {
     std::cout << "Retracted to rest angle: " << curAngle << "\n";
     ladybrown.move(0);
     LBState = REST;
+    LBRotation.reset_position();
 }
 
 /**
@@ -106,7 +109,7 @@ void LBLoop() {
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //LBRotation.reset();
     while (true) {
-       std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
+       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             double curAngle = LBRotation.get_position() * -1 / 100.0;
             std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";

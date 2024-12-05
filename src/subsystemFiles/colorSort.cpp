@@ -17,16 +17,16 @@ void doColorSort() {
             if (!allianceColorBlue && (hue > 80)) { // alliance red and its blue
                 cout << "BLUE DETECTED" << "\n";
                 setIntake(127);
-                pros::delay(180);
+                pros::delay(40);
                 setIntake(-127);
-                pros::delay(100);
+                pros::delay(40);
             }
             else if (allianceColorBlue && hue < 30) { // alliance blue and its red
                 cout << "RED DETECTED" << "\n";
                 setIntake(127);
-                pros::delay(180);
+                pros::delay(40);
                 setIntake(-127);
-                pros::delay(100);
+                pros::delay(40);
             }
         }
         
