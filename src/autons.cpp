@@ -656,44 +656,49 @@ void ringAuton(bool isBlue) {
 void VexmenSoloAWP(bool isBlue) {
   int sgn=isBlue?1:-1;
   clampMogo(false);
-  chassis.setPose(50*sgn,36,-90*sgn);
-  chassis.moveToPoint(12*sgn,36,3000);
+  LBRetract();
+  chassis.setPose(51*sgn,36,-90*sgn);
+  chassis.moveToPoint(12*sgn,36,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
   setIntake(127);
-  chassis.turnToPoint(9.5*sgn,48-9.5,3000);
+  chassis.turnToPoint(2.5*sgn,48-2.5,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
-  chassis.moveToPoint(9.5*sgn,48-9.5,3000);
+  chassis.moveToPoint(2.5*sgn,48-2.5,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
-  pros::delay(200);
-  chassis.moveToPoint(24-)
-  /*chassis.turnToPoint(72-4*sgn,0,3000,{.forwards=false});
-  chassis.waitUntilDone();
-  chassis.moveToPoint(72-4*sgn,0,3000,{.forwards=false});
-  chassis.waitUntilDone();
-  setIntake(127);
-  pros::delay(200);
-  chassis.moveToPoint(48+4*sgn,0,3000);
-  chassis.waitUntilDone();
-  chassis.turnToPoint(24*sgn,24,3000,{.forwards=false});
-  chassis.waitUntilDone();
-  chassis.moveToPoint(24*sgn,24,3000,{.forwards=false});
+  pros::delay(500);
+  setIntake(0);
+  chassis.moveToPoint((23)*sgn,24,3000,{.forwards=false});
   chassis.waitUntilDone();
   clampMogo(true);
-  pros::delay(200);
-  chassis.turnToPoint(24*sgn,50,3000);
+  pros::delay(500);
+  //LBExtend(1);
+  setIntake(127);
+  chassis.turnToPoint(24,48,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
-  chassis.moveToPoint(24*sgn,50,3000);
-  chassis.waitUntilDone();
-  pros::delay(200);
-  chassis.turnToPoint(61*sgn,34,3000);
-  chassis.waitUntilDone();
-  chassis.moveToPoint(61*sgn,34,3000);
+  chassis.moveToPoint(24,50,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
   pros::delay(200);
-  chassis.moveToPoint(10*sgn,10,3000,{.forwards=false});
-  LBExtend(1);
+  setIntake(0);
+  chassis.turnToPoint(5,67,3000,{.maxSpeed=60});
   chassis.waitUntilDone();
-*/
+  chassis.moveToPoint(5,57,3000,{.maxSpeed=60});
+  chassis.waitUntilDone();
+  //LBExtend(2);
+  pros::delay(500);
+  //LBRetract();
+  chassis.turnToPoint(0,48,3000,{.forwards=false,.maxSpeed=60});
+  chassis.waitUntilDone();
+  chassis.moveToPoint(0,48,3000,{.forwards=false,.maxSpeed=60});
+  chassis.waitUntilDone();
+  setIntake(127);
+  chassis.turnToPoint(63,48,3000,{.maxSpeed=60});
+  chassis.waitUntilDone();
+  chassis.moveToPoint(63,48,3000,{.maxSpeed=60});
+  chassis.waitUntilDone();
+  chassis.turnToPoint(10,10,3000,{.forwards=false,.maxSpeed=60});
+  chassis.waitUntilDone();
+  chassis.moveToPoint(10,10,3000,{.forwards=false,.maxSpeed=60});
+  chassis.waitUntilDone();
 }
 
 void mogoAdvayAuton(bool isBlue) {
