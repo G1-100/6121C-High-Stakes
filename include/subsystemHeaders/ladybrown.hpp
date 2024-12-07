@@ -14,6 +14,8 @@ extern bool LBLoopActive;
 
 void LBExtend(int point);
 
+void LBReset();
+
 void LBRetract();
 
 void LBLoop();

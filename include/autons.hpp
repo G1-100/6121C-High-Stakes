@@ -16,6 +16,8 @@ void safeSoloAWP(bool isBlue);
 
 void VexmenSoloAWP(bool isBlue);
 
+void MogoSideSoloAWP(bool isBlue);
+
 void skills();
 
 void LMSDSkills();

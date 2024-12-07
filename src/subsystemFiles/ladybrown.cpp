@@ -52,7 +52,7 @@ void LBExtend(int point) {
         std::cout << curAngle << "\n";
         pros::delay(10);
     }
-    std::cout << "Reached Goal Angle: " << curAngle << "\n";
+    std::cout << "Reached Angle: " << curAngle << "\n";
     ladybrown.move(0); // stop once done
     if (point == 1) {
         LBState = PROPPED;
@@ -72,29 +72,39 @@ void LBRetract() {
     double curAngle = LBRotation.get_position() * -1 / 100.0;
     std::cout << "Retracting to rest angle\n";
     ladybrown.move(-127); // move beyond stopping point 2
-    while (curAngle >= RESTANGLE) { // while it has not gone above the start angle, this is weird but works
-        curAngle = LBRotation.get_position() * -1 / 100.0;
-        std::cout << "Current Angle: " << curAngle << "\n";
-        std::cout << pros::millis() - timer << "\n";
-        pros::delay(20);
-        if (pros::millis() - timer > 1000) { // if it takes too long, stop
-            //std::cout << "Retract timeout, extending to point 2\n";
-            ladybrown.move(0);
-            LBState = PROPPED;
-            while (true) {
-                if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-                    LBExtend(2);
-                    //LBState = EXTENDED;
-                    //pros::delay(300);
-                    //LBRetract();
-                    break;
-                }
-            }
-        }
-    }
-    std::cout << "Retracted to rest angle: " << curAngle << "\n";
+    pros::delay(2000);
+    // while (curAngle >= RESTANGLE) { // while it has not gone above the start angle, this is weird but works
+    //     curAngle = LBRotation.get_position() * -1 / 100.0;
+    //     std::cout << "Current Angle: " << curAngle << "\n";
+    //     std::cout << pros::millis() - timer << "\n";
+    //     pros::delay(20);
+    //     if (pros::millis() - timer > 1000) { // if it takes too long, stop
+    //         //std::cout << "Retract timeout, extending to point 2\n";
+    //         ladybrown.move(0);
+    //         LBState = PROPPED;
+    //         while (true) {
+    //             if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+    //                 LBExtend(2);
+    //                 //LBState = EXTENDED;
+    //                 //pros::delay(300);
+    //                 //LBRetract();
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
+    // std::cout << "Retracted to rest angle: " << curAngle << "\n";
     ladybrown.move(0);
+    LBRotation.set_position(0);
     LBState = REST;
+}
+
+void LBReset() {
+    ladybrown.move(100);
+    pros::delay(2500);
+    LBRotation.set_position(-12000);
+    ladybrown.move(0);
+    LBState = EXTENDED;
 }
 
 /**
@@ -106,12 +116,12 @@ void LBLoop() {
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //LBRotation.reset();
     while (true) {
-       std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
+       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             double curAngle = LBRotation.get_position() * -1 / 100.0;
             std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
             
-            if (curAngle < (STOP1 + 10) + 5 && curAngle > (STOP1 + 10) - 5) { // at stopping point 1
+            if (curAngle < (STOP1) + 5 && curAngle > (STOP1) - 5) { // at stopping point 1
                 std::cout << "At stopping point 1, extending to point 2\n";
                 LBExtend(2); // go to stopping point 2
             } else if (curAngle > STOP2 - 5) { // at stopping point 2
@@ -121,6 +131,9 @@ void LBLoop() {
                 std::cout << "At rest, extending to point 1\n";
                 LBExtend(1); // go to stopping point 1
             }
+        }
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+            LBReset();
         }
         pros::delay(20);
         ladybrown.move(10);

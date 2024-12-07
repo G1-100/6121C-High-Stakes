@@ -45,10 +45,12 @@ void colorSortLoop() {
 }
 
 void intakeUntilColor() { // TASK ONLY
+    intake.move(90);
     double hue = optical.get_hue();
     if (allianceColorBlue) {
-        while (hue > 30) {
-            setIntake(127);
+        while (hue < 60) {
+            hue = optical.get_hue();
+            setIntake(80);
             pros::delay(10);
         }
     } else {
@@ -57,5 +59,7 @@ void intakeUntilColor() { // TASK ONLY
             pros::delay(10);
         }
     }
+    setIntake(-127);
+    pros::delay(150);
     setIntake(0);
 }

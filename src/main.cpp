@@ -73,14 +73,13 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-	//simpleSkills();
-	//simpleMogoAuton(true);
 	//ringAuton(allianceColorBlue);
-	//soloAWPAutonTunedLMSD(true);
-	//mogoAdvayAuton(allianceColorBlue);
+	MogoSideSoloAWP(allianceColorBlue);
 	//LMSDSkills();
-	VexmenSoloAWP(true);
-	//chassis.waitUntilDone();
+	//mogoAdvayAuton(allianceColorBlue);
+	//VexmenSoloAWP(allianceColorBlue);
+	//simpleMogoAuton(allianceColorBlue);
+	//soloAWPAutonTunedLMSD(allianceColorBlue);
 }
 
 /**
@@ -106,7 +105,9 @@ void opcontrol() {
 		pros::Task lb_task(LBLoop);
 	}
 	// Create tasks with proper handling
-	pros::Task logger_task(logger);
+	//pros::Task logger_task(logger);
+	// pros::Task colorUntil(intakeUntilColor);
+	// pros::delay(100000);
 	pros::Task temp_task(checkTemp);
   
 	// DRIVE CODE:
@@ -126,7 +127,7 @@ void opcontrol() {
 	}
 	
 	// Ensure tasks are terminated properly
-    logger_task.remove();
+    //logger_task.remove();
     temp_task.remove();
 }
 
