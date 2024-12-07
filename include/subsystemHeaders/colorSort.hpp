@@ -3,6 +3,8 @@
 
 extern bool ColorLoopActive;
 
+extern bool wrongColorDetected;
+
 void initColorSort();
 
 void doColorSort();

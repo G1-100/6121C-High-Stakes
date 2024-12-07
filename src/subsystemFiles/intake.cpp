@@ -36,6 +36,7 @@ void setIntakeMotors() {
     if (LBState == REST) {
         doColorSort();
     }
+    
 }
 
 
