@@ -74,12 +74,10 @@ void autonomous() {
 
 	// Debug: pros::Task ret4(logger);
 	//ringAuton(allianceColorBlue);
-	MogoSideSoloAWP(allianceColorBlue);
-	//LMSDSkills();
 	//mogoAdvayAuton(allianceColorBlue);
-	//VexmenSoloAWP(allianceColorBlue);
-	//simpleMogoAuton(allianceColorBlue);
-	//soloAWPAutonTunedLMSD(allianceColorBlue);
+	//LMSDSkills();
+	//VexmenSoloAWP(true);
+	//chassis.waitUntilDone();
 }
 
 /**
