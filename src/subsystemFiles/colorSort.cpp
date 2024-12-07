@@ -19,6 +19,7 @@ void doColorSort() {
                 setIntake(127);
                 pros::delay(40);
                 setIntake(-127);
+                pros::delay(100);
                 pros::delay(40);
             }
             else if (allianceColorBlue && hue < 30) { // alliance blue and its red
@@ -26,6 +27,7 @@ void doColorSort() {
                 setIntake(127);
                 pros::delay(40);
                 setIntake(-127);
+                pros::delay(100);
                 pros::delay(40);
             }
         }
@@ -45,17 +47,22 @@ void colorSortLoop() {
 }
 
 void intakeUntilColor() { // TASK ONLY
+    intake.move(90);
     double hue = optical.get_hue();
     if (allianceColorBlue) {
-        while (hue > 30) {
-            setIntake(127);
+        while (hue < 60) {
+            hue = optical.get_hue();
+            setIntake(80);
             pros::delay(10);
         }
     } else {
-        while (hue < 80) {
-            setIntake(127);
+        while (hue > 35) {
+            hue = optical.get_hue();
+            setIntake(80);
             pros::delay(10);
         }
     }
+    setIntake(-127);
+    pros::delay(150);
     setIntake(0);
 }
