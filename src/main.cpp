@@ -15,7 +15,7 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
+	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
 
 }
