@@ -2,6 +2,11 @@
 
 using namespace std;
 
+double ambientHue;
+long runStart;
+bool testedAmbient = false;
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -98,6 +103,7 @@ void autonomous() {
 void opcontrol() {
 	// OP CONTROL RESET:
 	brakeModeCoast();
+	runStart = pros::millis();
 	// INIT LADY BROWN:
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	LBRotation.reset_position();
@@ -105,10 +111,13 @@ void opcontrol() {
 		pros::Task lb_task(LBLoop);
 	}
 	// Create tasks with proper handling
-	//pros::Task logger_task(logger);
+	pros::Task logger_task(logger);
 	// pros::Task colorUntil(intakeUntilColor);
 	// pros::delay(100000);
 	pros::Task temp_task(checkTemp);
+
+
+	
   
 	// DRIVE CODE:
 	while (true) {
@@ -122,12 +131,20 @@ void opcontrol() {
       	// Activate Mogo Logic
 		setMogoMotors();
       	// Run Every 20 Seconds
+
+		if (pros::millis() - runStart > 2000 && !testedAmbient) {
+			testedAmbient = true;
+			ambientHue = optical.get_hue();
+			activateColorSort();
+			cout << "Ambient Hue: " + to_string(ambientHue) << "\n";
+		}
+
 		pros::delay(10);
 		
 	}
 	
 	// Ensure tasks are terminated properly
-    //logger_task.remove();
+    logger_task.remove();
     temp_task.remove();
 }
 

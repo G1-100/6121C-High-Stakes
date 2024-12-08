@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 20 - 7.5; // angle of stopping point 1 actual -10
+double STOP1 = 15 + 2; // angle of stopping point 1 actual -10
 double STOP2 = 160 - 50; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
@@ -41,7 +41,7 @@ void LBExtend(int point) {
     ladybrown.move(power);
       
     while (abs(GOALANGLE - curAngle) > 3) { // ends once above goal angle
-        std::cout << ladybrown.get_power() << "\n";
+        //std::cout << ladybrown.get_power() << "\n";
         curAngle = LBRotation.get_position() * -1 / 100.0;
         std::cout << "Current Angle: " << curAngle << "\n";
         if (curAngle > GOALANGLE) {
@@ -62,39 +62,21 @@ void LBExtend(int point) {
     
 }
 
+void LBReset() {
+    ladybrown.move(100);
+    pros::delay(2500);
+    LBRotation.set_position(-12000);
+    ladybrown.move(0);
+    LBState = EXTENDED;
+}
 
 /**
  * @brief Retracts ladybrown to rest angle
  * 
  */
 void LBRetract() {
-    long timer = pros::millis();
-    double curAngle = LBRotation.get_position() * -1 / 100.0;
-    std::cout << "Retracting to rest angle\n";
     ladybrown.move(-127); // move beyond stopping point 2
-    while (curAngle >= RESTANGLE) { // while it has not gone above the start angle, this is weird but works
-        curAngle = LBRotation.get_position() * -1 / 100.0;
-        std::cout << "Current Angle: " << curAngle << "\n";
-        std::cout << pros::millis() - timer << "\n";
-        pros::delay(20);
-        if (pros::millis() - timer > 1000) { // if it takes too long, stop
-            //std::cout << "Retract timeout, extending to point 2\n";
-            ladybrown.move(0);
-            LBState = PROPPED;
-            while (true) {
-                if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-                    LBExtend(2);
-                    //LBState = EXTENDED;
-                    //pros::delay(300);
-                    //LBRetract();
-                    timer = pros::millis();
-                    ladybrown.move(-127); // move beyond stopping point 2
-                    break;
-                }
-            }
-        }
-    }
-    std::cout << "Retracted to rest angle: " << curAngle << "\n";
+    pros::delay(1000);
     ladybrown.move(0);
     LBState = REST;
     LBRotation.reset_position();
@@ -109,21 +91,29 @@ void LBLoop() {
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //LBRotation.reset();
     while (true) {
+        ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
        //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             double curAngle = LBRotation.get_position() * -1 / 100.0;
-            std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
-            
-            if (curAngle < (STOP1 + 10) + 5 && curAngle > (STOP1 + 10) - 5) { // at stopping point 1
-                std::cout << "At stopping point 1, extending to point 2\n";
-                LBExtend(2); // go to stopping point 2
-            } else if (curAngle > STOP2 - 5) { // at stopping point 2
-                std::cout << "At stopping point 2, retracting to rest\n";
-                LBRetract(); // go to rest
-            } else { // at rest
+            //std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
+
+            if (curAngle < STOP1 - 5) { // at stopping point 1
                 std::cout << "At rest, extending to point 1\n";
-                LBExtend(1); // go to stopping point 1
+                LBExtend(1); // go to stopping point 2
+            } else if (curAngle < STOP2 - 5) { // at stopping point 2
+                std::cout << "At stopping point 2, retracting to rest\n";
+                LBExtend(2); // go to rest
+            } else { // at rest
+                std::cout << "At EXTENDED, going to rest\n";
+                LBRetract(); // go to stopping point 1
             }
+        }
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+            LBReset();
+        }
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            LBRetract();
         }
         pros::delay(20);
         ladybrown.move(10);
