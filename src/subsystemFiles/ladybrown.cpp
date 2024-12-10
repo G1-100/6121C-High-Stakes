@@ -9,7 +9,7 @@
 
 double RESTANGLE = 0; // actual -30
 double STOP1 = 15 + 2; // angle of stopping point 1 actual -10
-double STOP2 = 160 - 50; // angle of stop 2 - 130
+double STOP2 = 160 - 40; // angle of stop 2 - 130
 
 // THESE ARE CURRENTLY UNUSED
 double REST = 0;
