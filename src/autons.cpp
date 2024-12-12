@@ -326,7 +326,7 @@ void MogoSideSoloAWP(bool isBlue) {
   lemlib::Pose preload(60,-27.5);
   lemlib::Pose allianceRing(48,0);
   int sgn=sign(isBlue);
-  lemlib::Pose start(60 * sgn,-27.5+(14.5/2),-90 * sgn);
+  lemlib::Pose start(60,-27.5+(14.5/2),-90);
   intakeLift.toggle();
   intake.move(127);
   chassis.setPose(start.x*sgn,start.y,start.theta*sgn);
