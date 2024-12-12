@@ -78,8 +78,8 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-	//ringAuton(allianceColorBlue);
-	MogoSideSoloAWP(allianceColorBlue);
+	ringAuton(allianceColorBlue);
+	//MogoSideSoloAWP(allianceColorBlue);
 	//LMSDSkills();
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);

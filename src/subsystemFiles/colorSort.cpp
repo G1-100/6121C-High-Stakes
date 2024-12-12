@@ -9,6 +9,7 @@ bool ColorLoopActive = false;
 void initColorSort() {
     ColorLoopActive = false;
     optical.set_led_pwm(100);
+    double ambientHue = 40;
 }
 
 void activateColorSort() {
@@ -67,6 +68,6 @@ void intakeUntilColor() { // TASK ONLY
         }
     }
     setIntake(-127);
-    pros::delay(50);
+    pros::delay(250);
     setIntake(0);
 }
