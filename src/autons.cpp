@@ -271,7 +271,6 @@ void ringAuton(bool isBlue) {
   intakeLift.toggle();
   chassis.moveToPoint((40)*sgn, 2, 3000,{.minSpeed = 80}); // move to two stack
   chassis.waitUntilDone();
-  intakeLift
   chassis.moveToPoint(20*sgn, -3, 3000);
 
 }
@@ -325,9 +324,9 @@ void AceRingSideSoloAWP(bool isBlue) {
 }
 void MogoSideSoloAWP(bool isBlue) {
   lemlib::Pose preload(60,-27.5);
-  lemlib::Pose start(60,-27.5+(14.5/2),-90);
   lemlib::Pose allianceRing(48,0);
   int sgn=sign(isBlue);
+  lemlib::Pose start(60 * sgn,-27.5+(14.5/2),-90 * sgn);
   intakeLift.toggle();
   intake.move(127);
   chassis.setPose(start.x*sgn,start.y,start.theta*sgn);
@@ -342,44 +341,44 @@ void MogoSideSoloAWP(bool isBlue) {
   chassis.moveToPoint((start.x)*sgn,(start.y),3000, {.forwards = false, .minSpeed = 50}); // move back to starting position
   chassis.waitUntilDone();
   //intake.move(0);
-  chassis.turnToPoint(62,-5 - 1,3000, {.minSpeed = 50}); // turn to AWS area
+  chassis.turnToPoint(62 * sgn,-5 - 1,3000, {.minSpeed = 50}); // turn to AWS area
   chassis.waitUntilDone();
-  chassis.moveToPoint(62,-6 + 2,3000); // move to AWS area
+  chassis.moveToPoint(62 * sgn,-6 + 2,3000); // move to AWS area
   chassis.waitUntilDone();
   //LBRetract(); // retract ladybrown
   intake.move(0); // stop intake
-  chassis.turnToHeading(-90 + 5,3000, {.minSpeed = 50}); // turn to AWS
+  chassis.turnToHeading(-85 * sgn,3000, {.minSpeed = 50}); // turn to AWS
   chassis.waitUntilDone();
   //colorUntil.remove();
-  chassis.moveToPoint(67 - 1,-8 + 2,1000,{.forwards=false,.minSpeed=50}); // move to AWS
+  chassis.moveToPoint(66 * sgn,-8 + 2,1000,{.forwards=false,.minSpeed=50}); // move to AWS
   chassis.waitUntil(2);
   intake.move(127); // score on AWS
   chassis.waitUntilDone();
   pros::delay(200);
   intake.move(0);
-  chassis.moveToPoint(55,-6 - 8,3000, {.minSpeed = 60}); // move toward ladder a little
+  chassis.moveToPoint(55 * sgn,-6 - 8,3000, {.minSpeed = 60}); // move toward ladder a little
   chassis.waitUntilDone();
-  chassis.turnToPoint(28 + 4,-30,3000,{.forwards=false, .minSpeed = 50}); // turn to mogo
+  chassis.turnToPoint(32 * sgn,-30,3000,{.forwards=false, .minSpeed = 50}); // turn to mogo
   chassis.waitUntilDone();
-  chassis.moveToPoint(28 + 4,-30,3000,{.forwards=false, .minSpeed = 60, .earlyExitRange = 3}); // move to mogo
+  chassis.moveToPoint(32 * sgn,-30,3000,{.forwards=false, .minSpeed = 60, .earlyExitRange = 3}); // move to mogo
   chassis.waitUntilDone();
   mogoClamp.toggle(); // clamp mogo
   intake.move(127);
-  chassis.turnToPoint(35,-45 + 4,3000); // turn to two stack
+  chassis.turnToPoint(35 * sgn,-45 + 4,3000); // turn to two stack
   chassis.waitUntilDone();
-  chassis.moveToPoint(35,-45 + 4,3000, {.minSpeed = 60}); // move to two stack
+  chassis.moveToPoint(35 * sgn,-45 + 4,3000, {.minSpeed = 60}); // move to two stack
   chassis.waitUntilDone();
   pros::Task sortColor(colorSortLoop); // start color sort
   pros::delay(700);
-  chassis.turnToPoint(60 - 3,-26 - 2,3000, {.minSpeed = 60, .earlyExitRange = 5}); // turn to preload
+  chassis.turnToPoint(57 * sgn,-26 - 2,3000, {.minSpeed = 60, .earlyExitRange = 5}); // turn to preload
   chassis.waitUntilDone();
-  chassis.moveToPoint(60 - 3,-26 - 2,3000, {.minSpeed = 60}); // move to preload
+  chassis.moveToPoint(57 * sgn,-26 - 2,3000, {.minSpeed = 60}); // move to preload
   chassis.waitUntilDone();
   pros::delay(400);
-  chassis.turnToPoint(18,-18,3000); // turn to ladder
+  chassis.turnToPoint(18 * sgn,-18,3000); // turn to ladder
   chassis.waitUntilDone();
   sortColor.remove(); // stop color sort
-  chassis.moveToPoint(18,-18,3000, {.minSpeed = 80}); // move to ladder
+  chassis.moveToPoint(18 * sgn,-18,3000, {.minSpeed = 80}); // move to ladder
   chassis.waitUntilDone();
 
 

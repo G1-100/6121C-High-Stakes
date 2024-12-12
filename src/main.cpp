@@ -20,7 +20,7 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -78,8 +78,8 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-	ringAuton(allianceColorBlue);
-	//MogoSideSoloAWP(allianceColorBlue);
+	//ringAuton(allianceColorBlue);
+	MogoSideSoloAWP(allianceColorBlue);
 	//LMSDSkills();
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
