@@ -81,6 +81,7 @@ void moveMax(double dist, int timeout) {
 void LMSDSkills() {
     chassis.setPose(-63, 0, 90); // starts at middle of red alliance line
     setIntake(127); // score on alliance stake
+    pros::Task lb_task(LBLoop);
     pros::delay(500);
     chassis.moveToPoint(-48, 0, 3000); // move away from alliance stake
     chassis.waitUntilDone();
@@ -95,6 +96,7 @@ void LMSDSkills() {
     chassis.follow(skills1_txt, 15, 3000); // pure pursuit two rings
     chassis.waitUntilDone();
     pros::delay(1000);
+    LBExtend(1); // prop up ladybrown
     // chassis.moveToPoint(-22 - 2, -24 + 3, 3000); // pickup ring outside ladder
     // chassis.waitUntilDone();
     // pros::delay(600);
@@ -104,13 +106,23 @@ void LMSDSkills() {
     // chassis.moveToPoint(24, -48, 3000); // move to farther ring
     // chassis.waitUntilDone();
 
-    chassis.turnToPoint(-5 + 2, -55 + 2, 3000);
+    chassis.turnToPoint(-7 - 1, -53, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-5 + 2, -55 + 2, 3000); // pickup ring next to wall stake
+    chassis.moveToPoint(-7 - 1, -53, 3000); // pickup ring next to wall stake
     chassis.waitUntilDone();
     pros::delay(1000);
+    chassis.turnToHeading(180, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-7 - 1, -60, 3000); // move to wall stake
+    intake.move(0);
+    LBExtend(2); // extend ladybrown
+    pros::delay(1000);
+    chassis.moveToPoint(-8, -50, 3000, {.forwards = false}); // go back a bit
+    chassis.waitUntilDone();
+    LBRetract(); // retract ladybrown
     chassis.turnToPoint(-26, -46 + 3, 3000);
     chassis.waitUntilDone();
+    intake.move(127);
     chassis.moveToPoint(-26, -46 + 3, 3000); // pickup ring next to wall stake
     chassis.waitUntilDone();
     pros::delay(600);
@@ -235,21 +247,25 @@ void ringAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
   chassis.setPose(rightAutonBluePos.x * sgn, rightAutonBluePos.y, 90 * sgn); // Set position for left auton
   //mogoClamp.toggle();
-  chassis.moveToPoint((URM.x + 4) * sgn, URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
+  chassis.moveToPoint((URM.x + 4 - 1) * sgn, URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
   //chassis.waitUntil(17 + 2);
   // Mogo piston activate
   chassis.waitUntilDone();
   mogoClamp.toggle();
   pros::Task color_task(colorSortLoop); // Start color sorting task
+  //pros::delay(200);
   setIntake(127); // turn on intake
   pros::delay(400);
   // Turn to and move to middle stacks of rings
   chassis.turnToPoint((TSBRR.x) * sgn, (TSBRR.y - 5), 3000,{},false); // turn to rings
-  chassis.follow(isBlue?ringRushBlue_txt:ringRushRed_txt, 15, 4000); // pure pursuit move while intaking rings
+  chassis.follow(isBlue?ringRushBlue_txt:ringRushRed_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.waitUntil(23);
+  chassis.cancelMotion();
+  pros::delay(1500); // wait a little
+  chassis.follow(isBlue?ringRushBlue_txt:ringRushRed_txt, 15, 3500); // pure pursuit move while intaking rings
   chassis.waitUntilDone();
-  pros::delay(2000); // wait a little
 
-  chassis.moveToPoint((15) * sgn, 24, 3000, {.forwards=false}); // move back a lot
+  chassis.moveToPoint((15) * sgn, 24, 2000, {.forwards=false}); // move back a lot
   chassis.waitUntilDone();
 
   chassis.turnToPoint((18) * sgn, 48 - 3.5, 3000); // turn to 3rd two stack
@@ -259,19 +275,24 @@ void ringAuton(bool isBlue) {
   pros::delay(550);
   chassis.moveToPoint((18) * sgn, 48 - 8.5 + 1.5, 1000); // move back a little
   chassis.waitUntilDone();
-  mogoClamp.toggle(); // drop mogo
+  //mogoClamp.toggle(); // drop mogo
 
   //TODO: FINISH REST LATER
-  chassis.moveToPoint((TSTRR.x+35)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
+  chassis.moveToPoint((TSTRR.x+30)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
   chassis.waitUntil(8);
   //setIntake(0);
   chassis.waitUntilDone();
   //mogoClamp.toggle();
-  chassis.turnToPoint((40)*sgn, 2, 3000,{}, false); // turn to alliance wall stake
+  chassis.turnToPoint((45)*sgn, 8, 3000,{}, false); // turn to alliance wall stake
   intakeLift.toggle();
-  chassis.moveToPoint((40)*sgn, 2, 3000,{.minSpeed = 80}); // move to two stack
+  chassis.moveToPoint((45 - 3)*sgn, 8 - 4, 3000,{.maxSpeed = 50}); // move to two stack
   chassis.waitUntilDone();
-  chassis.moveToPoint(20*sgn, -3, 3000);
+  intakeLift.toggle();
+  chassis.moveToPoint((45 - 2)*sgn, 8 + 10, 3000,{.forwards = false, .maxSpeed = 50}); // move back
+  chassis.waitUntilDone();
+  
+  pros::delay(2000);
+  //chassis.moveToPoint(20*sgn, -3, 3000);
 
 }
 
@@ -328,58 +349,62 @@ void MogoSideSoloAWP(bool isBlue) {
   int sgn=sign(isBlue);
   lemlib::Pose start(60,-27.5+(14.5/2),-90);
   intakeLift.toggle();
-  intake.move(127);
   chassis.setPose(start.x*sgn,start.y,start.theta*sgn);
+  intake.move(127);
   //LBExtend(1); // prop up ladybrown as hard stop for ring
-  chassis.turnToPoint((allianceRing.x + 6)*sgn,allianceRing.y,3000); // turn to two stack
+  chassis.turnToPoint((allianceRing.x + 6)*sgn,allianceRing.y,3000, {.minSpeed = 60, .earlyExitRange = 3}); // turn to two stack
   chassis.waitUntilDone();
-  chassis.moveToPoint((allianceRing.x + 6)*sgn,(allianceRing.y - 9),3000, {.maxSpeed=30}); // move to two stack
-  chassis.waitUntil(10);
+  chassis.moveToPoint((allianceRing.x + 6)*sgn,(allianceRing.y - 9 - 4),2000, {.minSpeed=60}); // move to two stack
+  //chassis.waitUntil(13);
+  chassis.waitUntilDone();
   intakeLift.toggle(); // lift intake to get rings
-  chassis.waitUntilDone();
   pros::Task colorUntil(intakeUntilColor); // start color sort
-  chassis.moveToPoint((start.x)*sgn,(start.y),3000, {.forwards = false, .minSpeed = 50}); // move back to starting position
+  chassis.moveToPoint((start.x)*sgn,(start.y),1500, {.forwards = false, .minSpeed = 50}); // move back to starting position
   chassis.waitUntilDone();
   //intake.move(0);
-  chassis.turnToPoint(62 * sgn,-5 - 1,3000, {.minSpeed = 50}); // turn to AWS area
+  chassis.turnToPoint((60 - 2) * sgn,-6 - 0.5,3000, {.minSpeed = 50}); // turn to AWS area
   chassis.waitUntilDone();
-  chassis.moveToPoint(62 * sgn,-6 + 2,3000); // move to AWS area
+  chassis.moveToPoint((60 - 2) * sgn,-6 - 0.5,3000); // move to AWS area
   chassis.waitUntilDone();
   //LBRetract(); // retract ladybrown
   intake.move(0); // stop intake
-  chassis.turnToHeading(-85 * sgn,3000, {.minSpeed = 50}); // turn to AWS
+  chassis.turnToHeading(-93 * sgn,3000, {.maxSpeed = 50}); // turn to AWS
   chassis.waitUntilDone();
-  //colorUntil.remove();
-  chassis.moveToPoint(66 * sgn,-8 + 2,1000,{.forwards=false,.minSpeed=50}); // move to AWS
-  chassis.waitUntil(2);
+  //colorUntil.suspend();
+  stopColorUntilFunction(); // stop color wait
+  chassis.moveToPoint((66 - 1) * sgn,-8 + 0.5,1500,{.forwards=false, .maxSpeed=60}); // move to AWS
+  //chassis.waitUntil(2);
+  chassis.waitUntilDone();
   intake.move(127); // score on AWS
-  chassis.waitUntilDone();
-  pros::delay(200);
-  intake.move(0);
-  chassis.moveToPoint(55 * sgn,-6 - 8,3000, {.minSpeed = 60}); // move toward ladder a little
-  chassis.waitUntilDone();
-  chassis.turnToPoint(32 * sgn,-30,3000,{.forwards=false, .minSpeed = 50}); // turn to mogo
-  chassis.waitUntilDone();
-  chassis.moveToPoint(32 * sgn,-30,3000,{.forwards=false, .minSpeed = 60, .earlyExitRange = 3}); // move to mogo
-  chassis.waitUntilDone();
-  mogoClamp.toggle(); // clamp mogo
-  intake.move(127);
-  chassis.turnToPoint(35 * sgn,-45 + 4,3000); // turn to two stack
-  chassis.waitUntilDone();
-  chassis.moveToPoint(35 * sgn,-45 + 4,3000, {.minSpeed = 60}); // move to two stack
-  chassis.waitUntilDone();
-  pros::Task sortColor(colorSortLoop); // start color sort
   pros::delay(700);
-  chassis.turnToPoint(57 * sgn,-26 - 2,3000, {.minSpeed = 60, .earlyExitRange = 5}); // turn to preload
+  intake.move(0);
+  chassis.moveToPoint((50 - 2) * sgn,-6 - 8,3000, {.minSpeed = 60}); // move toward ladder a little
   chassis.waitUntilDone();
-  chassis.moveToPoint(57 * sgn,-26 - 2,3000, {.minSpeed = 60}); // move to preload
+  chassis.turnToPoint((32 - 9) * sgn,-30 - 3,3000,{.forwards=false, .minSpeed = 50}); // turn to mogo
   chassis.waitUntilDone();
-  pros::delay(400);
+  chassis.moveToPoint((32 - 9) * sgn,-30 - 3,3000,{.forwards=false, .minSpeed = 60, .earlyExitRange = 3}); // move to mogo
+  chassis.waitUntil(25 + 2);
+  mogoClamp.toggle(); // clamp mogo
+  chassis.waitUntilDone();
+  intake.move(127);
+  chassis.turnToPoint((24 - 1) * sgn,-45 + 2.5,2000); // turn to two stack
+  chassis.waitUntilDone();
+  chassis.moveToPoint((24 - 1) * sgn,-45 + 2.5,3000, {.minSpeed = 65}); // move to two stack
+  chassis.waitUntilDone();
+  //pros::Task sortColor(colorSortLoop); // start color sort
+  chassis.turnToPoint((50 - 2) * sgn,-19 - 3,3000, {.minSpeed = 70, .earlyExitRange = 5}); // turn to preload
+  chassis.waitUntilDone();
+  //pros::delay(700 - 300);
+  chassis.moveToPoint((50 - 2) * sgn,-19 - 3,3000, {.minSpeed = 60}); // move to preload
+  chassis.waitUntilDone();
+  pros::delay(700);
   chassis.turnToPoint(18 * sgn,-18,3000); // turn to ladder
   chassis.waitUntilDone();
-  sortColor.remove(); // stop color sort
+  //sortColor.remove(); // stop color sort
   chassis.moveToPoint(18 * sgn,-18,3000, {.minSpeed = 80}); // move to ladder
-  chassis.waitUntilDone();
+  chassis.waitUntil(25);
+  chassis.cancelMotion();
+  chassis.moveToPoint(3 * sgn,-18,3000, {.maxSpeed = 40}); // move to ladder
 
 
 }

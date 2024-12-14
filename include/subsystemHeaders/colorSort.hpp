@@ -15,4 +15,6 @@ void intakeUntilColor();
 
 void colorSortLoop();
 
- void activateColorSort();
+void activateColorSort();
+
+void stopColorUntilFunction();
