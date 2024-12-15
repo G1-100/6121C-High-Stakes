@@ -34,7 +34,7 @@ void setIntakeMotors() {
     // Apply the calculated velocity to the intake motor
     setIntake(intakePower);
     if (LBState == REST) {
-        doColorSort();
+        //doColorSort();
     }
     
 }

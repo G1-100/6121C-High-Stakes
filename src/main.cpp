@@ -20,7 +20,7 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -46,7 +46,8 @@ void competition_initialize() {}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
-        //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
+        std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
+		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
         pros::delay(100);
         
         // Add a way to break the loop if needed
@@ -79,10 +80,10 @@ void autonomous() {
 
 	// Debug: pros::Task ret4(logger);
 	//intake.move(127);
-	//pros::Task color_task(colorSortLoop);
+	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
-	//MogoSideSoloAWP(allianceColorBlue);
-	LMSDSkills();
+	MogoSideSoloAWP(allianceColorBlue);
+	//LMSDSkills();
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
