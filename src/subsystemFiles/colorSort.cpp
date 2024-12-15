@@ -5,7 +5,9 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool stopColorUntil = false;
-double colorDiff = 100;
+double ambientColorDiff = 100; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientRed = 0;
+double ambientBlue = 0;
 
 
 void initColorSort() {
@@ -15,8 +17,14 @@ void initColorSort() {
 }
 
 void activateColorSort() {
+    //TODO: add proxity to check if it is not ambient
     ColorLoopActive = true;
+    ambientRed = optical.get_rgb().red;
+    ambientBlue = optical.get_rgb().blue;
+    ambientColorDiff = ambientBlue - ambientRed; // diff is BLUE - RED
 }
+
+
 void stopColorUntilFunction() {
     stopColorUntil = true;
 }
@@ -25,23 +33,28 @@ void doColorSort() {
         double hue = optical.get_hue();
         double red_component = optical.get_rgb().red;
         double blue_component = optical.get_rgb().blue;
+        double currentColorDiff = blue_component - red_component;
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         if (ColorLoopActive) {
-            if (!allianceColorBlue && blue_component > 200 && red_component < 210) { // alliance red and its blue
+            if (!allianceColorBlue && currentColorDiff - ambientColorDiff > 100) { // alliance red and its 100 more blue than before
                 cout << "BLUE DETECTED" << "\n";
+                wrongColorDetected = true;
                 setIntake(127);
                 pros::delay(30);
                 setIntake(-127);
                 pros::delay(40);
                 setIntake(127);
+                wrongColorDetected = false;
             }
-            else if (allianceColorBlue && red_component > 220 && blue_component < 160) { // alliance blue and its red
+            else if (allianceColorBlue && red_component > 220 && currentColorDiff - ambientColorDiff < -100) { // alliance blue and its 100 more red than before
+                wrongColorDetected = true;
                 cout << "RED DETECTED" << "\n";
                 setIntake(127);
                 pros::delay(50);
                 setIntake(-127);
                 pros::delay(40);
                 setIntake(127);
+                wrongColorDetected = false;
             }
         }
         
@@ -53,8 +66,9 @@ void doColorSort() {
 void colorSortLoop() {
     ColorLoopActive = true;
     while (true) {
-        doColorSort();
-        
+        if (LBState == REST) {
+            doColorSort();
+        }
         pros::delay(10);
     }
 }

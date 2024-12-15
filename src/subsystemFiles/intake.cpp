@@ -32,9 +32,8 @@ void setIntakeMotors() {
     // If neither button is pressed, intakeVelocity remains 0
     
     // Apply the calculated velocity to the intake motor
-    setIntake(intakePower);
-    if (LBState == REST) {
-        //doColorSort();
+    if (!wrongColorDetected) { // if color sort hasn't activated
+        setIntake(intakePower);
     }
     
 }

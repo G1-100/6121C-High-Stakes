@@ -79,6 +79,9 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
+
+	pros::Task color_task(colorSortLoop);
+
 	//intake.move(127);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
@@ -118,9 +121,8 @@ void opcontrol() {
 	// pros::Task colorUntil(intakeUntilColor);
 	// pros::delay(100000);
 	pros::Task temp_task(checkTemp);
-
-
 	
+	ColorLoopActive = false; // starts inactive until tested ambient colors
   
 	// DRIVE CODE:
 	while (true) {
@@ -135,11 +137,11 @@ void opcontrol() {
 		setMogoMotors();
       	// Run Every 20 Seconds
 
-		if (pros::millis() - runStart > 2000 && !testedAmbient) {
+		if (pros::millis() - runStart > 2000 && !testedAmbient) { // 2 seconds after start
 			testedAmbient = true;
 			ambientHue = optical.get_hue();
 			activateColorSort();
-			cout << "Ambient Hue: " + to_string(ambientHue) << "\n";
+			cout << "Ambient Red: " + to_string(optical.get_rgb().red) << " Ambient Blue: " + to_string(optical.get_rgb().blue) << "\n";
 		}
 
 		pros::delay(10);

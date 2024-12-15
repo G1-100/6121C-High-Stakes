@@ -7,6 +7,10 @@ extern bool wrongColorDetected;
 
 extern double ambientHue;
 
+extern double ambientRed;
+
+extern double ambientBlue;
+
 void initColorSort();
 
 void doColorSort();
