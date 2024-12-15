@@ -2,6 +2,8 @@ int sgn(double num);
 
 void moveMax(double dist, int timeout, double slowAt);
 
+void set_drive(double inches, int time);
+
 void ringAuton(bool isBlue);
 
 void soloAWPAuton(bool isBlue);

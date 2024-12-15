@@ -53,6 +53,12 @@ lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 lemlib::Pose leftAutonRedPos(-50,24,270);
 lemlib::Pose rightAutonBluePos(50,24,90);
 
+void set_drive(double inches, int time) {
+    double trueAngle = chassis.getPose(true, true).theta;
+    chassis.moveToPoint(cos(trueAngle)*inches + chassis.getPose().x, sin(trueAngle)*inches + chassis.getPose().y, time, {.forwards = inches > 0});
+}
+
+
 using namespace std;
 
 int sign(bool isBlue) {

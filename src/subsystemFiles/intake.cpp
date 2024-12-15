@@ -2,6 +2,7 @@
 #include "pros/misc.h"
 
 auto liftButton = pros::E_CONTROLLER_DIGITAL_A;
+bool wrongColorDetected;
 
 // Helper functions
 void setIntake(int power) {
