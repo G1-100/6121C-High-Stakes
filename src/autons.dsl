@@ -13,7 +13,7 @@ routine mogoAdvayAuton
     pose 48 60 90
     Drive 21
     Mogo
-    TurnTo 27 -21 3000 false
+    TurnTo 27 -20 3000 false
     Drive 27 1500 30
     Mogo
     LBExtend 1

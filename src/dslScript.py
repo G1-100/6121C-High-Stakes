@@ -82,36 +82,22 @@ def update_cpp_file(new_routines, api_map):
     # Read existing content
     try:
         with open("src/autons.cpp", "r") as file:
-            lines = file.readlines()
+            existing_content = file.read()
     except FileNotFoundError:
-        lines = []
+        existing_content = ""
 
-    # Find and remove existing implementations while preserving includes and other content
-    filtered_lines = []
-    skip_mode = False
-    for line in lines:
-        if any(f"void {name}()" in line for name in new_routines.keys()):
-            skip_mode = True
-            continue
-        if skip_mode and "}" in line:
-            skip_mode = False
-            continue
-        if not skip_mode:
-            filtered_lines.append(line)
+    # Remove existing routine implementations
+    for routine_name in new_routines.keys():
+        pattern = f"void {routine_name}\\([^{{]*\\){{[^{{}}]*}}"
+        existing_content = re.sub(pattern, "", existing_content, flags=re.DOTALL)
 
     # Generate new implementations
     new_content = compile_routines_to_cpp(new_routines, api_map)
     
-    # Ensure there are newlines between existing content and new content
-    if filtered_lines and not filtered_lines[-1].strip() == "":
-        filtered_lines.append("\n")
-    if not new_content.startswith("\n"):
-        filtered_lines.append("\n")
-    
-    # Write back to file
-    with open("src/autons.cpp", "w") as impl_file:
-        impl_file.writelines(filtered_lines)
-        impl_file.write(new_content)
+    # Append new implementations to the end
+    final_content = existing_content.rstrip() + "\n\n" + new_content
+
+    return final_content
 
 def main():
     with open("src/autons.dsl", "r") as file:
@@ -133,7 +119,7 @@ def main():
 
     # Update implementation file
     cpp_code = update_cpp_file(routines, api_map)
-    with open("src/autons.cpp", "w") as impl_file:
+    with open("src/autonsDSL.cpp", "w") as impl_file:
         impl_file.write(cpp_code)
 
 if __name__ == "__main__":
