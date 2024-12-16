@@ -12,7 +12,11 @@ extern double EXTENDED;
 
 extern bool LBLoopActive;
 
+extern int LBAutonGoal;
+
 void LBExtend(int point);
+
+void ChangeLBState(int goal);
 
 void LBReset();
 

@@ -86,7 +86,7 @@ void autonomous() {
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	MogoSideSoloAWP(allianceColorBlue);
-	//LMSDSkills();
+	//skills();
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
@@ -155,10 +155,11 @@ void opcontrol() {
 
 void checkTemp() {
     std::vector<pros::Motor> motors = {driveLeftBack, driveLeftFront, driveLeftMiddle, driveRightBack, driveRightMiddle, driveRightFront};
-
+	int count;
+	double totalTemp;
     while (true) {
-        double totalTemp = 0.0;
-        int count = 0;
+        totalTemp = 0.0;
+        count = 0;
 
         for (auto& motor : motors) {
             double temp = motor.get_temperature();
@@ -174,11 +175,19 @@ void checkTemp() {
             ++count;
         }
 
-        if (count == 0) master.set_text(0, 0, "No motors found.");
-
-        double averageTempCelsius = totalTemp / count;
-        double averageTempFahrenheit = averageTempCelsius * 9.0 / 5.0 + 32.0;
-        master.set_text(0, 0, "Avg Temp: " + std::to_string(averageTempFahrenheit) + "F");
-        pros::delay(500);
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			double tempFahrenheit = intake.get_temperature() * 9.0 / 5.0 + 32.0;
+			master.set_text(0, 0, "Intake Temp: " + std::to_string(tempFahrenheit) + "F");
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+			double tempFarenheit = ladybrown.get_temperature() * 9.0 / 5.0 + 32.0;
+			master.set_text(0, 0, "Ladybrown Temp: " + std::to_string(tempFarenheit) + "F");
+		} else if (count == 0) {
+			master.set_text(0, 0, "No motors found.");
+		} else {
+			double averageTempCelsius = totalTemp / count;
+			double averageTempFahrenheit = averageTempCelsius * 9.0 / 5.0 + 32.0;
+			master.set_text(0, 0, "Avg Temp: " + std::to_string(averageTempFahrenheit) + "F");
+		}
+		pros::delay(500);
     }
 }

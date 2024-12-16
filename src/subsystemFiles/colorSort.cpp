@@ -58,7 +58,7 @@ void doColorSort() {
             }
         }
         
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
             ColorLoopActive = !ColorLoopActive;
         }
 }

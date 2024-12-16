@@ -22,8 +22,6 @@ void MogoSideSoloAWP(bool isBlue);
 
 void skills();
 
-void LMSDSkills();
-
 ASSET(skills1_txt);
 ASSET(ringRushBlue_txt);
 ASSET(ringRushRed_txt);

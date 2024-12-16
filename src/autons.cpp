@@ -53,7 +53,7 @@ lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 lemlib::Pose leftAutonRedPos(-50,24,270);
 lemlib::Pose rightAutonBluePos(50,24,90);
 
-void set_drive(double inches, int time, float minSpeed = 0, float maxSpeed=127) {
+void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpeed=127) {
     double trueAngle = chassis.getPose(true, true).theta;
     chassis.moveToPoint(cos(trueAngle)*inches + chassis.getPose().x, sin(trueAngle)*inches + chassis.getPose().y, time, {.forwards = inches > 0, .maxSpeed=maxSpeed, .minSpeed=minSpeed});
 }
@@ -84,83 +84,189 @@ void moveMax(double dist, int timeout) {
   setDrive(0, 0); // stop moving
 }
 
-void LMSDSkills() {
+void skills() {
     chassis.setPose(-63, 0, 90); // starts at middle of red alliance line
     setIntake(127); // score on alliance stake
-    pros::delay(1000);
-    chassis.moveToPoint(-48 - 2, 0, 3000, {.maxSpeed=75}); // move away from alliance stake
+    pros::Task lb_task(LBLoop);
+    pros::delay(500);
+
+    set_drive(13); // move away from alliance stake
     chassis.waitUntilDone();
-    chassis.turnToPoint(-48 - 2, -23, 3000, {.forwards = false, .maxSpeed=60}); // move to mogo
+
+    // chassis.moveToPoint(-50, 0, 3000); // move away from alliance stake
+    // chassis.waitUntilDone();
+    
+
+    chassis.turnToPoint(-50, -18, 3000, {.forwards = false}); // move to mogo
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48 - 2, -23, 3000, {.forwards = false, .maxSpeed=60}); // move to mogo
+    // chassis.moveToPoint(-50, -18, 3000, {.forwards = false}); // move to mogo
+    // chassis.waitUntilDone();
+
+    set_drive(-18);
     chassis.waitUntilDone();
+
     mogoClamp.toggle(); // clamp mogo
-    pros::delay(600);
-    chassis.moveToPoint(-22, -24, 3000, {.maxSpeed=75}); // pickup ring outside ladder
+
+    chassis.turnToPoint(-22, -24 + 3, 3000);
     chassis.waitUntilDone();
-    pros::delay(600);
-    chassis.moveToPoint(-3, -55, 3000, {.maxSpeed=75}); // pickup ring next to wall stake
+
+    chassis.follow(skills1_txt, 15, 3000); // pure pursuit two rings
     chassis.waitUntilDone();
     pros::delay(1000);
-    chassis.moveToPoint(-26, -46, 3000, {.maxSpeed=75}); // pickup ring next to wall stake
+    ChangeLBState(PROPPED); // prop up ladybrown
+    // chassis.moveToPoint(-22 - 2, -24 + 3, 3000); // pickup ring outside ladder
+    // chassis.waitUntilDone();
+    // pros::delay(600);
+
+    // chassis.moveToPoint(24, -48, 3000); // move to farther ring
+    // chassis.waitUntilDone();
+    // chassis.moveToPoint(24, -48, 3000); // move to farther ring
+    // chassis.waitUntilDone();
+
+    chassis.turnToPoint(-8, -53, 3000); // turn to go to neutral wall stake
+    chassis.waitUntilDone();
+
+    // chassis.moveToPoint(-8, -53, 3000); // pickup ring next to wall stake
+    // chassis.waitUntilDone();
+
+    set_drive(13.9); // pickup ring next to wall stake
+    chassis.waitUntilDone();
+
+    pros::delay(1000);
+    chassis.turnToHeading(180, 3000);
+    chassis.waitUntilDone();
+    // chassis.moveToPoint(-7 - 1, -60, 3000); // move to wall stake
+
+    set_drive(7); // move to wall stake
+
+    intake.move(0);
+    ChangeLBState(EXTENDED); // extend ladybrown
+    pros::delay(1000);
+    // chassis.moveToPoint(-8, -50, 3000, {.forwards = false}); // go back a bit
+
+    set_drive(-10 - 2); // go back a bit
+    chassis.waitUntilDone();
+    ChangeLBState(REST); // retract ladybrown
+
+    chassis.turnToPoint(-61, -48, 3000);
+    chassis.waitUntilDone();
+    // chassis.moveToPoint(-61, -48, 3000); // collect two bottom-left rings
+
+    set_drive(51, 3000, 20, 50); // go slow collecting 3 rings
+    chassis.waitUntilDone();
+    pros::delay(1000);
+    chassis.turnToPoint(-47, -58, 3000); // turn to last bottom-left ring
+    chassis.waitUntilDone();
+    // chassis.moveToPoint(-47, -58, 3000); // collect last bottom-left ring
+    
+    set_drive(17.2); // collect last bottom-left ring
     chassis.waitUntilDone();
     pros::delay(600);
-    chassis.moveToPoint(-24,-48,3000, {.forwards=false, .maxSpeed=60});
+    chassis.turnToPoint(-57.2, -57.2, 1000, {.forwards = false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-59, -48, 3000, {.maxSpeed=60}); // collect two bottom-left rings
+    chassis.moveToPoint(-57.2, -57.2, 500, {.forwards = false}); // move to corner
     chassis.waitUntilDone();
-    pros::delay(600);
-    chassis.moveToPoint(-50, -58, 3000, {.maxSpeed=75}); // turn to last bottom-left ring
-    chassis.waitUntilDone();
-    pros::delay(600);
-    chassis.moveToPoint(-57.2, -57.2, 500, {.forwards = false, .maxSpeed=60}); // move to corner
-    chassis.waitUntilDone();
-    chassis.turnToPoint(-60,-60, 500, {.forwards=false, .maxSpeed=75}); // look to center
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-60 - 2,-60 - 2, 500, {.forwards=false, .maxSpeed=75}); // move to center
+    chassis.turnToPoint(-60,-60, 500, {.forwards=false}); // look to center
     chassis.waitUntilDone();
     mogoClamp.toggle();
-    //pros::delay(600);
-    chassis.moveToPoint(-48+2, -48, 3000, {.maxSpeed=75}); // move out of corner
+    pros::delay(600);
+    chassis.moveToPoint(-48+2, -48, 3000); // move out of corner
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48+2,22, 3000, {.forwards=false, .maxSpeed=75}); // move to mogo
+    chassis.turnToPoint(-48,22,3000, {.forwards=false});
     chassis.waitUntilDone();
     setIntake(0);
+    chassis.moveToPoint(-48,22 + 4, 3000, {.forwards=false}); // move to mogo
+    chassis.waitUntilDone();
     mogoClamp.toggle(); // clamp mogo
     pros::delay(600);
-    chassis.turnToPoint(-20, 24, 3000, {.maxSpeed=75});
+    chassis.turnToPoint(-20, 24 + 2, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-20, 24, 3000, {.maxSpeed=75}); // move to ring outside ladder
     setIntake(127);
-    pros::delay(700);
-    chassis.moveToPoint(-24, 24, 3000, {.forwards = false, .maxSpeed=75}); // move back
-    chassis.waitUntilDone();
-    chassis.moveToPoint(0, 55 + 3, 3000, {.maxSpeed=75}); // move to ring next to wall stake
-    chassis.waitUntilDone();
-    pros::delay(1000);
-    chassis.turnToPoint(-26, 46, 3000, {.maxSpeed=75});
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-26, 46, 3000, {.maxSpeed=75}); // move to ring outside ladder
+    chassis.moveToPoint(-20, 24 + 2, 3000); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
-    chassis.moveToPoint(-24, 48, 3000, {.forwards=false, .maxSpeed=75});
+    chassis.moveToPoint(-24, 24, 3000, {.forwards = false}); // move back
     chassis.waitUntilDone();
-    chassis.moveToPoint(-60, 48, 3000, {.maxSpeed=60}); // move to two top-left rings
+    chassis.turnToPoint(-3, 55, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-2 + 2, 59 + 2, 3000); // move to ring next to wall stake
+    chassis.waitUntilDone();
+    pros::delay(1200);
+    chassis.turnToPoint(-26, 46 + 3, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-26, 50 - 1, 3000); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
-    chassis.moveToPoint(-48, 60, 3000, {.maxSpeed=60}); // move to top ring
-    pros::delay(700);
+    chassis.moveToPoint(-24, 50 - 1, 3000, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.turnToPoint(-57.2, 57.2, 3000, {.forwards=false, .maxSpeed=60});
+    chassis.turnToPoint(-60 + 3, 50 + 2, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-57.2, 57.2, 3000, {.forwards=false, .maxSpeed=60}); // back turn to corner
+    chassis.moveToPoint(-60 + 3, 50 + 2, 3000); // move to two top-left rings
     chassis.waitUntilDone();
-    chassis.turnToPoint(-59, 60, 500, {.forwards=false, .maxSpeed=60});
+    pros::delay(1200);
+    chassis.turnToPoint(-48 + 3, 63 - 3, 1500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-59 - 2, 60 + 2, 500, {.forwards=false, .maxSpeed=60}); // move to corner
+    chassis.moveToPoint(-48 + 3, 63 - 3, 3000); // move to top ring
+    pros::delay(600);
     chassis.waitUntilDone();
+    chassis.turnToPoint(-57.2, 57.2, 3000, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-57.2, 57.2, 3000, {.forwards=false}); // back turn to corner
+    chassis.waitUntilDone();
+    chassis.turnToPoint(-59, 60, 500, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-59, 60, 500, {.forwards=false}); // move to corner
+    chassis.waitUntilDone();
+    mogoClamp.toggle(); // unclamp mogo
+    chassis.waitUntilDone();
+    pros::delay(200);
+    chassis.turnToPoint(-48, 48, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-48, 48, 3000); // back out of corner
+    chassis.waitUntilDone();
+    chassis.turnToPoint(48, 48, 3000);
+    chassis.waitUntilDone();
+    setIntake(0);
+    chassis.moveToPoint(5, 48, 3000); // move to ladder-center
+    chassis.waitUntilDone();
+    setIntake(127);
+    chassis.turnToPoint(48, 10, 3000); // turn to mogo
+    chassis.waitUntilDone();
+    chassis.moveToPoint(48 - 10, 10 - 10, 3000); // move to mogo and ring
+    chassis.waitUntil(20);
+    setIntake(0);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(48, 0, 3000, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(48, 0, 3000, {.forwards=false});
+    chassis.waitUntilDone();
+    // chassis.moveToPoint(48, 2, 3000, {.forwards=false}); // move back
+    // chassis.waitUntilDone();
     mogoClamp.toggle(); // clamp mogo
     pros::delay(200);
+    setIntake(127);
+    chassis.turnToPoint(24 - 3, -24, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(24 - 3, -24, 3000); // move to ring
+    chassis.waitUntilDone();
+    pros::delay(600);
+    chassis.turnToPoint(24, -48, 3000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(24, -48, 3000); // move to ring
+    chassis.waitUntilDone();
+    pros::delay(600);
+    pros::Task color_task(colorSortLoop);
+    chassis.turnToPoint(60, -48, 3000);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(60, -48, 3000);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(60, -48, 3000, {.maxSpeed=40});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(60, -48, 3000, {.maxSpeed=40});
+    chassis.waitUntilDone();
+
+
+
     chassis.moveToPoint(24, -24, 3000, {.maxSpeed=100}); // move to ring
     chassis.waitUntilDone();
     chassis.turnToPoint(60 - 5, 0, 3000);

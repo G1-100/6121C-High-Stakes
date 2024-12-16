@@ -17,6 +17,9 @@ double PROPPED = 1;
 double EXTENDED = 2;
 int LBState = REST;
 
+int LBAutonGoal = REST;
+int prevLBAutonGoal = REST;
+
 bool LBLoopActive = false;
 
 
@@ -65,7 +68,6 @@ void LBExtend(int point) {
 void LBReset() {
     ladybrown.move(100);
     pros::delay(2500);
-    LBRotation.set_position(-17000);
     ladybrown.move(0);
     LBState = EXTENDED;
 }
@@ -80,6 +82,24 @@ void LBRetract() {
     ladybrown.move(0);
     LBState = REST;
     LBRotation.reset_position();
+}
+
+void ChangeLBState(int goal) {
+    LBAutonGoal = goal;
+}
+
+/**
+ * @brief Changes the ladybrown to a certain state
+ * @param goal the goal to change to
+ */
+void ChangeLBAuton(int goal) {
+    if (goal == REST) {
+        LBRetract();
+    } else if (goal == PROPPED) {
+        LBExtend(1);
+    } else if (goal == EXTENDED) {
+        LBExtend(2);
+    }
 }
 
 /**
@@ -116,9 +136,13 @@ void LBLoop() {
             std::cout << "DOWN BUTTON PRESSED" << "\n";
             LBRetract();
         }
-        pros::delay(20);
+        if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
+            ChangeLBAuton(LBAutonGoal);
+        }
+        prevLBAutonGoal = LBAutonGoal;
         if (LBState == PROPPED) {
             ladybrown.move(10);
         }
+        pros::delay(20);
     }
 }
