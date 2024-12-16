@@ -457,7 +457,7 @@ void mogoAdvayAuton(bool isBlue) {
   //mogoClamp.toggle();
 	chassis.setPose(48*sgn,-60,90 * sgn); //Starting Line
 	chassis.moveToPoint((21 + 2.5)*sgn,-60,3000,{.forwards=false, .minSpeed = 90}); //Move next to ring stack
-	chassis.waitUntil(27 - 2);
+	chassis.waitUntil(25);
   chassis.cancelMotion();
 	chassis.moveToPoint((9.5)*sgn,(-51.5 - 3.5),3000,{.forwards=false, .minSpeed = 80}); //Move to Mogo
 	chassis.waitUntilDone();
@@ -503,4 +503,25 @@ void mogoAdvayAuton(bool isBlue) {
   chassis.turnToPoint(0 * sgn, -48, 3000, {.forwards = false});
   chassis.waitUntilDone();
 
+}
+
+void mogoAdvayAuton() {
+    chassis.setPose(48, 60, 90);
+    set_drive(21, 3000, 0, 127);
+    chassis.waitUntilDone();
+    mogoClamp.toggle();
+    chassis.turnToPoint(27, -21, 3000, {.forwards=false, .minSpeed=0, .maxSpeed=127});
+    chassis.waitUntilDone();
+    set_drive(27, 1500, 30, 127);
+    chassis.waitUntilDone();
+    mogoClamp.toggle();
+    LBExtend(1);
+}
+
+void ringAuton() {
+    chassis.setPose(60, -27.5, -90);
+}
+
+void skillsAuton() {
+    chassis.setPose(-63, 0, 90);
 }
