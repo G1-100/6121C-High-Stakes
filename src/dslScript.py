@@ -1,126 +1,102 @@
 import re
+import sys
+from dsl_linter import lint_dsl_file, parse_api_definitions, parse_routines
+from tqdm import tqdm
 
-def parse_api_definitions(lines):
-    api_map = {}
-    for line in lines:
-        if line.startswith("api") or line.startswith("end"):
-            continue
-        cpp_function, command = line.split(";", 1)
-        cpp_function = cpp_function.strip()
-        command = command.strip().split()[0]  # Use only the base command
-        api_map[command] = cpp_function
-        print(f"Debug: Added API definition - Command: '{command}', Function: '{cpp_function}'")
-    return api_map
-
-def parse_routines(lines, api_map):
-    routines = {}
-    current_routine = None
-    commands = []
-
-    for line in lines:
-        line = line.strip()
-        if line.startswith("routine"):
-            if current_routine:
-                routines[current_routine] = commands
-            current_routine = line.split()[1]
-            commands = []
-        elif line.startswith("end"):
-            if current_routine:
-                routines[current_routine] = commands
-                current_routine = None
-        elif line and not line.startswith("//"):
-            commands.append(line)
-    return routines
-
-def translate_command(command, args, api_map):
-    cmd_parts = command.split()
-    base_cmd = cmd_parts[0]
+def translate_command(cmd_name, args, api_map):
+    if cmd_name not in api_map:
+        return f"// Unknown command: {cmd_name}"
     
-    # Handle each command type specifically
-    if base_cmd == "pose":
-        x, y, theta = args
-        return f"chassis.setPose({x}, {y}, {theta})"
-    elif base_cmd == "Drive":
-        if len(args) == 1:
-            return f"set_drive({args[0]}, 3000, 0, 127)"
-        elif len(args) == 2:
-            return f"set_drive({args[0]}, {args[1]}, 0, 127)"
-        elif len(args) == 3:
-            return f"set_drive({args[0]}, {args[1]}, {args[2]}, 127)"
-        else:
-            return f"set_drive({', '.join(args)})"
-    elif base_cmd == "Mogo":
-        return "mogoClamp.toggle()"
-    elif base_cmd == "TurnTo":
-        x, y = args[0:2]
-        ms = args[2] if len(args) > 2 else "3000"
-        forward = args[3] if len(args) > 3 else "true"
-        return f"chassis.turnToPoint({x}, {y}, {ms}, {{.forwards={forward}, .minSpeed=0, .maxSpeed=127}})"
-    elif base_cmd == "LBExtend":
-        return f"LBExtend({args[0]})"
-    else:
-        return f"// Unknown command: {command}"
+    cmd_info = api_map[cmd_name]
+    cpp_name = cmd_info['cpp_name']
+    params = cmd_info['params']
+    param_map = cmd_info['param_map']
+    
+    # Check for format string in param_map
+    format_str = None
+    struct_args = []
+    final_args = []
+    
+    for i, param in enumerate(param_map):
+        if param.startswith('%{') and param.endswith('}%'):
+            format_str = param[2:-2]  # Remove %{ and }%
+            struct_start = i
+            # Extract struct arguments
+            while i < len(args):
+                struct_args.append(args[i])
+                i += 1
+            break
+        elif i < len(args):
+            final_args.append(args[i])
+    
+    if format_str:
+        # Replace $1, $2, etc with actual values
+        for i, arg in enumerate(struct_args, 1):
+            format_str = format_str.replace(f'${i}', arg)
+        final_args.append("{" + format_str + "}")
+    
+    return f"{cpp_name}({', '.join(final_args)})"
 
-def compile_routines_to_cpp(routines, api_map):
-    cpp_code = []
-    for routine_name, commands in routines.items():
+def compile_routines_to_cpp(routines, api_map, initial_cpp_code=""):
+    cpp_code = ["// Auto-generated code from DSL\n"]
+    
+    if initial_cpp_code:
+        cpp_code.append(initial_cpp_code)
+    
+    for routine_name, routine_data in routines.items():
+        if routine_data["description"]:
+            cpp_code.append(f"/*\n * {routine_data['description'][2:].strip()}\n */")
         cpp_code.append(f"void {routine_name}() {{")
-        for command in commands:
-            parts = command.split()
-            cmd_name = parts[0]
-            cmd_args = parts[1:]
-            translated = translate_command(cmd_name, cmd_args, api_map)
-            cpp_code.append(f"    {translated};")
-            # Add waitUntilDone for movement commands
-            if cmd_name in ["Drive", "TurnTo"]:
-                cpp_code.append("    chassis.waitUntilDone();")
+        
+        for command in routine_data["commands"]:
+            if isinstance(command, tuple):
+                if command[0] == "block":
+                    cpp_code.append("    // Begin raw C++ block")
+                    for line in command[1]:
+                        cpp_code.append(f"    {line}")
+                    cpp_code.append("    // End raw C++ block")
+                elif command[0] == "comment":
+                    cpp_code.append(f"    {command[1]}")
+            else:
+                parts = command.split()
+                cmd_name = parts[0]
+                cmd_args = parts[1:]
+                translated = translate_command(cmd_name, cmd_args, api_map)
+                cpp_code.append(f"    {translated};")
+        
         cpp_code.append("}")
-        cpp_code.append("")
+        cpp_code.append("")  # Add blank line between functions
+    
     return "\n".join(cpp_code)
 
-def update_cpp_file(new_routines, api_map):
-    # Read existing content
-    try:
-        with open("src/autons.cpp", "r") as file:
-            existing_content = file.read()
-    except FileNotFoundError:
-        existing_content = ""
-
-    # Remove existing routine implementations
-    for routine_name in new_routines.keys():
-        pattern = f"void {routine_name}\\([^{{]*\\){{[^{{}}]*}}"
-        existing_content = re.sub(pattern, "", existing_content, flags=re.DOTALL)
-
+def update_cpp_file(new_routines, api_map, initial_cpp_code=""):
     # Generate new implementations
-    new_content = compile_routines_to_cpp(new_routines, api_map)
+    new_content = compile_routines_to_cpp(new_routines, api_map, initial_cpp_code)
     
-    # Append new implementations to the end
-    final_content = existing_content.rstrip() + "\n\n" + new_content
+    # Write new implementations to the file
+    with open("src/autonsDSL.cpp", "w") as file:
+        for line in tqdm(new_content.splitlines(), desc="Writing to file"):
+            file.write(line + "\n")
 
-    return final_content
+def main(dsl_filepath, cpp_filepath):
+    print("Starting linting...")
+    # Run the linter and get parsed definitions
+    api_map, routines, initial_cpp_code = lint_dsl_file(dsl_filepath)
 
-def main():
-    with open("src/autons.dsl", "r") as file:
-        syntax = file.read()
+    if api_map is None or routines is None:
+        print("Linting failed. Aborting compilation.")
+        return
 
-    lines = syntax.splitlines()
-    api_start = lines.index("api")
-    api_end = lines.index("end", api_start)
-
-    api_lines = lines[api_start:api_end + 1]
-    routine_lines = lines[api_end + 1:]
-
-    api_map = parse_api_definitions(api_lines)
-    print("Debug: Full API Map:", api_map)  # Added debug for full API map
-    routines = parse_routines(routine_lines, api_map)
-    cpp_code = compile_routines_to_cpp(routines, api_map)
-
-    # Generate and write header file
-
-    # Update implementation file
-    cpp_code = update_cpp_file(routines, api_map)
-    with open("src/autonsDSL.cpp", "w") as impl_file:
-        impl_file.write(cpp_code)
+    try:
+        print("Starting compilation...")
+        # Generate the cpp code and write to file
+        update_cpp_file(routines, api_map, initial_cpp_code)
+        print(f"Successfully compiled and wrote to '{cpp_filepath}'")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        print("Usage: python dslScript.py <dsl_filepath> <cpp_filepath>")
+    else:
+        main(sys.argv[1], sys.argv[2])
