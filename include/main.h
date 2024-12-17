@@ -49,6 +49,8 @@
 #include "subsystemHeaders/drive.hpp"
 #include "subsystemHeaders/ladybrown.hpp"
 #include "selection.hpp"
+#include "Master-Selector/api.hpp"
+#include "liblvgl/lvgl.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

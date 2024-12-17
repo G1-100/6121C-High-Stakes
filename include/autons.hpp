@@ -14,7 +14,7 @@ void soloAWPAutonTunedLMSD(bool isBlue);
 
 void simpleMogoAuton(bool isBlue);
 
-void mogoAdvayAuton(bool isBlue);
+void mogoAdvayAuton();
 
 void safeSoloAWP(bool isBlue);
 

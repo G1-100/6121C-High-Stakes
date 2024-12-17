@@ -698,8 +698,8 @@ void ringAutonSimpler(bool isBlue) {
   chassis.waitUntilDone();
 }
 
-void mogoAdvayAuton(bool isBlue) {
-  int sgn=isBlue?1:-1;
+void mogoAdvayAuton() {
+  int sgn=true?1:-1;
   //mogoClamp.toggle();
 	chassis.setPose(48*sgn,-60,90 * sgn); //Starting Line
 	chassis.moveToPoint((21 + 2.5)*sgn,-60,3000,{.forwards=false, .minSpeed = 90}); //Move next to ring stack

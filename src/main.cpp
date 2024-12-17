@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Master-Selector/api.hpp"
 
 using namespace std;
 
@@ -15,6 +16,20 @@ void initialize() {
 	pros::delay(1000);
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
+    // Do extra initializing here
+
+    std::vector<ms::Auton> near_side_autons = {
+        ms::Auton("Auton Win Point", mogoAdvayAuton),
+        ms::Auton("Eliminations", LMSDSkills)
+    };
+
+    std::vector<ms::Category> categories = {
+        ms::Category("Near Side", near_side_autons)
+    };
+
+    ms::set_autons(categories);
+
+    ms::initialize(); // Initialize the screen
 }
 
 
@@ -35,7 +50,7 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-    Selection selector = Selection(allianceColorBlue);
+ /*   Selection selector = Selection(allianceColorBlue);
     selector.registerAuton("Ring Auton", "Autonomous routine for rings", []() {
         ringAuton(allianceColorBlue);
     });
@@ -50,7 +65,7 @@ void competition_initialize() {
     });
     selector.displayMenu();
     selector.handleSelection();
-}
+*/}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
