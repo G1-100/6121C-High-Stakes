@@ -23,15 +23,15 @@
   - [x] Write Mogo Mech Code
   - [x] Write Intake Code
   - [x] Write Drive Code
-  - [ ] Tune PID, and Odometry
+  - [x] Tune PID, and Odometry
 - [ ] **Write Autons Rush** (Due: Nov 16th)
-- [ ] **Contingency & Edge Autons** (Due: Dec 14th)
-  - [ ] Center ring utilization (conflict: both, missed opportunity: none)
-  - [ ] Alliance Stake Instascore (conflict: both, missed opportunity: none)
+- [x] **Contingency & Edge Autons** (Due: Dec 14th)
+  - [x] Center ring utilization (conflict: both, missed opportunity: none)
+  - [x] Alliance Stake Instascore (conflict: both, missed opportunity: none)
   - [x] self-AWP, incase other team has insufficient autons (Due: ASAP)
 - [ ] **Write Auton Selector** (Optional)
 - [ ] **Write Notebook Pages** (Due: Nov 2nd)
-  - [ ] Ladybrown Code Explanation
+  - [x] Ladybrown Code Explanation
   - [x] Auton Route Explanation
     - [x] Safe
     - [ ] Rush
