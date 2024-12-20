@@ -82,7 +82,7 @@ void autonomous() {
 	//intake.move(127);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
-	MogoSideSoloAWP(allianceColorBlue);
+	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);

@@ -583,6 +583,7 @@ void mogoAdvayAutonRed() {
     chassis.waitUntilDone();
     // Clamp to Mogo #2
     mogoClamp.toggle();
+    pros::lcd::set_text(3, std::to_string(optical.get_proximity()));
     pros::delay(700);
     // Unknown command: setIntake;
     // Turn to Ring Stake
