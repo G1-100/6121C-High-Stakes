@@ -11,9 +11,10 @@ double ambientBlue = 0;
 
 
 void initColorSort() {
-    ColorLoopActive = false;
+    ColorLoopActive = true;
     optical.set_led_pwm(100);
     double ambientHue = 50;
+    pros::Task color_task(colorSortLoop);
 }
 
 void activateColorSort() {

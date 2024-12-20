@@ -79,9 +79,6 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	// Debug: pros::Task ret4(logger);
-
-	pros::Task color_task(colorSortLoop);
-
 	//intake.move(127);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
