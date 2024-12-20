@@ -164,70 +164,98 @@ void skills() {
     pros::delay(600);
     chassis.turnToPoint(-57.2, -57.2, 1000, {.forwards = false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-57.2, -57.2, 500, {.forwards = false}); // move to corner
+    //chassis.moveToPoint(-57.2, -57.2, 500, {.forwards = false}); // move to corner
+
+    set_drive(-10); // move to corner
     chassis.waitUntilDone();
     chassis.turnToPoint(-60,-60, 500, {.forwards=false}); // look to center
     chassis.waitUntilDone();
-    mogoClamp.toggle();
-    pros::delay(600);
-    chassis.moveToPoint(-48+2, -48, 3000); // move out of corner
+    mogoClamp.toggle(); // unclamp mogo
+
+    //chassis.moveToPoint(-48+2, -48, 3000); // move out of corner
+
+    set_drive(14.49); // move out of corner
     chassis.waitUntilDone();
     chassis.turnToPoint(-48,22,3000, {.forwards=false});
     chassis.waitUntilDone();
     setIntake(0);
-    chassis.moveToPoint(-48,22 + 4, 3000, {.forwards=false}); // move to mogo
+    //chassis.moveToPoint(-48,22 + 4, 3000, {.forwards=false}); // move to mogo
+
+    set_drive(-74); // move to mogo
     chassis.waitUntilDone();
     mogoClamp.toggle(); // clamp mogo
     pros::delay(600);
     chassis.turnToPoint(-20, 24 + 2, 3000);
     chassis.waitUntilDone();
     setIntake(127);
-    chassis.moveToPoint(-20, 24 + 2, 3000); // move to ring outside ladder
+    //chassis.moveToPoint(-20, 26, 3000); // move to ring outside ladder
+
+    set_drive(24); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
-    chassis.moveToPoint(-24, 24, 3000, {.forwards = false}); // move back
+    //chassis.moveToPoint(-24, 24, 3000, {.forwards = false}); // move back
+
+    set_drive(-4.47); // move back
     chassis.waitUntilDone();
     chassis.turnToPoint(-3, 55, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-2 + 2, 59 + 2, 3000); // move to ring next to wall stake
+    //chassis.moveToPoint(0, 61, 3000); // move to ring next to wall stake
+
+    set_drive(44.1); // move to ring next to wall stake
     chassis.waitUntilDone();
     pros::delay(1200);
     chassis.turnToPoint(-26, 46 + 3, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-26, 50 - 1, 3000); // move to ring outside ladder
+    //chassis.moveToPoint(-26, 50 - 1, 3000); // move to ring outside ladder
+
+    set_drive(28.6); // move to ring outside ladder
     chassis.waitUntilDone();
     pros::delay(700);
-    chassis.moveToPoint(-24, 50 - 1, 3000, {.forwards=false});
+    //chassis.moveToPoint(-24, 49, 3000, {.forwards=false});
+
+    set_drive(-2); // move back
     chassis.waitUntilDone();
     chassis.turnToPoint(-60 + 3, 50 + 2, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-60 + 3, 50 + 2, 3000); // move to two top-left rings
+    chassis.moveToPoint(-57, 52, 3000); // move to two top-left rings
+
+    set_drive(33.13); // move to two top-left rings
     chassis.waitUntilDone();
     pros::delay(1200);
     chassis.turnToPoint(-48 + 3, 63 - 3, 1500);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48 + 3, 63 - 3, 3000); // move to top ring
+    //chassis.moveToPoint(-45, 63 - 3, 3000); // move to top ring
+
+    set_drive(14.4); // move to top ring
     pros::delay(600);
     chassis.waitUntilDone();
     chassis.turnToPoint(-57.2, 57.2, 3000, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-57.2, 57.2, 3000, {.forwards=false}); // back turn to corner
+    //chassis.moveToPoint(-57.2, 57.2, 3000, {.forwards=false}); // back turn to corner
+
+    set_drive(-12.36); // back turn to corner
     chassis.waitUntilDone();
     chassis.turnToPoint(-59, 60, 500, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(-59, 60, 500, {.forwards=false}); // move to corner
+    //chassis.moveToPoint(-59, 60, 500, {.forwards=false}); // move to corner
+
+    set_drive(-3.32); // move to corner
     chassis.waitUntilDone();
     mogoClamp.toggle(); // unclamp mogo
     chassis.waitUntilDone();
     pros::delay(200);
     chassis.turnToPoint(-48, 48, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48, 48, 3000); // back out of corner
+    //chassis.moveToPoint(-48, 48, 3000); // back out of corner
+
+    set_drive(16.27); // back out of corner
     chassis.waitUntilDone();
     chassis.turnToPoint(48, 48, 3000);
     chassis.waitUntilDone();
     setIntake(0);
     chassis.moveToPoint(5, 48, 3000); // move to ladder-center
+
+    
     chassis.waitUntilDone();
     setIntake(127);
     chassis.turnToPoint(48, 10, 3000); // turn to mogo
@@ -510,7 +538,7 @@ void mogoAdvayAuton() {
     set_drive(21, 3000, 0, 127);
     chassis.waitUntilDone();
     mogoClamp.toggle();
-    chassis.turnToPoint(27, -21, 3000, {.forwards=false, .minSpeed=0, .maxSpeed=127});
+    chassis.turnToPoint(27, -21, 3000, {.forwards=false, .maxSpeed=127, .minSpeed=0});
     chassis.waitUntilDone();
     set_drive(27, 1500, 30, 127);
     chassis.waitUntilDone();
