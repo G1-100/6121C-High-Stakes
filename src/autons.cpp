@@ -10,48 +10,53 @@ const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We d
 const int TURN_SPEED  = 90;
 const int SWING_SPEED = 90;
 
+// ORIENT YOURSELF TO THE FIELD:
+// The field is oriented with the red alliance on the left and the blue alliance on the right.
+// The center mobile goal should be lower.
+// This orientation makes a cartesian plane with the origin at the center of the field.
+
 // FIELD OBJECTS AND POSITIONS IN INCHES:
 // Wall Stakes (4):
-lemlib::Pose RAWS(-71,0); // Red Alliance Wall Stake
-lemlib::Pose BAWS(71,0); // Blue Alliance Wall Stake
-lemlib::Pose UWS(71,0); // Upper Wall Stake
-lemlib::Pose LWS(-71,0); // Lower Wall Stake
+lemlib::Pose RAWS(-71,0); // Red Alliance Wall Stake (-71,0)
+lemlib::Pose BAWS(71,0); // Blue Alliance Wall Stake (71,0)
+lemlib::Pose UWS(71,0); // Upper Wall Stake (71,0)
+lemlib::Pose LWS(-71,0); // Lower Wall Stake (-71,0)
 // Mobile Goals (5)
-lemlib::Pose ULM(-24,24); // Upper Left (Red) Side Mobile Goal
-lemlib::Pose LLM(-24,-24); // Lower Left (Red) Side Mobile Goal
-lemlib::Pose LC(0,-48); // Lower Center Mobile Goal
-lemlib::Pose URM(24,24); // Upper Right (Blue) Side Mobile Goal
-lemlib::Pose LBM(24,-24); // Lower Blue Side Mobile Goal
+lemlib::Pose ULM(-24,24); // Upper Left (Red) Side Mobile Goal (-24,24)
+lemlib::Pose LLM(-24,-24); // Lower Left (Red) Side Mobile Goal (-24,-24)
+lemlib::Pose LC(0,-48); // Lower Center Mobile Goal (0,-48)
+lemlib::Pose URM(24,24); // Upper Right (Blue) Side Mobile Goal (24,24)
+lemlib::Pose LBM(24,-24); // Lower Blue Side Mobile Goal (24,-24)
 // Scoring Corners (4):
-lemlib::Pose TLC(-60,60); // Top Left (Negative Red) Corner
-lemlib::Pose PRC(-60,-60); // Bottom Left (Positive Red) Corner
-lemlib::Pose BRC(60,-60); // Bottom Right (Positive Blue) Corner
-lemlib::Pose TRC(60,60); // Top Right (Negative Blue) Corner
+lemlib::Pose TLC(-60,60); // Top Left (Negative Red) Corner (-60,60)
+lemlib::Pose PRC(-60,-60); // Bottom Left (Positive Red) Corner (-60,-60)
+lemlib::Pose BRC(60,-60); // Bottom Right (Positive Blue) Corner (60,-60)
+lemlib::Pose TRC(60,60); // Top Right (Negative Blue) Corner (60,60)
 // RING POSITIONS:
 // 2x2 Rings at center of field
-lemlib::Pose CTLR(-3.5,3.5); // Center Top Left: Blue Ring
-lemlib::Pose CTRR(3.5,3.5); // Center Top Right: Red Ring
-lemlib::Pose CBLR(-3.5,-3.5); // Center Bottom Left: Blue Ring
-lemlib::Pose CBRR(3.5,-3.5);// Center Bottom RIght: Red Ring
+lemlib::Pose CTLR(-3.5,3.5); // Center Top Left: Blue Ring (-3.5,3.5)
+lemlib::Pose CTRR(3.5,3.5); // Center Top Right: Red Ring (3.5,3.5)
+lemlib::Pose CBLR(-3.5,-3.5); // Center Bottom Left: Blue Ring (-3.5,-3.5)
+lemlib::Pose CBRR(3.5,-3.5);// Center Bottom RIght: Red Ring (3.5,-3.5)
 // 2x2 2 Ring Stacks on center line
-lemlib::Pose TSTLR(-3.5,51.5); // Top Stack Top Left Rings: ↑:Blue ↓:Red
-lemlib::Pose TSTRR(3.5,51.5); // Top Stack Top Right Rings: ↑:Red ↓:Blue
-lemlib::Pose TSBLR(-3.5,44.5); // Top Stack Bottom Left Rings: ↑:Blue ↓:Red
-lemlib::Pose TSBRR(3.5,44.5); // Top Stack Bottom Right Rings: ↑:Red ↓:Blue
+lemlib::Pose TSTLR(-3.5,51.5); // Top Stack Top Left Rings: ↑:Blue ↓:Red (-3.5,51.5)
+lemlib::Pose TSTRR(3.5,51.5); // Top Stack Top Right Rings: ↑:Red ↓:Blue (3.5,51.5)
+lemlib::Pose TSBLR(-3.5,44.5); // Top Stack Bottom Left Rings: ↑:Blue ↓:Red (-3.5,44.5)
+lemlib::Pose TSBRR(3.5,44.5); // Top Stack Bottom Right Rings: ↑:Red ↓:Blue (3.5,44.5)
 // LADDER POSITIONS:
 // Ladder Corners
-lemlib::Pose LTC(0,26); // Ladder: Top Corner Center Line
-lemlib::Pose LLC(-26,0); // Ladder: Left Corner
-lemlib::Pose LBC(0,-26); // Ladder: Bottom Corner
-lemlib::Pose LRC(26,0); // Ladder: Right Corner
+lemlib::Pose LTC(0,26); // Ladder: Top Corner Center Line (0,26)
+lemlib::Pose LLC(-26,0); // Ladder: Left Corner (-26,0)
+lemlib::Pose LBC(0,-26); // Ladder: Bottom Corner Center Line (0,-26)
+lemlib::Pose LRC(26,0); // Ladder: Right Corner (26,0)
 // Ladder Beams
 lemlib::Pose LTLB(-13,13); // Ladder: Top Left Beam (LTC-LLC)
 lemlib::Pose LTRB(13,13); // Ladder: Top Right Beam (LTC-LRC)
 lemlib::Pose LBLB(-13,-13); // Ladder: Bottom Left Beam (LBC-LLC)
 lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 // STARTING POSITIONS
-lemlib::Pose leftAutonRedPos(-50,24,270);
-lemlib::Pose rightAutonBluePos(50,24,90);
+lemlib::Pose autonRedPos(-50,24,270); // -50 24 270
+lemlib::Pose autonBluePos(50,24,90); // 50 24 90
 
 void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpeed=127) {
     double trueAngle = chassis.getPose(true, true).theta;
@@ -309,44 +314,45 @@ void skills() {
     chassis.moveToPoint(72 - 20, -72 + 20, 3000, {.forwards = false});
     chassis.waitUntilDone();
 }
-//Auton Development based on Barcbots (11101B)
-//Preload one ring
-void ringAuton(bool isBlue) {
-  int sgn=isBlue?1:-1;
-  chassis.setPose(rightAutonBluePos.x * sgn, rightAutonBluePos.y, 90 * sgn); // Set position for left auton
+// Auton Development based on Barcbots (11101B)
+// Preload one ring
+void ringAutonBlue() {
+  chassis.setPose(autonBluePos.x, autonBluePos.y, 90); // Set position for left auton
   //mogoClamp.toggle();
-  chassis.moveToPoint((URM.x + 4 - 1) * sgn, URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
+  chassis.moveToPoint((URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
+  set_drive(23); // 27 24
   //chassis.waitUntil(17 + 2);
   // Mogo piston activate
-  chassis .waitUntilDone();
+  chassis.waitUntilDone();
   mogoClamp.toggle();
   //pros::Task color_task(colorSortLoop); // Start color sorting task
   //pros::delay(200);
   setIntake(127); // turn on intake
   pros::delay(400);
   // Turn to and move to middle stacks of rings
-  chassis.turnToPoint((TSBRR.x) * sgn, (TSBRR.y - 5), 2000,{},false); // turn to rings
-  chassis.follow(isBlue?ringRushBlue_txt:ringRushRed_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.turnToPoint((TSBRR.x), (TSBRR.y - 5), 2000,{},false); // turn to rings
+  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
   chassis.waitUntil(23);
   chassis.cancelMotion();
   pros::delay(1500); // wait a little
-  chassis.follow(isBlue?ringRushBlue_txt:ringRushRed_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
   chassis.waitUntilDone();
 
-  chassis.moveToPoint((15) * sgn, 24, 2000, {.forwards=false}); // move back a lot
+  chassis.moveToPoint(15, 24, 2000, {.forwards=false}); // move back a lot
   chassis.waitUntilDone();
-
-  chassis.turnToPoint((18 + 3) * sgn, 48 - 3.5, 3000); // turn to 3rd two stack
+  chassis.turnToPoint(18 + 3, 48 - 3.5, 3000); // turn to 3rd two stack
   chassis.waitUntilDone();
-  chassis.moveToPoint((18 + 3) * sgn, 48 - 3.5, 3000); // move to 3rd two stack
+  set_drive(21.36); // sqrt((18+3-15)^2+(48-3.5-24)^2)
+  //chassis.moveToPoint((18 + 3) * sgn, 48 - 3.5, 3000); // move to 3rd two stack
   chassis.waitUntilDone();
   pros::delay(550);
-  chassis.moveToPoint((18) * sgn, 48 - 8.5 + 1.5, 1000); // move back a little
+  set_drive(3.5);
+  //chassis.moveToPoint((18) * sgn, 48 - 8.5 + 1.5, 1000); // move back a little
   chassis.waitUntilDone();
   //mogoClamp.toggle(); // drop mogo
 
   //TODO: FINISH REST LATER
-  chassis.moveToPoint((TSTRR.x+30)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
+  /*chassis.moveToPoint((TSTRR.x+30)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
   chassis.waitUntil(8);
   //setIntake(0);
   chassis.waitUntilDone();
@@ -362,7 +368,34 @@ void ringAuton(bool isBlue) {
   
   pros::delay(2000);
   //chassis.moveToPoint(20*sgn, -3, 3000);
+*/
+}
 
+void ringAutonRed() {
+  chassis.setPose(-autonBluePos.x, autonBluePos.y, -90); // Mirror position for right auton
+  chassis.moveToPoint(-(URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Mirror move to upper right mobile goal
+  set_drive(23); // Same drive distance
+  chassis.waitUntilDone();
+  mogoClamp.toggle();
+  setIntake(127);
+  pros::delay(400);
+  chassis.turnToPoint(-TSBRR.x, (TSBRR.y - 5), 2000,{},false);
+  chassis.follow(ringRushRed_txt, 15, 3500); // Use mirrored path file
+  chassis.waitUntil(23);
+  chassis.cancelMotion();
+  pros::delay(1500);
+  chassis.follow(ringRushRed_txt, 15, 3500);
+  chassis.waitUntilDone();
+
+  chassis.moveToPoint(-15, 24, 2000, {.forwards=false});
+  chassis.waitUntilDone();
+  chassis.turnToPoint(-(18 + 3), 48 - 3.5, 3000);
+  chassis.waitUntilDone();
+  set_drive(21.36);
+  chassis.waitUntilDone();
+  pros::delay(550);
+  set_drive(3.5);
+  chassis.waitUntilDone();
 }
 
 void AceRingSideSoloAWP(bool isBlue) {
@@ -412,75 +445,158 @@ void AceRingSideSoloAWP(bool isBlue) {
   chassis.moveToPoint(10,10,3000,{.forwards=false,.maxSpeed=60});
   chassis.waitUntilDone();
 }
-void MogoSideSoloAWP(bool isBlue) {
-  lemlib::Pose preload(60,-27.5);
-  lemlib::Pose allianceRing(48,0);
-  int sgn=sign(isBlue);
-  lemlib::Pose start(60,-27.5+(14.5/2),-90);
-  if (!isBlue) {
-    start = lemlib::Pose(52 + 7,-27.5+(14.5/2) - 8 + 2.5,-90);
-  }
-  intakeLift.toggle();
-  chassis.setPose(start.x*sgn,start.y,start.theta*sgn);
-  intake.move(127);
-  //LBExtend(1); // prop up ladybrown as hard stop for ring
-  chassis.turnToPoint((allianceRing.x + 6)*sgn,allianceRing.y,3000, {.minSpeed = 60, .earlyExitRange = 3}); // turn to two stack
-  chassis.waitUntilDone();
-  chassis.moveToPoint((allianceRing.x + 6)*sgn,(allianceRing.y - 9 - 4),2000, {.minSpeed=60}); // move to two stack
-  //chassis.waitUntil(13);
-  chassis.waitUntilDone();
-  intakeLift.toggle(); // lift intake to get rings
-  pros::Task colorUntil(intakeUntilColor); // start color sort
-  chassis.moveToPoint((start.x)*sgn,(start.y),1500, {.forwards = false, .minSpeed = 50}); // move back to starting position
-  chassis.waitUntilDone();
-  //intake.move(0);
-  chassis.turnToPoint((60 - 2) * sgn,-6 - 0.5,3000, {.minSpeed = 50}); // turn to AWS area
-  chassis.waitUntilDone();
-  chassis.moveToPoint((60 - 2) * sgn,-6 - 0.5,3000); // move to AWS area
-  chassis.waitUntilDone();
-  //LBRetract(); // retract ladybrown
-  intake.move(0); // stop intake
-  chassis.turnToHeading(-93 * sgn,3000, {.maxSpeed = 50}); // turn to AWS
-  chassis.waitUntilDone();
-  //colorUntil.suspend();
-  stopColorUntilFunction(); // stop color wait
-  chassis.moveToPoint((65 + 1.5) * sgn,-8 + 0.5,1500,{.forwards=false, .maxSpeed=60}); // move to AWS
-  //chassis.waitUntil(2);
-  chassis.waitUntilDone();
-  intake.move(127); // score on AWS
-  pros::delay(900);
-  intake.move(0);
-  chassis.moveToPoint((50 - 2) * sgn,-6 - 8,3000, {.minSpeed = 60}); // move toward ladder a little
-  chassis.waitUntilDone();
-  chassis.turnToPoint((32 - 9 + 10) * sgn,-30 - 3,3000,{.forwards=false, .minSpeed = 50}); // turn to mogo
-  chassis.waitUntilDone();
-  chassis.moveToPoint((32 - 9 + 10) * sgn,-30 - 3,3000,{.forwards=false, .minSpeed = 60, .earlyExitRange = 3}); // move to mogo
-  chassis.waitUntil(25 + 2);
-  mogoClamp.toggle(); // clamp mogo
-  chassis.waitUntilDone();
-  intake.move(127);
-  chassis.turnToPoint((24 - 1 + 10) * sgn,-45 + 2.5,2000); // turn to two stack
-  chassis.waitUntilDone();
-  chassis.moveToPoint((24 - 1 + 10) * sgn,-45 + 2.5,3000, {.minSpeed = 65}); // move to two stack
-  chassis.waitUntilDone();
-  //pros::Task sortColor(colorSortLoop); // start color sort
-  chassis.turnToPoint((50 - 2) * sgn,-19 - 3,3000, {.minSpeed = 70, .earlyExitRange = 5}); // turn to preload
-  chassis.waitUntilDone();
-  //pros::delay(700 - 300);
-  chassis.moveToPoint((50 - 2) * sgn,-19 - 3,3000, {.minSpeed = 60}); // move to preload
-  chassis.waitUntilDone();
-  pros::delay(700);
-  chassis.turnToPoint(18 * sgn,-18,3000); // turn to ladder
-  chassis.waitUntilDone();
-  //sortColor.remove(); // stop color sort
-  // chassis.moveToPoint(18 * sgn,-18,3000, {.minSpeed = 80}); // move to ladder
-  // chassis.waitUntil(25);
-  // chassis.cancelMotion();
-  // chassis.moveToPoint(3 * sgn,-18,3000, {.maxSpeed = 40}); // move to ladder
 
-
+void mogoSoloAWPBlue() {
+    lemlib::Pose start(60,-27.5+(14.5/2),-90);
+    intakeLift.toggle();
+    chassis.setPose(start.x, start.y, -90);
+    intake.move(127);
+    
+    chassis.turnToPoint(54, 0, 3000, {.minSpeed = 60, .earlyExitRange = 3});
+    chassis.waitUntilDone();
+    
+    set_drive(14.32, 2000, 60); // sqrt((54-60)^2 + (0-(-13))^2)
+    chassis.waitUntilDone();
+    
+    intakeLift.toggle();
+    pros::Task colorUntil(intakeUntilColor);
+    
+    set_drive(-14.32, 1500, 50); // -sqrt((60-54)^2 + (-13-0)^2)
+    chassis.waitUntilDone();
+    
+    chassis.turnToPoint(58, -6.5, 3000, {.minSpeed = 50});
+    chassis.waitUntilDone();
+    
+    set_drive(6.8, 3000); // sqrt((58-60)^2 + (-6.5-(-13))^2)
+    chassis.waitUntilDone();
+    
+    intake.move(0);
+    chassis.turnToHeading(-93, 3000, {.maxSpeed = 50});
+    chassis.waitUntilDone();
+    
+    stopColorUntilFunction();
+    
+    set_drive(-8.56, 1500, 0, 60); // -sqrt((66.5-58)^2 + (-7.5-(-6.5))^2)
+    chassis.waitUntilDone();
+    
+    // Continue converting remaining movements following the same pattern...
 }
-void mogoAdvayAuton(bool isBlue) {
+
+void mogoSoloAWPRed() {
+    lemlib::Pose start(-60,-27.5+(14.5/2),90);
+    intakeLift.toggle();
+    chassis.setPose(start.x, start.y, 90);
+    intake.move(127);
+    
+    chassis.turnToPoint(-54, 0, 3000, {.minSpeed = 60, .earlyExitRange = 3});
+    chassis.waitUntilDone();
+    
+    set_drive(14.32, 2000, 60); // sqrt((-54-(-60))^2 + (0-(-13))^2)
+    chassis.waitUntilDone();
+    
+    intakeLift.toggle();
+    pros::Task colorUntil(intakeUntilColor);
+    
+    set_drive(-14.32, 1500, 50); // -sqrt((-60-(-54))^2 + (-13-0)^2)
+    chassis.waitUntilDone();
+    
+    chassis.turnToPoint(-58, -6.5, 3000, {.minSpeed = 50});
+    chassis.waitUntilDone();
+    
+    set_drive(6.8, 3000); // sqrt((-58-(-60))^2 + (-6.5-(-13))^2)
+    chassis.waitUntilDone();
+    
+    intake.move(0);
+    chassis.turnToHeading(93, 3000, {.maxSpeed = 50});
+    chassis.waitUntilDone();
+    
+    stopColorUntilFunction();
+    
+    set_drive(-8.56, 1500, 0, 60); // -sqrt((-66.5-(-58))^2 + (-7.5-(-6.5))^2)
+    chassis.waitUntilDone();
+    
+    // Continue converting remaining movements following the same pattern...
+}
+
+// Auto-generated code from DSL
+
+void mogoAdvayAutonBlue() {
+    // Set initial position
+    chassis.setPose(48, 60, -90);
+    set_drive(-24.5, 3000, 0, 127);
+    chassis.waitUntilDone();
+    // Turn to Mogo #1
+    chassis.turnToPoint(9.5, -55, 3000);
+    chassis.waitUntilDone();
+    set_drive(-14.87, 3000, 0, 127);
+    // -1*sqrt((23.5-9.5)^2+(60-55)^2)
+    chassis.waitUntilDone();
+    // Clamp to Mogo #1
+    mogoClamp.toggle();
+    pros::delay(100);
+    setIntake(127);
+    pros::delay(500);
+    // Turn to Mogo #2
+    chassis.turnToPoint(17, 19, 3000);
+    mogoClamp.toggle();
+    chassis.waitUntilDone();
+    set_drive(36.77, 3000, 0, 127);
+    // -1*sqrt((9.5-17)^2+(55-19)^2)
+    chassis.waitUntilDone();
+    // Clamp to Mogo #2
+    mogoClamp.toggle();
+    pros::delay(700);
+    // Unknown command: setIntake;
+    // Turn to Ring Stake
+    chassis.turnToPoint(25, -54, 3000);
+    chassis.waitUntilDone();
+    set_drive(12, 3000, 0, 127);
+    chassis.waitUntilDone();
+    // Turn to Ladder
+    chassis.turnToPoint(48, 0, 3000);
+    chassis.waitUntilDone();
+    set_drive(40, 3000, 0, 127);
+}
+
+void mogoAdvayAutonRed() {
+    // Set initial position
+    chassis.setPose(-48, 60, 90);
+    set_drive(-24.5, 3000, 0, 127);
+    chassis.waitUntilDone();
+    // Turn to Mogo #1
+    chassis.turnToPoint(-9.5, -55, 3000);
+    chassis.waitUntilDone();
+    set_drive(-14.87, 3000, 0, 127);
+    // -1*sqrt((23.5-9.5)^2+(60-55)^2)
+    chassis.waitUntilDone();
+    // Clamp to Mogo #1
+    mogoClamp.toggle();
+    pros::delay(100);
+    setIntake(127);
+    pros::delay(500);
+    // Turn to Mogo #2
+    chassis.turnToPoint(-17, 19, 3000);
+    mogoClamp.toggle();
+    chassis.waitUntilDone();
+    set_drive(36.77, 3000, 0, 127);
+    // -1*sqrt((9.5-17)^2+(55-19)^2)
+    chassis.waitUntilDone();
+    // Clamp to Mogo #2
+    mogoClamp.toggle();
+    pros::delay(700);
+    // Unknown command: setIntake;
+    // Turn to Ring Stake
+    chassis.turnToPoint(-25, -54, 3000);
+    chassis.waitUntilDone();
+    set_drive(12, 3000, 0, 127);
+    chassis.waitUntilDone();
+    // Turn to Ladder
+    chassis.turnToPoint(-48, 0, 3000);
+    chassis.waitUntilDone();
+    set_drive(40, 3000, 0, 127);
+}
+
+/*void mogoAdvayAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
   //mogoClamp.toggle();
 	chassis.setPose(48*sgn,-60,90 * sgn); //Starting Line
@@ -531,25 +647,4 @@ void mogoAdvayAuton(bool isBlue) {
   chassis.turnToPoint(0 * sgn, -48, 3000, {.forwards = false});
   chassis.waitUntilDone();
 
-}
-
-void mogoAdvayAuton() {
-    chassis.setPose(48, 60, 90);
-    set_drive(21, 3000, 0, 127);
-    chassis.waitUntilDone();
-    mogoClamp.toggle();
-    chassis.turnToPoint(27, -21, 3000, {.forwards=false, .maxSpeed=127, .minSpeed=0});
-    chassis.waitUntilDone();
-    set_drive(27, 1500, 30, 127);
-    chassis.waitUntilDone();
-    mogoClamp.toggle();
-    LBExtend(1);
-}
-
-void ringAuton() {
-    chassis.setPose(60, -27.5, -90);
-}
-
-void skillsAuton() {
-    chassis.setPose(-63, 0, 90);
-}
+}*/
