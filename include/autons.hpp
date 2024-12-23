@@ -6,19 +6,17 @@ void set_drive(double inches, int time, float minSpeed, float maxSpeed);
 
 void ringAuton(bool isBlue);
 
-void soloAWPAuton(bool isBlue);
+void ringAutonRed();
 
-void soloAWPAutonTunedLMSD(bool isBlue);
-
-void simpleMogoAuton(bool isBlue);
+void ringAutonBlue();
 
 void mogoAdvayAuton(bool isBlue);
 
-void safeSoloAWP(bool isBlue);
-
-void VexmenSoloAWP(bool isBlue);
-
 void MogoSideSoloAWP(bool isBlue);
+
+void MogoSideSoloRed();
+
+void MogoSideSoloBlue();
 
 void skills();
 

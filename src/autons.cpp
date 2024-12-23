@@ -314,14 +314,16 @@ void skills() {
     chassis.moveToPoint(72 - 20, -72 + 20, 3000, {.forwards = false});
     chassis.waitUntilDone();
 }
+
+
 // Auton Development based on Barcbots (11101B)
 // Preload one ring
 void ringAutonBlue() {
   chassis.setPose(autonBluePos.x, autonBluePos.y, 90); // Set position for left auton
   //mogoClamp.toggle();
-  chassis.moveToPoint((URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
-  set_drive(23); // 27 24
-  //chassis.waitUntil(17 + 2);
+  //chassis.moveToPoint((URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Move to upper left mobile goal
+  set_drive(23); // Move to upper left mobile goal
+  chassis.waitUntil(17 + 2);
   // Mogo piston activate
   chassis.waitUntilDone();
   mogoClamp.toggle();
@@ -342,59 +344,43 @@ void ringAutonBlue() {
   chassis.waitUntilDone();
   chassis.turnToPoint(18 + 3, 48 - 3.5, 3000); // turn to 3rd two stack
   chassis.waitUntilDone();
-  set_drive(21.36); // sqrt((18+3-15)^2+(48-3.5-24)^2)
+  intakeLift.toggle();
+  set_drive(21.36); // move to 3rd two stack
   //chassis.moveToPoint((18 + 3) * sgn, 48 - 3.5, 3000); // move to 3rd two stack
   chassis.waitUntilDone();
   pros::delay(550);
-  set_drive(3.5);
+  set_drive(-3.5); // move back a little
   //chassis.moveToPoint((18) * sgn, 48 - 8.5 + 1.5, 1000); // move back a little
   chassis.waitUntilDone();
   //mogoClamp.toggle(); // drop mogo
 
-  //TODO: FINISH REST LATER
-  /*chassis.moveToPoint((TSTRR.x+30)*sgn,TSTRR.y - 25,3000,{.forwards=false, .minSpeed = 70}); // move back to wall
-  chassis.waitUntil(8);
-  //setIntake(0);
-  chassis.waitUntilDone();
-  //mogoClamp.toggle();
-  chassis.turnToPoint((45)*sgn, 8, 3000,{}, false); // turn to alliance wall stake
-  intake.move(0);
-  intakeLift.toggle();
-  chassis.moveToPoint((45 - 3)*sgn, 8 - 4, 3000,{.maxSpeed = 50}); // move to two stack
-  chassis.waitUntilDone();
-  intakeLift.toggle();
-  chassis.moveToPoint((45 - 2)*sgn, 8 + 10, 3000,{.forwards = false, .maxSpeed = 50}); // move back
-  chassis.waitUntilDone();
-  
-  pros::delay(2000);
-  //chassis.moveToPoint(20*sgn, -3, 3000);
-*/
 }
 
 void ringAutonRed() {
   chassis.setPose(-autonBluePos.x, autonBluePos.y, -90); // Mirror position for right auton
-  chassis.moveToPoint(-(URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Mirror move to upper right mobile goal
-  set_drive(23); // Same drive distance
+  //chassis.moveToPoint(-(URM.x + 4 - 1), URM.y, 3000, {.forwards=false, .minSpeed = 90}); // Mirror move to upper right mobile goal
+  set_drive(23); // Move to upper left mobile goal
   chassis.waitUntilDone();
-  mogoClamp.toggle();
+  mogoClamp.toggle(); // clamp mogo
   setIntake(127);
   pros::delay(400);
-  chassis.turnToPoint(-TSBRR.x, (TSBRR.y - 5), 2000,{},false);
+  chassis.turnToPoint(-TSBRR.x, (TSBRR.y - 5), 2000,{},false); // turn to middle rings
   chassis.follow(ringRushRed_txt, 15, 3500); // Use mirrored path file
   chassis.waitUntil(23);
-  chassis.cancelMotion();
+  chassis.cancelMotion(); // stop to intake rings
   pros::delay(1500);
-  chassis.follow(ringRushRed_txt, 15, 3500);
+  chassis.follow(ringRushRed_txt, 15, 3500); // continue with path
   chassis.waitUntilDone();
 
-  chassis.moveToPoint(-15, 24, 2000, {.forwards=false});
+  chassis.moveToPoint(-15, 24, 2000, {.forwards=false}); // move back a lot
   chassis.waitUntilDone();
-  chassis.turnToPoint(-(18 + 3), 48 - 3.5, 3000);
+  chassis.turnToPoint(-(18 + 3), 48 - 3.5, 3000); // turn to third two stack
   chassis.waitUntilDone();
-  set_drive(21.36);
+  intakeLift.toggle(); // lift inake
+  set_drive(21.36); // move and intake third two stack
   chassis.waitUntilDone();
   pros::delay(550);
-  set_drive(3.5);
+  set_drive(-3.5); // move back a little
   chassis.waitUntilDone();
 }
 
@@ -519,6 +505,42 @@ void mogoSoloAWPRed() {
 }
 
 // Auto-generated code from DSL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void mogoAdvayAutonBlue() {
     // Set initial position
