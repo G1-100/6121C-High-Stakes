@@ -506,8 +506,59 @@ void mogoSoloAWPRed() {
 
 // Auto-generated code from DSL
 
+void mogoRushAuton(bool isBlue) {
+  int sgn=isBlue?1:-1;
+	chassis.setPose(55*sgn,-60,120 * sgn); //Starting Line
+	set_drive(-50, 2500, 90, 127); //Move next to ring stack
+	chassis.waitUntil(40);
+  chassis.cancelMotion();
+  chassis.swingToHeading(90 * sgn, isBlue?lemlib::DriveSide::RIGHT:lemlib::DriveSide::LEFT, 3000); // swing into mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle();
+  pros::delay(100);
+	setIntake(127);
+  pros::delay(400);
 
+  set_drive(20); // move from middle
+  chassis.waitUntilDone();
+	mogoClamp.toggle(); //unclamp mogo#1
+	chassis.waitUntilDone();
+  chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards=false}); //Turn to mogo #2
+  chassis.waitUntilDone();
+  set_drive(-24); //Move to mogo #2
+	chassis.waitUntilDone();
+  set_drive(10); //Move back a little
+	chassis.waitUntilDone();
 
+  mogoClamp.toggle(); //Clamp mogo #2
+	chassis.turnToPoint(0*sgn,-35,3000);//Turn to pushed ring
+	chassis.waitUntilDone();
+  
+  set_drive(24);//Move to pushed ring
+	chassis.waitUntilDone();
+  set_drive(-48, 3000, 60, 127);//Move backwards
+	chassis.waitUntilDone();
+  pros::delay(200);
+  setIntake(-127);
+  chassis.turnToPoint(48 * sgn, -65, 3000); // turn to red ring
+  chassis.waitUntilDone();
+  set_drive(36); // clear away red ring
+  chassis.waitUntilDone();
+  set_drive(-12); // move back
+  chassis.waitUntilDone();
+  setIntake(127);
+  chassis.turnToPoint(72 * sgn, -72, 3000); // turn to corner
+  chassis.waitUntilDone();
+  set_drive(32); // move to corner
+  chassis.waitUntilDone();
+  pros::delay(300);
+  set_drive(-48, 2000, 60, 127); // move back
+  chassis.waitUntilDone();
+  chassis.turnToPoint(0 * sgn, -20, 3000); // turn to ladder
+  chassis.waitUntilDone();
+  set_drive(24); // move to ladder
+  chassis.waitUntilDone();
+}
 
 
 
