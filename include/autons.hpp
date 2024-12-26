@@ -14,6 +14,10 @@ void mogoAdvayAuton(bool isBlue);
 
 void MogoSideSoloAWP(bool isBlue);
 
+void mogoRushAuton(bool isBlue);
+
+void disruptRingRush(bool isBlue);
+
 void MogoSideSoloRed();
 
 void MogoSideSoloBlue();

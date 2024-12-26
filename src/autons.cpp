@@ -560,7 +560,36 @@ void mogoRushAuton(bool isBlue) {
   chassis.waitUntilDone();
 }
 
+void disruptRingRush(bool isBlue) {
+  int sgn=isBlue?1:-1;
+	chassis.setPose(55*sgn,30,-60 * sgn); //Starting Line
+  set_drive(50, 2500, 90, 127); //move and grab to rings 
+  chassis.waitUntilDone();
+  set_drive(-10); // move back a little
+  chassis.waitUntilDone();
+  chassis.turnToHeading(90 * sgn, 3000); // turn to go back
+  set_drive(-15); // move back
+  chassis.waitUntilDone();
+  chassis.turnToPoint(24 * sgn, 24, 3000, {.forwards = false}); // turn to mogo
+  chassis.waitUntilDone();
+  set_drive(-16); // move to mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle(); // clamp mogo
+  chassis.turnToPoint(24 * sgn, 60, 3000); // turn to intake rings
+  chassis.waitUntilDone();
+  set_drive(48); // move to intake rings
+  chassis.waitUntilDone();
+  set_drive(-48); // move back
+  chassis.waitUntilDone();
+  chassis.turnToPoint(72 * sgn, 72, 3000); // turn to corner
+  chassis.waitUntilDone();
+  set_drive(68); // move to corner
+  chassis.waitUntilDone();
+  set_drive(-10); // move back
+  chassis.waitUntilDone();
 
+
+}
 
 
 
