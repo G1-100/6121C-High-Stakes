@@ -58,7 +58,7 @@ lemlib::Pose LBRB(13,-13); // Ladder: Bottom Right Beam (LBC-LRC)
 lemlib::Pose autonRedPos(-50,24,270); // -50 24 270
 lemlib::Pose autonBluePos(50,24,90); // 50 24 90
 
-void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpeed=127) {
+void set_drive(double inches, int time, float minSpeed, float maxSpeed) {
     double trueAngle = chassis.getPose(true, true).theta;
     chassis.moveToPoint(cos(trueAngle)*inches + chassis.getPose().x, sin(trueAngle)*inches + chassis.getPose().y, time, {.forwards = inches > 0, .maxSpeed=maxSpeed, .minSpeed=minSpeed});
 }
@@ -587,12 +587,57 @@ void disruptRingRush(bool isBlue) {
   chassis.waitUntilDone();
   set_drive(-10); // move back
   chassis.waitUntilDone();
-
-
 }
 
+void SigSoloAWP(bool isBlue) {
+  int sgn=isBlue?1:-1;
+	chassis.setPose(57.25*sgn,16, 180 * sgn); //Starting Line
+  set_drive(6, 2000, 50, 127); // move to AWS
+  chassis.waitUntilDone();
+  chassis.turnToPoint(72 * sgn, 0 + 1.5, 3000); // turn to AWS
+  //chassis.turnToHeading(135, 3000);
+  chassis.waitUntilDone();
+  //TODO: RUN Ladybrown
+  chassis.turnToPoint(24, 24, 1000, {.forwards = false}); // quick turn to mogo
+  chassis.waitUntilDone();
+  set_drive(-30); // move to mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle(); // clamp mogo
+  chassis.turnToPoint((TSBRR.x), (TSBRR.y - 5), 2000,{},false); // turn to rings
+  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.waitUntil(23);
+  chassis.cancelMotion();
+  pros::delay(1500); // wait a little
+  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.waitUntilDone();
 
+  chassis.moveToPoint(15, 24, 2000, {.forwards=false}); // move back a lot
+  chassis.waitUntilDone();
+  chassis.turnToPoint(18 + 3, 48 - 3.5, 3000); // turn to 3rd two stack
+  chassis.waitUntilDone();
 
+  chassis.turnToHeading(135 * sgn, 2000); // turn to move around ladder
+  chassis.waitUntilDone();
+  chassis.moveToPose(48 * sgn, -20, 180 * sgn, 3000); // move around ladder and intake rings
+  chassis.waitUntilDone();
+  intake.move(0);
+  chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards = false}); // turn to mogo
+  chassis.waitUntilDone();
+  set_drive(-24); // move to mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle(); // clamp mogo
+  intake.move(127);
+  chassis.turnToPoint(24 * sgn, -60, 3000); // turn to intake rings
+  chassis.waitUntilDone();
+  set_drive(48); // move to intake rings
+  chassis.waitUntilDone();
+  set_drive(-48); // move back
+  chassis.turnToPoint(0, -24, 3000);
+  chassis.waitUntilDone();
+  set_drive(24); // move to ladder
+  chassis.waitUntilDone();
+
+}
 
 
 

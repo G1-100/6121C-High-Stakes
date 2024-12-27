@@ -20,7 +20,7 @@ void initialize() {
 	LBRotation.set_position(RESTANGLE);
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
+	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -46,9 +46,10 @@ void competition_initialize() {}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
-        std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
+        //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-        pros::delay(100);
+		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+        pros::delay(50);
         
         // Add a way to break the loop if needed
         if (pros::competition::is_disabled()) break;
@@ -78,7 +79,9 @@ void autonomous() {
 	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-	// Debug: pros::Task ret4(logger);
+	pros::Task ret4(logger);
+	SigSoloAWP(allianceColorBlue);
+	//set_drive(72);
 	//intake.move(127);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);

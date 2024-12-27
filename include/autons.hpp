@@ -2,7 +2,7 @@ int sgn(double num);
 
 void moveMax(double dist, int timeout, double slowAt);
 
-void set_drive(double inches, int time, float minSpeed, float maxSpeed);
+void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpeed=127);
 
 void ringAuton(bool isBlue);
 
@@ -21,6 +21,8 @@ void disruptRingRush(bool isBlue);
 void MogoSideSoloRed();
 
 void MogoSideSoloBlue();
+
+void SigSoloAWP(bool isBlue);
 
 void skills();
 
