@@ -15,10 +15,10 @@ pros::Motor driveRightFront(-13, pros::v5::MotorGears::blue, pros::v5::MotorUnit
 pros::Motor driveRightMiddle(12, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //intake
-pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor intake(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
-pros::Motor ladybrown(-6, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
+pros::Motor ladybrown(-8, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 //pistons
 pros::adi::Pneumatics intakeLift('D', false);
@@ -65,7 +65,7 @@ pros::MotorGroup right_side_motors({11, -13, 12}, pros::v5::MotorGears::blue, pr
         0 // maximum acceleration (slew)
     );
 
-    lemlib::ControllerSettings angular_controller(
+    lemlib::ControllerSettings angular_controller(  
         7, // proportional gain (kP) safe: 3
         0, // integral gain (kI)
         55, // derivative gain (kD) 20

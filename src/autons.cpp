@@ -597,18 +597,25 @@ void SigSoloAWP(bool isBlue) {
   chassis.turnToPoint(72 * sgn, 0 + 1.5, 3000); // turn to AWS
   //chassis.turnToHeading(135, 3000);
   chassis.waitUntilDone();
-  //TODO: RUN Ladybrown
+  //LBExtend(1); //TODO: RUN Ladybrown
+  // intake.move(127); // TODO run intake so the ring goes onto the raised Ladybrown
+  //LBExtend(2); // Extend Ladybrown onto the AWS and wait a bit
+  // pros::delay(250);
+  // ChangeLBState(REST);
   chassis.turnToPoint(24, 24, 1000, {.forwards = false}); // quick turn to mogo
   chassis.waitUntilDone();
-  set_drive(-30); // move to mogo
+  set_drive(-32); // move to mogo
   chassis.waitUntilDone();
+  pros::delay(500);
   mogoClamp.toggle(); // clamp mogo
+  pros::delay(500);
   chassis.turnToPoint((TSBRR.x), (TSBRR.y - 5), 2000,{},false); // turn to rings
-  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  intake.move(127);
+  chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
   chassis.waitUntil(23);
   chassis.cancelMotion();
   pros::delay(1500); // wait a little
-  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
   chassis.waitUntilDone();
 
   chassis.moveToPoint(15, 24, 2000, {.forwards=false}); // move back a lot
@@ -618,6 +625,7 @@ void SigSoloAWP(bool isBlue) {
 
   chassis.turnToHeading(135 * sgn, 2000); // turn to move around ladder
   chassis.waitUntilDone();
+  /* Commenting out so I don't have to get run over while not moving out of the way
   chassis.moveToPose(48 * sgn, -20, 180 * sgn, 3000); // move around ladder and intake rings
   chassis.waitUntilDone();
   intake.move(0);
@@ -636,7 +644,7 @@ void SigSoloAWP(bool isBlue) {
   chassis.waitUntilDone();
   set_drive(24); // move to ladder
   chassis.waitUntilDone();
-
+  */
 }
 
 
