@@ -15,15 +15,17 @@ pros::Motor driveRightFront(-13, pros::v5::MotorGears::blue, pros::v5::MotorUnit
 pros::Motor driveRightMiddle(12, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 //intake
-pros::Motor intake(1, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor intake(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // ladybrown wall stake mech
 pros::Motor ladybrown(-6, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 //pistons
-pros::adi::Pneumatics intakeLift('D', false);
-pros::adi::Pneumatics doinker('B', false); 
-pros::adi::Pneumatics mogoClamp('H', false);
+pros::adi::Pneumatics intakeLift('X', false);
+pros::adi::Pneumatics doinker('X', false); 
+pros::adi::Pneumatics mogoClamp('D', false);
+pros::adi::Pneumatics rushRightPiston('A', false);
+pros::adi::Pneumatics rushLeftPiston('A', false);
 
 // inertial
 pros::Imu IMU(4);
