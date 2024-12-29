@@ -4,11 +4,13 @@
 extern double RESTANGLE;
 extern double STOP1;
 extern double STOP2;
+extern double STOP3;
 
 extern int LBState;
 extern double REST;
 extern double PROPPED;
 extern double EXTENDED;
+extern double FULLEXTENDED;
 
 extern bool LBLoopActive;
 

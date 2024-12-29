@@ -333,11 +333,11 @@ void ringAutonBlue() {
   pros::delay(400);
   // Turn to and move to middle stacks of rings
   chassis.turnToPoint((TSBRR.x), (TSBRR.y - 5), 2000,{},false); // turn to rings
-  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.follow(ringRushBlueOld_txt, 15, 3500); // pure pursuit move while intaking rings
   chassis.waitUntil(23);
   chassis.cancelMotion();
   pros::delay(1500); // wait a little
-  chassis.follow(ringRushBlue_txt, 15, 3500); // pure pursuit move while intaking rings
+  chassis.follow(ringRushBlueOld_txt, 15, 3500); // pure pursuit move while intaking rings
   chassis.waitUntilDone();
 
   chassis.moveToPoint(15, 24, 2000, {.forwards=false}); // move back a lot
@@ -365,11 +365,11 @@ void ringAutonRed() {
   setIntake(127);
   pros::delay(400);
   chassis.turnToPoint(-TSBRR.x, (TSBRR.y - 5), 2000,{},false); // turn to middle rings
-  chassis.follow(ringRushRed_txt, 15, 3500); // Use mirrored path file
+  chassis.follow(ringRushRedOld_txt, 15, 3500); // Use mirrored path file
   chassis.waitUntil(23);
   chassis.cancelMotion(); // stop to intake rings
   pros::delay(1500);
-  chassis.follow(ringRushRed_txt, 15, 3500); // continue with path
+  chassis.follow(ringRushRedOld_txt, 15, 3500); // continue with path
   chassis.waitUntilDone();
 
   chassis.moveToPoint(-15, 24, 2000, {.forwards=false}); // move back a lot
@@ -592,59 +592,72 @@ void disruptRingRush(bool isBlue) {
 void SigSoloAWP(bool isBlue) {
   int sgn=isBlue?1:-1;
 	chassis.setPose(57.25*sgn,16, 180 * sgn); //Starting Line
+  ChangeLBState(PROPPED);
   set_drive(6, 2000, 50, 127); // move to AWS
   chassis.waitUntilDone();
-  chassis.turnToPoint(72 * sgn, 0 + 1.5, 3000); // turn to AWS
+  intake.move(120);
+  chassis.turnToPoint(72 * sgn, 0 - 0.5, 750, {.minSpeed = 60}); // turn to AWS
   //chassis.turnToHeading(135, 3000);
   chassis.waitUntilDone();
-  //LBExtend(1); //TODO: RUN Ladybrown
-  // intake.move(127); // TODO run intake so the ring goes onto the raised Ladybrown
-  //LBExtend(2); // Extend Ladybrown onto the AWS and wait a bit
-  // pros::delay(250);
-  // ChangeLBState(REST);
-  chassis.turnToPoint(24, 24, 1000, {.forwards = false}); // quick turn to mogo
+  intake.move(0);
+  set_drive(-3, 1000, 10, 80); // move back
   chassis.waitUntilDone();
-  set_drive(-32); // move to mogo
+  ChangeLBState(FULLEXTENDED); // extend ladybrown
+  pros::delay(700);
+  ChangeLBState(REST); // retract ladybrown
+  set_drive(2, 1000, 50, 80); // move back
   chassis.waitUntilDone();
-  pros::delay(500);
+  // chassis.turnToPoint((21 - 3) * sgn, 24 + 6, 500, {.forwards = false}); // quick turn to mogo
+  // chassis.waitUntilDone();
+  // set_drive(-35 - 4); // move to mogo
+  chassis.moveToPoint(18 + 3, 30, 3000, {.forwards = false, .minSpeed = 80}); // move to mogo
+  chassis.waitUntil(30);
   mogoClamp.toggle(); // clamp mogo
-  pros::delay(500);
-  chassis.turnToPoint((TSBRR.x), (TSBRR.y - 5), 2000,{},false); // turn to rings
+  chassis.waitUntilDone();
+  chassis.turnToPoint((TSBRR.x), (TSBRR.y + 4), 2000,{.minSpeed = 70},false); // turn to rings
   intake.move(127);
   chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
-  chassis.waitUntil(23);
+  chassis.waitUntil(22 - 8);
   chassis.cancelMotion();
-  pros::delay(1500); // wait a little
-  chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
+  chassis.turnToHeading(0, 1500); // straighten
+  chassis.waitUntilDone();
+  chassis.follow(ringRushBlue_txt, 20, 1250); // pure pursuit move while intaking rings
   chassis.waitUntilDone();
 
-  chassis.moveToPoint(15, 24, 2000, {.forwards=false}); // move back a lot
+  chassis.moveToPoint(8 + 5, 35, 2000, {.forwards=false, .minSpeed = 80}); // move back a lot
   chassis.waitUntilDone();
-  chassis.turnToPoint(18 + 3, 48 - 3.5, 3000); // turn to 3rd two stack
+  chassis.turnToPoint(19 - 2, 48, 1500, {.minSpeed = 60}); // turn to 3rd two stack
   chassis.waitUntilDone();
+  set_drive(23 - 4, 1500, 80); // move to 3rd two stack
+  chassis.waitUntilDone();
+  // set_drive(-25);
+  // chassis.waitUntilDone();
 
-  chassis.turnToHeading(135 * sgn, 2000); // turn to move around ladder
+  chassis.turnToPoint(45 * sgn, 0 - 3, 2000, {.minSpeed = 60}); // turn to move around ladder
   chassis.waitUntilDone();
-  /* Commenting out so I don't have to get run over while not moving out of the way
-  chassis.moveToPose(48 * sgn, -20, 180 * sgn, 3000); // move around ladder and intake rings
+  set_drive(43 + 4, 2500, 80); // move around ladder
   chassis.waitUntilDone();
-  intake.move(0);
-  chassis.turnToPoint(24 * sgn, -24, 3000, {.forwards = false}); // turn to mogo
+  set_drive(-5);
   chassis.waitUntilDone();
-  set_drive(-24); // move to mogo
+  mogoClamp.toggle(); // unclamp mogo
+  intake.move(-127);
+  set_drive(20, 2000, 60);
+  chassis.waitUntilDone();
+  chassis.turnToPoint((24 - 5) * sgn, -24 + 14, 3000, {.forwards = false}); // turn to mogo
+  chassis.waitUntilDone();
+  set_drive(-30, 2000, 70); // move to mogo
   chassis.waitUntilDone();
   mogoClamp.toggle(); // clamp mogo
   intake.move(127);
   chassis.turnToPoint(24 * sgn, -60, 3000); // turn to intake rings
   chassis.waitUntilDone();
-  set_drive(48); // move to intake rings
+  set_drive(36); // move to intake rings
   chassis.waitUntilDone();
   set_drive(-48); // move back
   chassis.turnToPoint(0, -24, 3000);
   chassis.waitUntilDone();
   set_drive(24); // move to ladder
   chassis.waitUntilDone();
-  */
 }
 
 

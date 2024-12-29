@@ -24,8 +24,8 @@ pros::Motor ladybrown(-8, pros::v5::MotorGears::red, pros::v5::MotorUnits::degre
 pros::adi::Pneumatics intakeLift('X', false);
 pros::adi::Pneumatics doinker('X', false); 
 pros::adi::Pneumatics mogoClamp('D', false);
-pros::adi::Pneumatics rushRightPiston('A', false);
-pros::adi::Pneumatics rushLeftPiston('A', false);
+pros::adi::Pneumatics rushRightPiston('C', false);
+pros::adi::Pneumatics rushLeftPiston('B', false);
 
 // inertial
 pros::Imu IMU(4);

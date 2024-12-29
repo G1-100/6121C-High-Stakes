@@ -28,4 +28,6 @@ void skills();
 
 ASSET(skills1_txt);
 ASSET(ringRushBlue_txt);
+ASSET(ringRushBlueOld_txt);
 ASSET(ringRushRed_txt);
+ASSET(ringRushRedOld_txt);

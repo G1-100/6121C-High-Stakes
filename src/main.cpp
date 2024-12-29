@@ -17,7 +17,8 @@ void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 	chassis.calibrate();
-	LBRotation.set_position(RESTANGLE);
+	LBRotation.set_position(0);
+	LBRotation.reset_position();
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = true; // VERY IMPORTANT
@@ -48,7 +49,8 @@ void logger() {
     while (!pros::competition::is_disabled()) {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		//std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		//std::cout << LBRotation.get_position() << "\n";
         pros::delay(50);
         
         // Add a way to break the loop if needed
@@ -80,13 +82,16 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	pros::Task ret4(logger);
-	SigSoloAWP(allianceColorBlue);
+	pros::Task lb_task(LBLoop);
+	// rushLeftPiston.toggle();
+	// rushRightPiston.toggle();
 	//set_drive(72);
 	//intake.move(127);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
+	SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);

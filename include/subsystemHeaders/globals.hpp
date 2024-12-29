@@ -51,8 +51,8 @@ extern  pros::Controller master;
 extern pros::adi::Pneumatics intakeLift;
 extern pros::adi::Pneumatics doinker;
 extern pros::adi::Pneumatics mogoClamp;
-pros::adi::Pneumatics rushRightPiston;
-pros::adi::Pneumatics rushLeftPiston;
+extern pros::adi::Pneumatics rushRightPiston;
+extern pros::adi::Pneumatics rushLeftPiston;
 
 //extern pros::adi::Port sensor;
 
