@@ -21,7 +21,7 @@ void initialize() {
 	LBRotation.reset_position();
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -49,7 +49,7 @@ void logger() {
     while (!pros::competition::is_disabled()) {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-		//std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 		//std::cout << LBRotation.get_position() << "\n";
         pros::delay(50);
         
@@ -87,11 +87,13 @@ void autonomous() {
 	// rushRightPiston.toggle();
 	//set_drive(72);
 	//intake.move(127);
+	//disruptRingRush(allianceColorBlue);
+	mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
-	SigSoloAWP(allianceColorBlue);
+	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
@@ -185,7 +187,7 @@ void checkTemp() {
 			master.set_text(0, 0, "Intake Temp: " + std::to_string(tempFahrenheit) + "F");
 		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
 			double tempFarenheit = ladybrown.get_temperature() * 9.0 / 5.0 + 32.0;
-			master.set_text(0, 0, "Ladybrown Temp: " + std::to_string(tempFarenheit) + "F");
+			master.set_text(0, 0, "LB Temp: " + std::to_string(tempFarenheit) + "F");
 		} else if (count == 0) {
 			master.set_text(0, 0, "No motors found.");
 		} else {

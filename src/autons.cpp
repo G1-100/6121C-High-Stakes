@@ -510,10 +510,11 @@ void mogoRushAuton(bool isBlue) {
   int sgn=isBlue?1:-1;
 	chassis.setPose(55*sgn,-60,120 * sgn); //Starting Line
 	set_drive(-50, 2500, 90, 127); //Move next to ring stack
-	chassis.waitUntil(40);
+	chassis.waitUntil(45);
   chassis.cancelMotion();
-  chassis.swingToHeading(90 * sgn, isBlue?lemlib::DriveSide::RIGHT:lemlib::DriveSide::LEFT, 3000); // swing into mogo
-  chassis.waitUntilDone();
+  pros::delay(4000);
+  //chassis.swingToHeading(90 * sgn, isBlue?lemlib::DriveSide::RIGHT:lemlib::DriveSide::LEFT, 3000); // swing into mogo
+  //chassis.waitUntilDone();
   mogoClamp.toggle();
   pros::delay(100);
 	setIntake(127);
@@ -563,10 +564,14 @@ void mogoRushAuton(bool isBlue) {
 void disruptRingRush(bool isBlue) {
   int sgn=isBlue?1:-1;
 	chassis.setPose(55*sgn,30,-60 * sgn); //Starting Line
-  set_drive(50, 2500, 90, 127); //move and grab to rings 
+  set_drive(53.5, 2500, 100, 127); //move and grab to rings 
+  rushLeftPiston.toggle();
+  rushRightPiston.toggle();
   chassis.waitUntilDone();
-  set_drive(-10); // move back a little
+  pros::delay(4000);
+  set_drive(-25); // move back a little
   chassis.waitUntilDone();
+  pros::delay(20000);
   chassis.turnToHeading(90 * sgn, 3000); // turn to go back
   set_drive(-15); // move back
   chassis.waitUntilDone();
@@ -598,30 +603,29 @@ void SigSoloAWP(bool isBlue) {
 
       // Put Preload on AWS
 
-  ChangeLBState(PROPPED); // Ready Lady Brown to intake ring into it
+  ChangeLBState(PROPPED); // Ready Lady Brown to intake ring into it 
   set_drive(6, 2000, 50, 127); // move to AWS
   chassis.waitUntilDone();
 
 // Prepares Preload to be scored
-  intake.move(120); // Intake Ring to raised Ladybrown
+  intake.move(122); // Intake Ring to raised Ladybrown
 
 // Turning Code
-  chassis.turnToPoint(72 * sgn, 0 - 0.5, 750, {.minSpeed = 60}); // turn to AWS
-  //chassis.turnToHeading(135, 3000); // Old Turn Code
+  // chassis.turnToPoint(72 * sgn, 0 - 0.5, 750, {.minSpeed = 60}); // turn to AWS
+  chassis.turnToHeading(120, 750);
   chassis.waitUntilDone();
 
 // Ring is fully on Ladybrown
-  intake.move(0); // Stop Intaking
 
 // Align to put ring on AWS using Ladybrown
-  set_drive(-3, 1000, 10, 80); // move back
+  set_drive(-3.5, 1000, 10, 80); // move back
   chassis.waitUntilDone();
+  intake.move(0); // Stop Intaking
 
 //Put ring on AWS
   ChangeLBState(FULLEXTENDED); // Extend Ladybrown
-  pros::delay(700); // Delay so Ring can actually stay on the AWS
+  pros::delay(650); // Delay so Ring can actually stay on the AWS
 
-// WIP because it is inconsistant
   ChangeLBState(REST); // retract ladybrown
   set_drive(2, 1000, 50, 80); // move back
   chassis.waitUntilDone();
@@ -634,34 +638,40 @@ void SigSoloAWP(bool isBlue) {
 
     // Mogo Clamping
 
-// Automatically Turns to Mogo
-  chassis.moveToPoint(18 + 3, 30, 3000, {.forwards = false, .minSpeed = 80}); // move to mogo
-  chassis.waitUntil(30); // Wait at Mogo for clamp consistantly
+// Automatically Turns to Mogo  
+  chassis.moveToPoint(21, 30, 3000, {.forwards = false, .minSpeed = 80}); // move to mogo
+  chassis.waitUntil(37); // Wait at Mogo for clamp consistantly
   mogoClamp.toggle(); // clamp mogo
+  chassis.cancelMotion();
+  chassis.moveToPoint(17 - 4, 35, 3000, {.forwards = false, .minSpeed = 80}); // Move a bit past the mogo
+
   chassis.waitUntilDone();
 
     // Ring Rush Part
 
 // Intaking middle Rings
-  chassis.turnToPoint((TSBRR.x), (TSBRR.y + 4), 2000,{.minSpeed = 70},false); // turn to rings
+  chassis.turnToPoint((-10), (TSBRR.y + 4 + 4), 2000, {}, false); // turn to rings
   intake.move(127); // Move forwards
 // Turning while moving, needs to be tuned
-  chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
-
+  //chassis.follow(ringRushBlue_txt, 20, 3500); // pure pursuit move while intaking rings
+  set_drive(16 - 2, 2000, 70);
+  chassis.waitUntilDone();
 // Wait for the last move to be finished and stop
-  chassis.waitUntil(22 - 8);
-  chassis.cancelMotion();
+  // chassis.waitUntil(22 - 8);
+  // chassis.cancelMotion();
 
 // Get in position to get the last ring
-  chassis.turnToHeading(0, 1500); // Straighten for consistancy
+  chassis.turnToHeading(0, 1500); // Turn around
   chassis.waitUntilDone();
-  chassis.follow(ringRushBlue_txt, 20, 1250); // pure pursuit move while intaking rings
+  //chassis.follow(ringRushBlue_txt, 20, 1250); // pure pursuit move while intaking rings
+  set_drive(15, 1500, 70);
   chassis.waitUntilDone();
 
 // Getting the last non-corner ring on this side
-  chassis.moveToPoint(8 + 5, 35, 2000, {.forwards=false, .minSpeed = 80}); // move back a lot
+  chassis.moveToPoint(8 + 5, 35 - 8, 2000, {.forwards=false, .minSpeed = 80}); // move back a lot
   chassis.waitUntilDone();
-  chassis.turnToPoint(19 - 2, 48, 1500, {.minSpeed = 60}); // turn to 3rd two stack
+  //chassis.turnToPoint(19 - 2, 48, 1500, {.minSpeed = 60}); // turn to 3rd two stack
+  chassis.turnToHeading(30, 2000);
   chassis.waitUntilDone();
 
 // Still intaking for last ring for 3rd ring on Mogo
@@ -673,6 +683,11 @@ void SigSoloAWP(bool isBlue) {
     // Finished with the Ring Rush
 
     // Left Side, untested and probably not working
+
+
+  /*
+
+
   chassis.turnToPoint(45 * sgn, 0 - 3, 2000, {.minSpeed = 60}); // turn to move around ladder
   chassis.waitUntilDone();
   set_drive(43 + 4, 2500, 80); // move around ladder
@@ -699,6 +714,7 @@ void SigSoloAWP(bool isBlue) {
   chassis.waitUntilDone();
   set_drive(24); // move to ladder
   chassis.waitUntilDone();
+  */
 }
 
 
