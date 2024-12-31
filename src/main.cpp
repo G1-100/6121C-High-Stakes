@@ -21,7 +21,7 @@ void initialize() {
 	LBRotation.reset_position();
 	pros::delay(1000);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
+	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -88,12 +88,12 @@ void autonomous() {
 	//set_drive(72);
 	//intake.move(127);
 	//disruptRingRush(allianceColorBlue);
-	mogoRushAuton(allianceColorBlue);
+	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
-	//SigSoloAWP(allianceColorBlue);
+	SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
