@@ -5,6 +5,8 @@ extern bool ColorLoopActive;
 
 extern bool wrongColorDetected;
 
+extern bool colorLoopStarted;
+
 extern double ambientHue;
 
 extern double ambientRed;

@@ -21,8 +21,8 @@ pros::Motor intake(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees)
 pros::Motor ladybrown(-8, pros::v5::MotorGears::red, pros::v5::MotorUnits::degrees);
 
 //pistons
-pros::adi::Pneumatics intakeLift('X', false);
-pros::adi::Pneumatics doinker('X', false); 
+pros::adi::Pneumatics intakeLift('H', false);
+pros::adi::Pneumatics doinker('H', false); 
 pros::adi::Pneumatics mogoClamp('D', false);
 pros::adi::Pneumatics rushRightPiston('C', false);
 pros::adi::Pneumatics rushLeftPiston('B', false);
@@ -36,7 +36,7 @@ bool allianceColorBlue = true;
 pros::Rotation horizTracking(12);
 pros::Rotation vertTracking(19);
 
-pros::Optical optical(18);
+pros::Optical optical(20);
 
 pros::Rotation LBRotation(7);
 

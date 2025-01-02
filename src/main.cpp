@@ -20,6 +20,7 @@ void initialize() {
 	LBRotation.set_position(0);
 	LBRotation.reset_position();
 	pros::delay(1000);
+	optical.set_led_pwm(100);
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
@@ -48,9 +49,12 @@ void competition_initialize() {}
 void logger() {
     while (!pros::competition::is_disabled()) {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
+		//std::cout << "DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		//std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 		//std::cout << LBRotation.get_position() << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
         pros::delay(50);
         
         // Add a way to break the loop if needed
@@ -114,6 +118,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	optical.set_led_pwm(100);
 	// OP CONTROL RESET:
 	brakeModeCoast();
 	runStart = pros::millis();
@@ -123,10 +128,11 @@ void opcontrol() {
 	if (!LBLoopActive) { 
 		pros::Task lb_task(LBLoop);
 	}
+	if (!colorLoopStarted) {
+		//pros::Task color_task(colorSortLoop);
+	}
 	// Create tasks with proper handling
 	pros::Task logger_task(logger);
-	// pros::Task colorUntil(intakeUntilColor);
-	// pros::delay(100000);
 	pros::Task temp_task(checkTemp);
 	
 	ColorLoopActive = false; // starts inactive until tested ambient colors

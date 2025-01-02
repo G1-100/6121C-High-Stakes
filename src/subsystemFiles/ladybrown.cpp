@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 40; // angle of stopping point 1 actual -10
+double STOP1 = 37; // angle of stopping point 1 actual -10
 double STOP2 = 130 + 20; // angle of stop 2 - 130
 double STOP3 = 220;
 

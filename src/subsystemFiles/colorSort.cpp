@@ -5,16 +5,17 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool stopColorUntil = false;
-double ambientColorDiff = 100; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = 260; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
-
+bool colorLoopStarted = false;
 
 void initColorSort() {
     ColorLoopActive = true;
     optical.set_led_pwm(100);
     double ambientHue = 50;
     pros::Task color_task(colorSortLoop);
+    optical.set_integration_time(10);
 }
 
 void activateColorSort() {
@@ -31,6 +32,7 @@ void stopColorUntilFunction() {
 }
 
 void doColorSort() {
+    optical.set_led_pwm(100);
         double hue = optical.get_hue();
         double red_component = optical.get_rgb().red;
         double blue_component = optical.get_rgb().blue;
@@ -38,23 +40,27 @@ void doColorSort() {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         //std::cout << "Proximity: " << optical.get_proximity() << "\n";
         if (ColorLoopActive) {
-            if (!allianceColorBlue && currentColorDiff - ambientColorDiff > 100) { // alliance red and its 100 more blue than before
+            if (!allianceColorBlue && currentColorDiff - ambientColorDiff > 10) { // alliance red and its 100 more blue than before
                 cout << "BLUE DETECTED" << "\n";
                 wrongColorDetected = true;
                 setIntake(127);
-                pros::delay(30);
-                setIntake(-127);
-                pros::delay(40);
+                while (optical.get_proximity() > 37) {
+                    pros::delay(10);
+                }
+                setIntake(0);
+                pros::delay(150);
                 setIntake(127);
                 wrongColorDetected = false;
             }
-            else if (allianceColorBlue && red_component > 220 && currentColorDiff - ambientColorDiff < -100) { // alliance blue and its 100 more red than before
+            else if (allianceColorBlue && currentColorDiff - ambientColorDiff < -10) { // alliance blue and its 100 more red than before
                 wrongColorDetected = true;
                 cout << "RED DETECTED" << "\n";
                 setIntake(127);
-                pros::delay(50);
-                setIntake(-127);
-                pros::delay(40);
+                while (optical.get_proximity() > 37) {
+                    pros::delay(10);
+                }
+                setIntake(0);
+                pros::delay(150);
                 setIntake(127);
                 wrongColorDetected = false;
             }
@@ -66,6 +72,7 @@ void doColorSort() {
 }
 
 void colorSortLoop() {
+    colorLoopStarted = true;
     ColorLoopActive = true;
     while (true) {
         if (LBState == REST) {
