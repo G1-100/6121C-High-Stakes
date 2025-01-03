@@ -563,35 +563,60 @@ void mogoRushAuton(bool isBlue) {
 
 void disruptRingRush(bool isBlue) {
   int sgn=isBlue?1:-1;
-	chassis.setPose(55*sgn,30,-60 * sgn); //Starting Line
-  set_drive(53.5, 2500, 100, 127); //move and grab to rings 
+	chassis.setPose(55 * sgn,30,-(71) * sgn); //Starting Line 71
+  set_drive(39 - 1, 2500, 100, 127); //move and grab to rings 
   rushLeftPiston.toggle();
   rushRightPiston.toggle();
   chassis.waitUntilDone();
-  pros::delay(4000);
-  set_drive(-25); // move back a little
+  set_drive(-12 + 3, 2000, 70, 127); // move back a little
   chassis.waitUntilDone();
-  pros::delay(20000);
-  chassis.turnToHeading(90 * sgn, 3000); // turn to go back
-  set_drive(-15); // move back
+  chassis.turnToHeading(-97 * sgn, 500); // turn to go back
   chassis.waitUntilDone();
-  chassis.turnToPoint(24 * sgn, 24, 3000, {.forwards = false}); // turn to mogo
+  set_drive(-20 - 6, 1500, 70, 127); // move back
+  chassis.waitUntil(6 - 1.5);
+  rushLeftPiston.toggle();
+  rushRightPiston.toggle();
   chassis.waitUntilDone();
-  set_drive(-16); // move to mogo
+  // chassis.turnToPoint(24 * sgn, 21, 3000, {.forwards = false}); // turn to mogo
+  //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
+  chassis.turnToHeading(60 * sgn, 3000); // turn to mogo
   chassis.waitUntilDone();
+  set_drive(-38 + 2, 2000, 70, 127); // move to mogo
+  chassis.waitUntil(26 - 1);
   mogoClamp.toggle(); // clamp mogo
-  chassis.turnToPoint(24 * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
-  set_drive(48); // move to intake rings
+  chassis.turnToHeading(-5 * sgn, 3000); // turn to intake rings
+  intake.move(127); // start intake
+  //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
-  set_drive(-48); // move back
+  pros::delay(500);
+  set_drive(11, 2000, 60); // move to intake rings
   chassis.waitUntilDone();
-  chassis.turnToPoint(72 * sgn, 72, 3000); // turn to corner
+  pros::delay(1000);
+  set_drive(11, 2000, 60);
   chassis.waitUntilDone();
-  set_drive(68); // move to corner
+  chassis.turnToHeading((-40 - 10) * sgn, 3000); // turn to last ring
   chassis.waitUntilDone();
-  set_drive(-10); // move back
+  pros::delay(500);
+  set_drive(5, 1500); // move to last ring
   chassis.waitUntilDone();
+  pros::delay(500);
+  set_drive(-24, 2000, 70, 127); // move back
+  chassis.waitUntilDone();
+  chassis.turnToHeading(155 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
+  chassis.waitUntilDone();
+  set_drive(20, 2500, 75, 127); // move to two stack middle
+  chassis.waitUntilDone();
+  set_drive(10, 1000, 0, 30); // keep forward
+  chassis.waitUntilDone();
+  // set_drive(-5, 1500, 60, 127); // move back
+  // chassis.waitUntilDone();
+
+  // chassis.turnToPoint(24, 0, 3000); // turn to ladder
+  // chassis.waitUntilDone();
+  // chassis.moveToPoint(24, 0, 3000); // turn to ladder
+  // chassis.waitUntilDone();
+  
 }
 
 
@@ -694,36 +719,37 @@ void SigSoloAWP(bool isBlue) {
 
     // Left Side, untested and probably not working
 
+    chassis.turnToPoint(24, 0, 3000); // turn to ladder
+    chassis.waitUntilDone();
+    chassis.moveToPoint(24, 0, 3000); // turn to ladder
+    chassis.waitUntilDone();
 
-  
-
-
-  chassis.turnToPoint(45 * sgn, 0 - 3, 2000, {.minSpeed = 60}); // turn to move around ladder
-  chassis.waitUntilDone();
-  set_drive(43 + 4, 2500, 80); // move around ladder
-  chassis.waitUntilDone();
-  set_drive(-5);
-  chassis.waitUntilDone();
-  mogoClamp.toggle(); // unclamp mogo
-  intake.move(-127);
-  set_drive(20, 2000, 60);
-  chassis.waitUntilDone();
-  chassis.turnToPoint((24 - 5) * sgn, -24 + 14, 3000, {.forwards = false}); // turn to mogo
-  chassis.waitUntilDone();
-  set_drive(-30, 2000, 70); // move to mogo
-  chassis.waitUntilDone();
-  mogoClamp.toggle(); // clamp mogo
-  intake.move(127);
-  chassis.turnToPoint(24 * sgn, -60, 3000); // turn to intake rings
-  chassis.waitUntilDone();
-  set_drive(36); // move to intake rings
-  chassis.waitUntilDone();
-  set_drive(-48); // move back
-  // Going to Ladder
-  chassis.turnToPoint(0, -24, 3000);
-  chassis.waitUntilDone();
-  set_drive(24); // move to ladder
-  chassis.waitUntilDone();
+  // chassis.turnToPoint(45 * sgn, 0 - 3, 2000, {.minSpeed = 60}); // turn to move around ladder
+  // chassis.waitUntilDone();
+  // set_drive(43 + 4, 2500, 80); // move around ladder
+  // chassis.waitUntilDone();
+  // set_drive(-5);
+  // chassis.waitUntilDone();
+  // mogoClamp.toggle(); // unclamp mogo
+  // intake.move(-127);
+  // set_drive(20, 2000, 60);
+  // chassis.waitUntilDone();
+  // chassis.turnToPoint((24 - 5) * sgn, -24 + 14, 3000, {.forwards = false}); // turn to mogo
+  // chassis.waitUntilDone();
+  // set_drive(-30, 2000, 70); // move to mogo
+  // chassis.waitUntilDone();
+  // mogoClamp.toggle(); // clamp mogo
+  // intake.move(127);
+  // chassis.turnToPoint(24 * sgn, -60, 3000); // turn to intake rings
+  // chassis.waitUntilDone();
+  // set_drive(36); // move to intake rings
+  // chassis.waitUntilDone();
+  // set_drive(-48); // move back
+  // // Going to Ladder
+  // chassis.turnToPoint(0, -24, 3000);
+  // chassis.waitUntilDone();
+  // set_drive(24); // move to ladder
+  // chassis.waitUntilDone();
   
 }
 

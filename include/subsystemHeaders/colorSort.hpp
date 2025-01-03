@@ -13,6 +13,8 @@ extern double ambientRed;
 
 extern double ambientBlue;
 
+extern double ambientProximity;
+
 void initColorSort();
 
 void doColorSort();

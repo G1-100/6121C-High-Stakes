@@ -85,19 +85,21 @@ void autonomous() {
 	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
+	ColorLoopActive = true;
+
 	pros::Task ret4(logger);
 	pros::Task lb_task(LBLoop);
-	// rushLeftPiston.toggle();
-	// rushRightPiston.toggle();
+
 	//set_drive(72);
 	//intake.move(127);
-	//disruptRingRush(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
-	SigSoloAWP(allianceColorBlue);
+	pros::delay(20000);
+	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
@@ -136,14 +138,13 @@ void opcontrol() {
 	pros::Task temp_task(checkTemp);
 	
 	ColorLoopActive = false; // starts inactive until tested ambient colors
-  
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive
 		runArcadeDrive();
       	// Activate Intake Logic
 		setIntakeMotors();
-		setIntakeLift();
+		//setIntakeLift();
 		// Activate Doinker Logic
 		setDoinker();
       	// Activate Mogo Logic
@@ -154,7 +155,7 @@ void opcontrol() {
 			testedAmbient = true;
 			ambientHue = optical.get_hue();
 			activateColorSort();
-			cout << "Ambient Red: " + to_string(optical.get_rgb().red) << " Ambient Blue: " + to_string(optical.get_rgb().blue) << "\n";
+			cout << "Ambient Diff:" << optical.get_rgb().blue - optical.get_rgb().red << "ambient proximity: " << optical.get_proximity() << "\n";
 		}
 
 		pros::delay(10);
