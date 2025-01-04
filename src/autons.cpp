@@ -572,7 +572,7 @@ void disruptRingRush(bool isBlue) {
   chassis.waitUntilDone();
   chassis.turnToHeading(-97 * sgn, 500); // turn to go back
   chassis.waitUntilDone();
-  set_drive(-20 - 6, 1500, 70, 127); // move back
+  set_drive(-20 - 6 - 3, 1500, 70, 127); // move back
   chassis.waitUntil(6 - 1.5);
   rushLeftPiston.toggle();
   rushRightPiston.toggle();
@@ -581,18 +581,18 @@ void disruptRingRush(bool isBlue) {
   //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
   chassis.turnToHeading(60 * sgn, 3000); // turn to mogo
   chassis.waitUntilDone();
-  set_drive(-38 + 2, 2000, 70, 127); // move to mogo
-  chassis.waitUntil(26 - 1);
+  set_drive(-38 - 1, 2000, 70, 127); // move to mogo
+  chassis.waitUntil(28 - 1);
   mogoClamp.toggle(); // clamp mogo
   chassis.waitUntilDone();
-  chassis.turnToHeading(-5 * sgn, 3000); // turn to intake rings
-  intake.move(127); // start intake
+  chassis.turnToHeading(-8 * sgn, 3000); // turn to intake rings
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
+  intake.move_voltage(12000); // start intake
   pros::delay(500);
   set_drive(11, 2000, 60); // move to intake rings
   chassis.waitUntilDone();
-  pros::delay(1000);
+  pros::delay(1500);
   set_drive(11, 2000, 60);
   chassis.waitUntilDone();
   chassis.turnToHeading((-40 - 10) * sgn, 3000); // turn to last ring
@@ -603,12 +603,12 @@ void disruptRingRush(bool isBlue) {
   pros::delay(500);
   set_drive(-24, 2000, 70, 127); // move back
   chassis.waitUntilDone();
-  chassis.turnToHeading(155 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
-  chassis.waitUntilDone();
-  set_drive(20, 2500, 75, 127); // move to two stack middle
-  chassis.waitUntilDone();
-  set_drive(10, 1000, 0, 30); // keep forward
-  chassis.waitUntilDone();
+  // chassis.turnToHeading(155 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
+  // chassis.waitUntilDone();
+  // set_drive(20, 2500, 75, 127); // move to two stack middle
+  // chassis.waitUntilDone();
+  // set_drive(10, 1000, 0, 30); // keep forward
+  // chassis.waitUntilDone();
   // set_drive(-5, 1500, 60, 127); // move back
   // chassis.waitUntilDone();
 

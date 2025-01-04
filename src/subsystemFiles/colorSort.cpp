@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool stopColorUntil = false;
-double ambientColorDiff = -3.5; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 34; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.25; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -19,11 +19,11 @@ void initColorSort() {
 }
 
 void activateColorSort() {
-    ColorLoopActive = true;
+    //ColorLoopActive = true;
     ambientRed = optical.get_rgb().red;
     ambientBlue = optical.get_rgb().blue;
-    ambientColorDiff = ambientBlue - ambientRed; // diff is BLUE - RED
-    ambientProximity = optical.get_proximity();
+    //ambientColorDiff = ambientBlue - ambientRed; // diff is BLUE - RED
+    //ambientProximity = optical.get_proximity();
 }
 
 
@@ -69,7 +69,7 @@ void doColorSort() {
         }
         
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            ColorLoopActive = !ColorLoopActive;
+            //ColorLoopActive = !ColorLoopActive;
         }
 }
 

@@ -9,7 +9,7 @@ void setIntake(int power) {
     // Sets the intake motor velocity directly using PROS motor control
     // Positive velocity = intake in, Negative velocity = intake out
     // velocity: target velocity in RPM (-600 to 600)
-    intake.move(power);
+    intake.move(127);
 }
 
 // Driver Control Functions
@@ -34,7 +34,7 @@ void setIntakeMotors() {
     
     // Apply the calculated velocity to the intake motor
     if (!wrongColorDetected) { // if color sort hasn't activated
-        setIntake(intakePower);
+        intake.move_voltage(intakePower);
     }
     
 }
