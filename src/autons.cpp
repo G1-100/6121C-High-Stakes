@@ -607,7 +607,7 @@ void disruptRingRush(bool isBlue) {
   set_drive(-24-0.5, 2000, 70, 127); // move back
   chassis.waitUntilDone();
 
-  chassis.turnToHeading(140 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
+  chassis.turnToHeading(155 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
   chassis.waitUntilDone();
   set_drive(20, 2500, 75, 127); // move to two stack middle
   chassis.waitUntilDone();

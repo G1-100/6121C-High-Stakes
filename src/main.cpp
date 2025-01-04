@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
+	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
 
 }
@@ -139,8 +139,8 @@ void autonomous() {
 
 	//set_drive(72);
 	//intake.move(127);
-	simpleMogo(allianceColorBlue);
-	//disruptRingRush(allianceColorBlue);
+	//simpleMogo(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
 	//set_drive(10, 2000);
 	chassis.waitUntilDone();
 	//mogoRushAuton(allianceColorBlue);
