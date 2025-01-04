@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool stopColorUntil = false;
-double ambientColorDiff = -5.25; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -2.75; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 25; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -20,10 +20,10 @@ void initColorSort() {
 
 void activateColorSort() {
     //ColorLoopActive = true;
-    ambientRed = optical.get_rgb().red;
-    ambientBlue = optical.get_rgb().blue;
-    //ambientColorDiff = ambientBlue - ambientRed; // diff is BLUE - RED
-    //ambientProximity = optical.get_proximity();
+    //ambientRed = optical.get_rgb().red;
+    //ambientBlue = optical.get_rgb().blue;
+    ambientColorDiff = ambientBlue - ambientRed; // diff is BLUE - RED
+    ambientProximity = optical.get_proximity();
 }
 
 
@@ -45,7 +45,7 @@ void doColorSort() {
                 wrongColorDetected = true;
                 setIntake(127);
                 long start = pros::millis();
-                while (optical.get_proximity() > ambientProximity + 15 && pros::millis() - start < 1500) {
+                while (optical.get_proximity() > ambientProximity + 15 && pros::millis() - start < 500) {
                     pros::delay(10);
                 }
                 setIntake(-127);
@@ -58,7 +58,7 @@ void doColorSort() {
                 cout << "RED DETECTED" << "\n";
                 setIntake(127);
                 long start = pros::millis();
-                while (optical.get_proximity() > ambientProximity + 12 && pros::millis() - start < 1500) {
+                while (optical.get_proximity() > ambientProximity + 12 && pros::millis() - start < 500) {
                     pros::delay(10);
                 }
                 setIntake(-127);
@@ -74,7 +74,7 @@ void doColorSort() {
 }
 
 void colorSortLoop() {
-    colorLoopStarted = true;
+    //colorLoopStarted = true;
     while (true) {
         if (LBState == REST) {
             doColorSort();

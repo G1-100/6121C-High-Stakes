@@ -9,8 +9,8 @@
 
 double RESTANGLE = 0; // actual -30
 double STOP1 = 33; // angle of stopping point 1 actual -10
-double STOP2 = 150 + 20; // angle of stop 2 - 130
-double STOP3 = 220 + 30;
+double STOP2 = 130 + 20; // angle of stop 2 - 130
+double STOP3 = 220;
 
 double REST = 0;
 double PROPPED = 1;

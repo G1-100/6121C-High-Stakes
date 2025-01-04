@@ -62,53 +62,6 @@ void logger() {
     }
 }
 
-
-void simpleMogo(bool isBlue) {
-	int sgn=isBlue?1:-1;
-	chassis.setPose(0, 0, 90 * sgn);
-	set_drive(-34, 2000);
-	chassis.waitUntil(32 - 4);
-	mogoClamp.toggle();
-	chassis.waitUntilDone();
-	intake.move_voltage(12000);
-	pros::delay(1000);
-	chassis.turnToHeading(180, 2000);
-	chassis.waitUntilDone();
-	set_drive(21, 2000);
-	chassis.waitUntilDone();
-	pros::delay(1000);
-	set_drive(-10, 1500);
-	chassis.waitUntilDone();
-	chassis.turnToHeading(0, 2000);
-	chassis.waitUntilDone();
-	set_drive(30, 2000);
-	chassis.waitUntilDone();
-	
-}
-
-void simpleMogo2(bool isBlue) {
-	int sgn=isBlue?1:-1;
-	chassis.setPose(0, 0, 90 * sgn);
-	set_drive(-34 - 8, 2000, 0, 60);
-	chassis.waitUntil(32 - 4);
-	mogoClamp.toggle();
-	chassis.waitUntilDone();
-	intake.move_voltage(12000);
-	pros::delay(1000);
-	chassis.turnToHeading(0, 2000);
-	chassis.waitUntilDone();
-	set_drive(21, 2000);
-	chassis.waitUntilDone();
-	pros::delay(1000);
-	set_drive(-10, 1500);
-	chassis.waitUntilDone();
-	chassis.turnToHeading(180, 2000);
-	chassis.waitUntilDone();
-	set_drive(30, 2000);
-	chassis.waitUntilDone();
-	
-}
-
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -139,10 +92,7 @@ void autonomous() {
 
 	//set_drive(72);
 	//intake.move(127);
-	//simpleMogo(allianceColorBlue);
 	disruptRingRush(allianceColorBlue);
-	//set_drive(10, 2000);
-	chassis.waitUntilDone();
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
