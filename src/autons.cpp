@@ -582,10 +582,11 @@ void disruptRingRush(bool isBlue) {
   //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
   chassis.turnToHeading(60 * sgn, 3000); // turn to mogo
   chassis.waitUntilDone();
-  set_drive(-38 + 0.5, 2000, 70, 127); // move to mogo
-  chassis.waitUntil(26 - 1);
+  set_drive(-38 + 0.5, 2000); // move to mogo
+  chassis.waitUntil(27.5 + 4);
   mogoClamp.toggle(); // clamp mogo
   chassis.waitUntilDone();
+  pros::delay(500);
   intake.move(127); // start intake
   chassis.turnToHeading(0 * sgn, 3000); // turn to intake rings
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
@@ -593,35 +594,35 @@ void disruptRingRush(bool isBlue) {
   pros::delay(100);
   set_drive(11, 2000, 80); // move to intake rings
   chassis.waitUntilDone();
-  pros::delay(100);
+  pros::delay(400);
   set_drive(11, 2000, 80);
   chassis.waitUntilDone();
-  pros::delay(200);
+  pros::delay(400);
   chassis.turnToHeading((-50) * sgn, 3000); // turn to last ring
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(5.5 + 2, 1500); // move to last ring
+  set_drive(7.5 + 1.5, 1500); // move to last ring
   chassis.waitUntilDone();
   pros::delay(500);
   set_drive(-24-0.5, 2000, 70, 127); // move back
   chassis.waitUntilDone();
 
-  chassis.turnToHeading(162 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
-  chassis.waitUntilDone();
-  set_drive(20 - 4, 2500, 75, 127); // move to two stack middle
-  intakeLift.toggle();
-  chassis.waitUntilDone();
-  set_drive(12 - 2, 1000, 0, 30); // keep forward
-  chassis.waitUntilDone();
-  pros::delay(100);
-  set_drive(-5, 1500, 60, 127); // move back
-  intakeLift.toggle();
-  chassis.waitUntilDone();
+  // chassis.turnToHeading(162 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
+  // chassis.waitUntilDone();
+  // set_drive(20 - 4, 2500, 75, 127); // move to two stack middle
+  // intakeLift.toggle();
+  // chassis.waitUntilDone();
+  // set_drive(12 - 2, 1000, 0, 30); // keep forward
+  // chassis.waitUntilDone();
+  // pros::delay(100);
+  // set_drive(-5, 1500, 60, 127); // move back
+  // intakeLift.toggle();
+  // chassis.waitUntilDone();
 
-  chassis.turnToPoint(24, 0, 3000); // turn to ladder
-  chassis.waitUntilDone();
-  chassis.moveToPoint(24, 0, 3000); // turn to ladder
-  chassis.waitUntilDone();
+  // chassis.turnToPoint(24, 0, 3000); // turn to ladder
+  // chassis.waitUntilDone();
+  // chassis.moveToPoint(24, 0, 3000); // turn to ladder
+  // chassis.waitUntilDone();
   
 }
 

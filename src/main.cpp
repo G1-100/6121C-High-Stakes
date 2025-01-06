@@ -24,7 +24,6 @@ void initialize() {
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
-
 }
 
 
@@ -62,6 +61,54 @@ void logger() {
     }
 }
 
+void simpleRing(bool isBlue) {
+	int sgn=isBlue?1:-1;
+	chassis.setPose(0, 0, 90 * sgn);
+	set_drive(-34, 2000);
+	chassis.waitUntil(32 - 4);
+	mogoClamp.toggle();
+	chassis.waitUntilDone();
+	pros::delay(1000);
+	//pros::delay(500);
+	intake.move_voltage(12000);
+	pros::delay(700);
+	chassis.turnToHeading(0, 2000);
+	chassis.waitUntilDone();
+	set_drive(21, 2000);
+	chassis.waitUntilDone();
+	pros::delay(1500);
+	set_drive(-10, 1500);
+	chassis.waitUntilDone();
+	chassis.turnToHeading(180, 2000);
+	chassis.waitUntilDone();
+	set_drive(30, 2000);
+	chassis.waitUntilDone();
+	
+}
+
+void simpleMogo(bool isBlue) {
+	int sgn=isBlue?1:-1;
+	chassis.setPose(0, 0, 90 * sgn);
+	set_drive(-34, 2000);
+	chassis.waitUntil(32 - 4);
+	mogoClamp.toggle();
+	chassis.waitUntilDone();
+	intake.move_voltage(12000);
+	pros::delay(1000);
+	chassis.turnToHeading(180, 2000);
+	chassis.waitUntilDone();
+	set_drive(21, 2000);
+	chassis.waitUntilDone();
+	pros::delay(1500);
+	set_drive(-10, 1500);
+	chassis.waitUntilDone();
+	chassis.turnToHeading(0, 2000);
+	chassis.waitUntilDone();
+	set_drive(30, 2000);
+	chassis.waitUntilDone();
+	
+}
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -87,12 +134,13 @@ void autonomous() {
 
 	ColorLoopActive = false;
 
-	pros::Task ret4(logger);
+	//pros::Task ret4(logger);
 	pros::Task lb_task(LBLoop);
 
 	//set_drive(72);
 	//intake.move(127);
-	disruptRingRush(allianceColorBlue);
+	//disruptRingRush(allianceColorBlue);
+	simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
@@ -137,7 +185,7 @@ void opcontrol() {
 	pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);
 	
-	ColorLoopActive = false; // starts inactive until tested ambient colors
+	ColorLoopActive = true; // starts inactive until tested ambient colors
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive

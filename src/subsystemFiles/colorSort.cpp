@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool stopColorUntil = false;
-double ambientColorDiff = -2.75; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 25; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.15; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 29; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -58,7 +58,7 @@ void doColorSort() {
                 cout << "RED DETECTED" << "\n";
                 setIntake(127);
                 long start = pros::millis();
-                while (optical.get_proximity() > ambientProximity + 12 && pros::millis() - start < 500) {
+                while (optical.get_proximity() > ambientProximity + 5 && pros::millis() - start < 500) {
                     pros::delay(10);
                 }
                 setIntake(-127);
