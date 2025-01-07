@@ -50,7 +50,7 @@ void doColorSort() {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         //std::cout << "Proximity: " << optical.get_proximity() << "\n";
         if (ColorLoopActive) {
-            if ( && currentColorDiff - ambientColorDiff > 10) { // alliance red and its 100 more blue than before
+            if (currentColorDiff - ambientColorDiff > 10) { // alliance red and its 100 more blue than before
                 if (!allianceColorBlue) {
                     cout << "BLUE DETECTED" << "\n";
                     wrongColorDetected = true;

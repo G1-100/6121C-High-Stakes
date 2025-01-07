@@ -22,6 +22,8 @@ int LBAutonGoal = REST;
 int prevLBAutonGoal = REST;
 
 bool LBLoopActive = false;
+long pressTime = 0;
+bool lastPressed = false;
 
 
 /**
@@ -145,20 +147,32 @@ void LBLoop() {
         ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
        //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
        //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
-            double curAngle = LBRotation.get_position() / 100.0;
-            //std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
-
-            if (curAngle < STOP1 - 5) { // at stopping point 1
-                std::cout << "At rest, extending to point 1\n";
-                LBExtend(1); // go to stopping point 2
-            } else if (curAngle < STOP2 - 5 && LBState != EXTENDED) { // at stopping point 2
-                std::cout << "At stopping point 1, going to stopping point 2\n";
-                LBExtend(2); // go to rest
-            } else { // at rest
-                std::cout << "At EXTENDED, going to rest\n";
-                LBRetract(); // go to stopping point 1
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
+            if (!lastPressed) { // just pressed
+                pressTime = pros::millis();
             }
+            lastPressed = true;
+        } else {
+            if (lastPressed) {
+                if (pros::millis() - pressTime > 1250) { // held for 1.25 seconds
+                    LBRetract();
+                } else { // pressed for normal logic
+                    double curAngle = LBRotation.get_position() / 100.0;
+                    //std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
+                    if (curAngle < STOP1 - 5) { // at stopping point 1
+                        std::cout << "At rest, extending to point 1\n";
+                        LBExtend(1); // go to stopping point 2
+                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED) { // at stopping point 2
+                        std::cout << "At stopping point 1, going to stopping point 2\n";
+                        LBExtend(2); // go to rest
+                    } else { // at rest
+                        std::cout << "At EXTENDED, going to rest\n";
+                        LBRetract(); // go to stopping point 1
+                    }
+                }
+            }
+            lastPressed = false;
+
         }
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             LBExtend(3);
