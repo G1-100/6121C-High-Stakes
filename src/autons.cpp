@@ -586,7 +586,7 @@ void disruptRingRush(bool isBlue) {
   chassis.waitUntil(23);
   chassis.cancelMotion();
   set_drive(-14.5 - 4, 1500, 0, 65);
-  chassis.waitUntil(31.5 - 23 - 4);
+  chassis.waitUntil(31.5 - 23 - 1);
   mogoClamp.toggle(); // clamp mogo
   chassis.waitUntilDone();
   chassis.turnToHeading(0 * sgn, 3000); // turn to intake rings
