@@ -139,8 +139,8 @@ void autonomous() {
 
 	//set_drive(72);
 	//intake.move(127);
-	//disruptRingRush(allianceColorBlue);
-	simpleRing(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
+	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
@@ -229,7 +229,11 @@ void checkTemp() {
                 master.set_text(0, 0, "Motor " + std::to_string(motor.get_port()) + " unplugged.");
                 pros::delay(250);
                 master.rumble("---");
-            }
+            } else if (IMU.get_heading() == NAN) {
+				master.set_text(0, 0, "IMU unplugged.");
+				pros::delay(250);
+				master.rumble("---");
+			}
 
             if (count < 6) {
                 totalTemp += temp;

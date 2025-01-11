@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 33 + 5; // angle of stopping point 1 actual -10
+double STOP1 = 38 + 6; // angle of stopping point 1 actual -10
 double STOP2 = 130 + 20; // angle of stop 2 - 130
 double STOP3 = 220;
 
@@ -66,7 +66,7 @@ void LBExtend(int point) {
         //std::cout << ladybrown.get_power() << "\n";
         curAngle = LBRotation.get_position() / 100.0;
         //std::cout << "Current Angle: " << curAngle << "\n";
-        std::cout << power * (abs(GOALANGLE - curAngle) / angleChange + 0.3) << "\n";
+        //std::cout << power * (abs(GOALANGLE - curAngle) / angleChange + 0.3) << "\n";
         if (curAngle > GOALANGLE) {
             ladybrown.move(negPower);
         } else {

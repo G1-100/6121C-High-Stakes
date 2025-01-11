@@ -573,35 +573,37 @@ void disruptRingRush(bool isBlue) {
   chassis.waitUntilDone();
   chassis.turnToHeading(-97 * sgn, 500); // turn to go back
   chassis.waitUntilDone();
-  set_drive(-20 - 6, 1500, 70, 127); // move back
+  set_drive(-26 + 1, 1500, 70, 127); // move back
   chassis.waitUntil(6 - 1.5);
   rushLeftPiston.toggle();
   rushRightPiston.toggle();
   chassis.waitUntilDone();
   // chassis.turnToPoint(24 * sgn, 21, 3000, {.forwards = false}); // turn to mogo
   //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
-  chassis.turnToHeading(60 * sgn, 3000); // turn to mogo
+  chassis.turnToHeading((60 - 3) * sgn, 3000); // turn to mogo
   chassis.waitUntilDone();
-  set_drive(-38 + 0.5, 2000); // move to mogo
-  chassis.waitUntil(27.5 + 4);
+  set_drive(-37.5, 2000, 70, 127); // move to mogo
+  chassis.waitUntil(23);
+  chassis.cancelMotion();
+  set_drive(-14.5 - 4, 1500, 0, 65);
+  chassis.waitUntil(31.5 - 23 - 4);
   mogoClamp.toggle(); // clamp mogo
   chassis.waitUntilDone();
-  pros::delay(500);
-  intake.move(127); // start intake
   chassis.turnToHeading(0 * sgn, 3000); // turn to intake rings
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
   pros::delay(100);
   set_drive(11, 2000, 80); // move to intake rings
+  intake.move(127); // start intake
   chassis.waitUntilDone();
-  pros::delay(400);
+  pros::delay(200);
   set_drive(11, 2000, 80);
   chassis.waitUntilDone();
   pros::delay(400);
-  chassis.turnToHeading((-50) * sgn, 3000); // turn to last ring
+  chassis.turnToHeading((-45) * sgn, 1500); // turn to last ring
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(7.5 + 1.5, 1500); // move to last ring
+  set_drive(7.5 + 3, 1500); // move to last ring
   chassis.waitUntilDone();
   pros::delay(500);
   set_drive(-24-0.5, 2000, 70, 127); // move back

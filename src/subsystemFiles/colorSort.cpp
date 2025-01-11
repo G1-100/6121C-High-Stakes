@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -5.15; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 29; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -3.8; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 27; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
