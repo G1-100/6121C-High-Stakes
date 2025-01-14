@@ -14,6 +14,8 @@ extern double FULLEXTENDED;
 
 extern bool LBLoopActive;
 
+extern bool calledLBReset;
+
 extern int LBAutonGoal;
 
 void LBExtend(int point);
@@ -25,3 +27,5 @@ void LBReset();
 void LBRetract();
 
 void LBLoop();
+
+void callLBReset();

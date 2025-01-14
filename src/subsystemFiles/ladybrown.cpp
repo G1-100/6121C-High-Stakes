@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 45.5; // angle of stopping point 1 actual -10
+double STOP1 = 45.5 + 0.5; // angle of stopping point 1 actual -10
 double STOP2 = 150 + 20; // angle of stop 2 - 130
 double STOP3 = 220 + 15;
 
@@ -20,6 +20,7 @@ int LBState = REST;
 
 int LBAutonGoal = REST;
 int prevLBAutonGoal = REST;
+bool calledLBReset = false;
 
 bool LBLoopActive = false;
 long pressTime = 0;
@@ -135,6 +136,10 @@ void ChangeLBAuton(int goal) {
     }
 }
 
+void callLBReset() {
+    calledLBReset = true;
+}
+
 /**
  * @brief main ladybrown task loop
  * 
@@ -183,6 +188,10 @@ void LBLoop() {
         }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
             ChangeLBAuton(LBAutonGoal);
+        }
+        if (calledLBReset) {
+            LBRetract();
+            calledLBReset = false;
         }
         prevLBAutonGoal = LBAutonGoal;
         if (LBState == PROPPED) {
