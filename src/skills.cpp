@@ -19,14 +19,6 @@ void skills() {
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
 
-    // chassis.turnToPoint(-50, -18, 3000, {.forwards = false}); // move to mogo
-    // chassis.waitUntilDone();
-    // set_drive(-18);
-    // chassis.waitUntilDone();
-
-    // mogoClamp.toggle(); // clamp mogo
-
-    //chassis.turnToPoint(-22, -24 + 3, 3000);
     chassis.turnToHeading(90, 2000);
     chassis.waitUntilDone();
 
@@ -35,39 +27,31 @@ void skills() {
     callLBReset();
     chassis.waitUntilDone();
     pros::delay(1000);
-    //chassis.turnToPoint(-8, -53, 3000); // turn to go to neutral wall stake
-    chassis.turnToHeading(-115 + 3, 2000);
+    chassis.turnToHeading(-115 + 3, 2000); // turn to wall stake ring
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
-
-    // chassis.moveToPoint(-8, -53, 3000); // pickup ring next to wall stake
-    // chassis.waitUntilDone();
 
     set_drive(28 - 0.5); // pickup ring next to wall stake
     chassis.waitUntilDone();
 
     pros::delay(900);
-    chassis.turnToHeading(180, 3000);
+    chassis.turnToHeading(180, 3000); // turn to wall stake
     chassis.waitUntilDone();
-    // chassis.moveToPoint(-7 - 1, -60, 3000); // move to wall stake
 
     set_drive(5, 1000); // move to wall stake
     chassis.waitUntilDone();
 
     intake.move(0);
     ChangeLBState(EXTENDED); // extend ladybrown
-    pros::delay(600 - 50);
-    // chassis.moveToPoint(-8, -50, 3000, {.forwards = false}); // go back a bit
+    pros::delay(600 - 100);
 
     set_drive(-13.5); // go back a bit
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
 
-    //chassis.turnToPoint(-61, -48, 3000);
     chassis.turnToHeading(-90, 1500);
     setIntake(127);
     chassis.waitUntilDone();
-    // chassis.moveToPoint(-61, -48, 3000); // collect two bottom-left rings
 
     set_drive(55 + 2.5, 3000); // collecting 3 rings
     chassis.waitUntilDone();
@@ -119,39 +103,23 @@ void skills() {
     pros::delay(1000);
     ChangeLBState(PROPPED); // prop up ladybrown
 
-    //chassis.moveToPoint(-20, 26, 3000); // move to ring outside ladder
-
-    // set_drive(24); // move to ring outside ladder
-    // chassis.waitUntilDone();
-    // pros::delay(700);
-    // //chassis.moveToPoint(-24, 24, 3000, {.forwards = false}); // move back
-
-    // set_drive(-4.47); // move back
-    // chassis.waitUntilDone();
-    // chassis.turnToPoint(-3, 55, 3000);
-    // chassis.waitUntilDone();
-    // //chassis.moveToPoint(0, 61, 3000); // move to ring next to wall stake
-
-    chassis.turnToHeading(-55, 2000);
+    chassis.turnToHeading(-55 - 3, 2000);
     chassis.waitUntilDone();
-    set_drive(26 - 3); // move to ring next to wall stake
+    set_drive(26 - 1); // move to ring next to wall stake
     chassis.waitUntilDone();
     chassis.turnToHeading(0, 1500); // turn to wall stake
     chassis.waitUntilDone();
-    set_drive(5 + 3); // move to wall stake
+    set_drive(5, 1000); // move to wall stake
     chassis.waitUntilDone();
     setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown
     pros::delay(600);
-    set_drive(-8, 3000); // move back
+    set_drive(-8 - 4, 3000); // move back
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     setIntake(127);
-
-    //chassis.turnToPoint(-26, 46 + 3, 3000);
     chassis.turnToHeading(-90, 2000);
     chassis.waitUntilDone();
-    //chassis.moveToPoint(-26, 50 - 1, 3000); // move to ring outside ladder
 
     set_drive(60); // intake the three rings
     chassis.waitUntilDone();
