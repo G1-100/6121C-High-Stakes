@@ -5,7 +5,7 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -3.8; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -8.0; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientProximity = 27; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
@@ -113,7 +113,7 @@ void doColorSort() {
         }
         
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-            //ColorLoopActive = !ColorLoopActive;
+            ColorLoopActive = !ColorLoopActive;
         }
 }
 

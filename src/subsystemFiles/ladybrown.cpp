@@ -8,9 +8,9 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 38 + 6; // angle of stopping point 1 actual -10
-double STOP2 = 130 + 20; // angle of stop 2 - 130
-double STOP3 = 220;
+double STOP1 = 45.5; // angle of stopping point 1 actual -10
+double STOP2 = 150 + 20; // angle of stop 2 - 130
+double STOP3 = 220 + 15;
 
 double REST = 0;
 double PROPPED = 1;
@@ -62,7 +62,7 @@ void LBExtend(int point) {
     
     ladybrown.move(power);
       
-    while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 2000) { // ends once above goal angle
+    while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 2500) { // ends once above goal angle
         //std::cout << ladybrown.get_power() << "\n";
         curAngle = LBRotation.get_position() / 100.0;
         //std::cout << "Current Angle: " << curAngle << "\n";
@@ -154,7 +154,7 @@ void LBLoop() {
             lastPressed = true;
         } else {
             if (lastPressed) {
-                if (pros::millis() - pressTime > 1250) { // held for 1.25 seconds
+                if (pros::millis() - pressTime > 1000) { // held for 1.00 seconds
                     LBRetract();
                 } else { // pressed for normal logic
                     double curAngle = LBRotation.get_position() / 100.0;

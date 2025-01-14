@@ -50,11 +50,11 @@ void logger() {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
 		//std::cout << "DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-		//std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 		//std::cout << LBRotation.get_position() << "\n";
-		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
-        pros::delay(50);
+        pros::delay(100);
         
         // Add a way to break the loop if needed
         if (pros::competition::is_disabled()) break;
@@ -139,13 +139,13 @@ void autonomous() {
 
 	//set_drive(72);
 	//intake.move(127);
-	disruptRingRush(allianceColorBlue);
+	//disruptRingRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
-	//skills();
+	skills();
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
