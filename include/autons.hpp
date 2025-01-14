@@ -24,8 +24,6 @@ void MogoSideSoloBlue();
 
 void SigSoloAWP(bool isBlue);
 
-void skills();
-
 ASSET(skills1_txt);
 ASSET(ringRushBlue_txt);
 ASSET(ringRushBlueOld_txt);
