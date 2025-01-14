@@ -94,7 +94,7 @@ void skills() {
 
     //chassis.moveToPoint(-48+2, -48, 3000); // move out of corner
 
-    set_drive(8.5 - 1.5); // move out of corner
+    set_drive(8.5 - 2); // move out of corner
     chassis.waitUntilDone();
     //chassis.turnToPoint(-48,22,3000, {.forwards=false});
     chassis.turnToHeading(180, 1500);
@@ -102,10 +102,10 @@ void skills() {
     setIntake(0);
     //chassis.moveToPoint(-48,22 + 4, 3000, {.forwards=false}); // move to mogo
 
-    set_drive(-88); // move to mogo
+    set_drive(-88 + 1); // move to mogo
     chassis.waitUntil(60);
     set_drive(-26, 1500, 0, 80);
-    chassis.waitUntil(22);
+    chassis.waitUntil(21 + 3);
     mogoClamp.toggle(); // clamp mogo
     chassis.waitUntilDone();
     //chassis.turnToPoint(-20, 24 + 2, 3000);
@@ -138,13 +138,15 @@ void skills() {
     chassis.waitUntilDone();
     chassis.turnToHeading(0, 1500); // turn to wall stake
     chassis.waitUntilDone();
-    set_drive(5); // move to wall stake
+    set_drive(5 + 3); // move to wall stake
     chassis.waitUntilDone();
+    setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown
     pros::delay(600);
     set_drive(-8, 3000); // move back
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
+    setIntake(127);
 
     //chassis.turnToPoint(-26, 46 + 3, 3000);
     chassis.turnToHeading(-90, 2000);
@@ -191,7 +193,10 @@ void skills() {
     setIntake(0);
     chassis.moveToPoint(5, 48, 3000); // move to ladder-center
 
-    
+
+        // Other Side Mogo
+
+
     chassis.waitUntilDone();
     setIntake(127);
     chassis.turnToPoint(48, 10, 3000); // turn to mogo
@@ -202,21 +207,23 @@ void skills() {
     chassis.waitUntilDone();
     chassis.turnToPoint(48, 0, 3000, {.forwards=false});
     chassis.waitUntilDone();
+    mogoClamp.toggle(); // clamp mogo
     chassis.moveToPoint(48, 0, 3000, {.forwards=false});
     chassis.waitUntilDone();
     // chassis.moveToPoint(48, 2, 3000, {.forwards=false}); // move back
     // chassis.waitUntilDone();
-    mogoClamp.toggle(); // clamp mogo
-    pros::delay(200);
+
+
+    pros::delay(300);
     setIntake(127);
-    chassis.turnToPoint(24 - 3, -24, 3000);
+    chassis.turnToPoint(24 - 3, -24 - 2, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(24 - 3, -24, 3000); // move to ring
+    chassis.moveToPoint(24 - 3, -24 - 2, 3000); // move to ring
     chassis.waitUntilDone();
     pros::delay(600);
-    chassis.turnToPoint(24, -48, 3000);
+    chassis.turnToPoint(24, -48 - 2, 3000);
     chassis.waitUntilDone();
-    chassis.moveToPoint(24, -48, 3000); // move to ring
+    chassis.moveToPoint(24, -48 - 2, 3000); // move to ring
     chassis.waitUntilDone();
     pros::delay(600);
     pros::Task color_task(colorSortLoop);
@@ -231,7 +238,7 @@ void skills() {
 
 
 
-    chassis.moveToPoint(24, -24, 3000, {.maxSpeed=100}); // move to ring
+    chassis.moveToPoint(24, -24 + 4, 3000, {.maxSpeed=100}); // move to ring
     chassis.waitUntilDone();
     chassis.turnToPoint(60 - 5, 0, 3000);
     chassis.waitUntilDone();
