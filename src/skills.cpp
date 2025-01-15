@@ -220,3 +220,20 @@ void skills() {
     chassis.moveToPoint(72 - 20, -72 + 20, 3000, {.forwards = false});
     chassis.waitUntilDone();
 }
+
+void skillsMacro() {
+    chassis.setPose(-60.5, -13, (-49)); // starts at middle of red alliance line
+    setIntake(127); // score on alliance stake
+    pros::Task lb_task(LBLoop);
+    LBState = EXTENDED;
+    LBRotation.set_position(4600);
+    ChangeLBState(FULLEXTENDED);
+
+    pros::delay(1000);
+
+    set_drive(-16 - 1.5); // move away from alliance stake
+    chassis.waitUntil(11);
+    mogoClamp.toggle(); // clamp mogo
+    chassis.waitUntilDone();
+    ChangeLBState(REST); // retract ladybrown
+}

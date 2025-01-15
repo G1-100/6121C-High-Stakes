@@ -83,6 +83,9 @@ void LBExtend(int point) {
         } else {
             timeStayedGood = 0;
         }
+        // if (ladybrown.get_efficiency() < 10 && pros::millis() - startTime > 500) { // not moving after 500 milliseconds
+        //     break;
+        // }
         pros::delay(10);
     }
     std::cout << "Reached Goal Angle: " << curAngle << "\n";
@@ -111,6 +114,10 @@ void LBReset() {
 void LBRetract() {
     ladybrown.move(-127); // move beyond stopping point 2
     pros::delay(1000);
+    //pros::delay(200);
+    // while (ladybrown.get_efficiency() > 10) {
+    //     pros::delay(20);
+    // }
     ladybrown.move(0);
     LBState = REST;
     LBRotation.reset_position();

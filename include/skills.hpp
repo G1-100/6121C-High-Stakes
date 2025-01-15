@@ -1,1 +1,3 @@
 void skills();
+
+void skillsMacro();
