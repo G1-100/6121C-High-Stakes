@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -8.0; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 27; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.35; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -19,7 +19,7 @@ long prevTime = 0;
 void initColorSort() {
     optical.set_led_pwm(100);
     double ambientHue = 50;
-    pros::Task color_task(colorSortLoop);
+    //pros::Task color_task(colorSortLoop);
     optical.set_integration_time(10);
 }
 
@@ -47,16 +47,18 @@ void doColorSort() {
         double red_component = optical.get_rgb().red;
         double blue_component = optical.get_rgb().blue;
         double currentColorDiff = blue_component - red_component;
+
+        const int PROXIMITYDIFFREQUIRED = 10;
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         //std::cout << "Proximity: " << optical.get_proximity() << "\n";
         if (ColorLoopActive) {
-            if (currentColorDiff - ambientColorDiff > 10) { // alliance red and its 100 more blue than before
+            if (currentColorDiff - ambientColorDiff > 5) { // alliance red and its 100 more blue than before
                 if (!allianceColorBlue) {
                     cout << "BLUE DETECTED" << "\n";
                     wrongColorDetected = true;
                     setIntake(127);
                     long start = pros::millis();
-                    while (optical.get_proximity() > ambientProximity + 15 && pros::millis() - start < 500) {
+                    while (optical.get_proximity() > ambientProximity + PROXIMITYDIFFREQUIRED && pros::millis() - start < 500) {
                         pros::delay(10);
                     }
                     setIntake(-127);
@@ -86,7 +88,7 @@ void doColorSort() {
                     cout << "RED DETECTED" << "\n";
                     setIntake(127);
                     long start = pros::millis();
-                    while (optical.get_proximity() > ambientProximity + 5 && pros::millis() - start < 500) {
+                    while (optical.get_proximity() > ambientProximity + PROXIMITYDIFFREQUIRED && pros::millis() - start < 500) {
                         pros::delay(10);
                     }
                     setIntake(-127);

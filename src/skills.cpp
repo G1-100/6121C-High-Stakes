@@ -13,8 +13,8 @@ void skills() {
 
     pros::delay(750);
 
-    set_drive(-16 - 1.5); // move away from alliance stake
-    chassis.waitUntil(11);
+    set_drive(-17.5 - 2, 1500, 0, 70); // move away from alliance stake
+    chassis.waitUntil(16 + 2);
 
 
     /////////////////////////// FIRST MOGO ///////////////////////////
@@ -22,8 +22,10 @@ void skills() {
     
 
     mogoClamp.toggle(); // clamp mogo
+    ColorLoopActive = false;
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
+    pros::delay(100);
 
     chassis.turnToHeading(90, 1500); // turn to two rings
     chassis.waitUntilDone();
@@ -37,7 +39,7 @@ void skills() {
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
 
-    set_drive(27.5); // pickup ring next to wall stake
+    set_drive(27.5 + 0.5); // pickup ring next to wall stake
     chassis.waitUntilDone();
 
     pros::delay(900);
@@ -62,19 +64,19 @@ void skills() {
     set_drive(57.5, 3000); // collecting 3 rings
     chassis.waitUntil(30);
     chassis.cancelMotion();
-    set_drive(27.5, 2000, 0, 70); // intake rings slowly
+    set_drive(27.5, 2000, 0, 50); // intake rings slowly
     chassis.waitUntilDone();
-    pros::delay(1300);
+    pros::delay(1400);
     chassis.turnToHeading(138 + 2, 2000);
     chassis.waitUntilDone();
     
-    set_drive(16); // collect last bottom-left ring
+    set_drive(16 - 1.5); // collect last bottom-left ring
     chassis.waitUntilDone();
     pros::delay(600);
     chassis.turnToHeading(70, 2000);
     chassis.waitUntilDone();
 
-    set_drive(-14 - 1); // move to corner
+    set_drive(-14 + 0.5, 1500); // move to corner
     chassis.waitUntilDone();
     setIntake(-30);
     mogoClamp.toggle(); // unclamp mogo
@@ -82,7 +84,7 @@ void skills() {
     setIntake(0);
 
 
-    set_drive(8.5 - 2); // move out of corner
+    set_drive(6.5 - 0.25); // move out of corner
     chassis.waitUntilDone();
     chassis.turnToHeading(179, 1500);
     chassis.waitUntilDone();
@@ -91,8 +93,8 @@ void skills() {
     set_drive(-88 + 1); // move to mogo
     chassis.waitUntil(60);
     chassis.cancelMotion();
-    set_drive(-25, 1500, 0, 80);
-    chassis.waitUntil(21 + 3);
+    set_drive(-25, 1500, 0, 60);
+    chassis.waitUntil(21 - 1);
     mogoClamp.toggle(); // clamp mogo
     chassis.waitUntilDone();
 
@@ -105,6 +107,7 @@ void skills() {
     chassis.waitUntilDone();
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
     setIntake(127);
+    callLBReset(); // reset ladybrown
     
     chassis.follow(skills2_txt, 15, 3500); // pure pursuit two rings
     chassis.waitUntilDone();
@@ -113,48 +116,53 @@ void skills() {
 
     chassis.turnToHeading(-62 - 3, 2000);
     chassis.waitUntilDone();
-    set_drive(26 - 2); // move to ring next to wall stake
+    set_drive(26 - 1.40 + 0.5); // move to ring next to wall stake
     chassis.waitUntilDone();
     chassis.turnToHeading(0, 1500); // turn to wall stake
     chassis.waitUntilDone();
     set_drive(6.5, 750); // move to wall stake
     chassis.waitUntilDone();
     setIntake(0);
+    pros::delay(500);
     ChangeLBState(EXTENDED); // extend ladybrown
-    pros::delay(600);
-    set_drive(-15 - 1.5, 3000); // move back
+    pros::delay(550);
+    set_drive(-16.5 - 1, 3000); // move back
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     setIntake(127);
     chassis.turnToHeading(-90, 2000);
     chassis.waitUntilDone();
 
-    set_drive(56); // intake the three rings
+    set_drive(56 + 1); // intake the three rings
+    callLBReset();
     chassis.waitUntil(30);
     chassis.cancelMotion();
-    set_drive(26, 2000, 0, 70); // intake rings slowly
+    set_drive(26, 2000, 0, 50); // intake rings slowly
     chassis.waitUntilDone();
+    pros::delay(1400);
     chassis.turnToHeading(40, 1000);
     chassis.waitUntilDone();
     set_drive(13); // move to ring before corner
     chassis.waitUntilDone();
 
-    chassis.turnToHeading(110, 1500);
+    chassis.turnToHeading(105, 1500);
     chassis.waitUntilDone();
 
     set_drive(-10); // back INto corner
     chassis.waitUntilDone();
-    pros::delay(500);
     intake.move(0);
     mogoClamp.toggle(); // unclamp mogo
     pros::delay(350);
+
+    chassis.turnToHeading(112, 1500);
+    chassis.waitUntilDone();
 
     set_drive(85.27); // go to intake ring
     chassis.waitUntil(60);
     intake.move(90);
     chassis.waitUntilDone();
     intake.move(0);
-    chassis.turnToHeading(-55, 1500); // turn to third mogo
+    chassis.turnToHeading(-50, 1500); // turn to third mogo
     chassis.waitUntilDone();
     set_drive(-40); // go to third mogo
     chassis.waitUntil(35);
@@ -164,16 +172,17 @@ void skills() {
     /////////////////////////// THIRD MOGO ///////////////////////////
     /////////////////////////// THIRD MOGO ///////////////////////////
 
+    ColorLoopActive = true;
 
     chassis.waitUntilDone();
     setIntake(127);
-    chassis.turnToHeading(-135, 1500); // turn to ring outside ladder
+    chassis.turnToHeading(-135 - 5, 1500); // turn to ring outside ladder
     chassis.waitUntilDone();
-    set_drive(34, 2000); // move to ring outside ladder
+    set_drive(34 + 4, 2000); // move to ring outside ladder
     chassis.waitUntilDone();
     chassis.turnToHeading(-45, 1500); // turn to center ring inside ladder
     chassis.waitUntilDone();
-    set_drive(30, 2000); // move to center ring inside ladder
+    set_drive(30 + 3, 2000); // move to center ring inside ladder
     chassis.waitUntilDone();
     pros::delay(300);
     set_drive(-30, 2000); // move back
@@ -181,13 +190,14 @@ void skills() {
     chassis.waitUntilDone();
     chassis.follow(skills3_txt, 15, 3000); // pure pursuit two two stacks
     chassis.waitUntilDone();
-    chassis.turnToHeading(-135, 1500); // turn to third two stack
+    chassis.turnToHeading(-135 + 10, 1500); // turn to third two stack
     chassis.waitUntilDone();
     set_drive(10, 2000); // intake third two stack
     chassis.waitUntilDone();
     set_drive(-10, 2000); // move back
     chassis.waitUntilDone();
-    chassis.turnToHeading(-10, 1500); // turn to corner
+    chassis.turnToHeading(-30, 1500); // turn to corner
+    chassis.waitUntilDone();
     set_drive(-13); // move to corner
     chassis.waitUntilDone();
     mogoClamp.toggle(); // unclamp mogo

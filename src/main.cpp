@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 }
 
