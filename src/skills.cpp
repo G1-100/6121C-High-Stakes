@@ -74,7 +74,7 @@ void skills() {
     chassis.turnToHeading(70, 2000);
     chassis.waitUntilDone();
 
-    set_drive(-14); // move to corner
+    set_drive(-14 - 1); // move to corner
     chassis.waitUntilDone();
     setIntake(-30);
     mogoClamp.toggle(); // unclamp mogo

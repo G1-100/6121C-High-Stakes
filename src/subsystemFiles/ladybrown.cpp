@@ -37,7 +37,7 @@ void doIntakeUnstuck() {
         double intakePower = intake.get_power();
         intake.move(-127);
         pros::delay(100);
-        intake.move(0);
+        intake.move(127);
     }
 }
 
