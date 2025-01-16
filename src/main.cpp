@@ -50,11 +50,13 @@ void logger() {
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
 		//std::cout << "DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "HUE: " + to_string(optical.get_hue()) << "\n";
-		std::cout << lemlib::format_as(chassis.getPose()) << "\n";
-		//std::cout << LBRotation.get_position() << "\n";
+		//std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+		//std::cout << ladybrown.get_actual_velocity() << "\n";
+		//std::cout << LBRotation.get_position() / 100.0 << "\n";
+		std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
 		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
-        pros::delay(100);
+        pros::delay(50);
         
         // Add a way to break the loop if needed
         if (pros::competition::is_disabled()) break;
@@ -133,6 +135,7 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	ColorLoopActive = false;
+	intakeUnstuckActivated = true;
 
 	//pros::Task ret4(logger);
 	pros::Task lb_task(LBLoop);
@@ -186,6 +189,9 @@ void opcontrol() {
 	pros::Task temp_task(checkTemp);
 	
 	ColorLoopActive = true; // starts inactive until tested ambient colors
+
+	intakeUnstuckActivated = false;
+	//skillsMacro();
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive

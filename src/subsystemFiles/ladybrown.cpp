@@ -9,8 +9,8 @@
 
 double RESTANGLE = 0; // actual -30
 double STOP1 = 45.5 + 0.5; // angle of stopping point 1 actual -10
-double STOP2 = 150 + 20; // angle of stop 2 - 130
-double STOP3 = 220 + 15;
+double STOP2 = 170; // angle of stop 2 - 130
+double STOP3 = 250;
 
 double REST = 0;
 double PROPPED = 1;
@@ -25,6 +25,21 @@ bool calledLBReset = false;
 bool LBLoopActive = false;
 long pressTime = 0;
 bool lastPressed = false;
+
+bool intakeUnstuckActivated = false;
+
+
+/**
+ * ONLY supposed to be used when intaking full mogo and hooks get caught
+ */
+void doIntakeUnstuck() {
+    if (fabs(intake.get_actual_velocity()) < 2 && fabs(intake.get_voltage()) > 2000 && LBState == REST) { // if intake is stuck
+        double intakePower = intake.get_power();
+        intake.move(-127);
+        pros::delay(100);
+        intake.move(0);
+    }
+}
 
 
 /**
@@ -64,17 +79,14 @@ void LBExtend(int point) {
     ladybrown.move(power);
       
     while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 2500) { // ends once above goal angle
-        //std::cout << ladybrown.get_power() << "\n";
         curAngle = LBRotation.get_position() / 100.0;
         //std::cout << "Current Angle: " << curAngle << "\n";
-        //std::cout << power * (abs(GOALANGLE - curAngle) / angleChange + 0.3) << "\n";
         if (curAngle > GOALANGLE) {
             ladybrown.move(negPower);
         } else {
             if (point == 1) {
                 ladybrown.move(power * (abs(GOALANGLE - curAngle) / angleChange + 0.3));
             } else {
-                std::cout << "Power: " << power << "\n";
                 ladybrown.move(power);
             }
         }
@@ -82,6 +94,9 @@ void LBExtend(int point) {
             timeStayedGood += 1;
         } else {
             timeStayedGood = 0;
+        }
+        if (curAngle > GOALANGLE && point > 1) {
+            break;
         }
         // if (ladybrown.get_efficiency() < 10 && pros::millis() - startTime > 500) { // not moving after 500 milliseconds
         //     break;
@@ -113,11 +128,11 @@ void LBReset() {
  */
 void LBRetract() {
     ladybrown.move(-127); // move beyond stopping point 2
-    pros::delay(1000);
-    //pros::delay(200);
-    // while (ladybrown.get_efficiency() > 10) {
-    //     pros::delay(20);
-    // }
+    //pros::delay(1000);
+    pros::delay(200);
+    while (fabs(ladybrown.get_actual_velocity()) > 1) {
+        pros::delay(20);
+    }
     ladybrown.move(0);
     LBState = REST;
     LBRotation.reset_position();
@@ -157,8 +172,6 @@ void LBLoop() {
     //LBRotation.reset();
     while (true) {
         ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
-       //std::cout << std::to_string(LBRotation.get_position() / 100.0) << "\n";
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             if (!lastPressed) { // just pressed
                 pressTime = pros::millis();
@@ -166,7 +179,7 @@ void LBLoop() {
             lastPressed = true;
         } else {
             if (lastPressed) {
-                if (pros::millis() - pressTime > 1000) { // held for 1.00 seconds
+                if (pros::millis() - pressTime > 750) { // held for 0.75 seconds
                     LBRetract();
                 } else { // pressed for normal logic
                     double curAngle = LBRotation.get_position() / 100.0;
@@ -208,6 +221,10 @@ void LBLoop() {
         } else if (LBState == FULLEXTENDED) {
             ladybrown.move(-10);
         }
+        if (intakeUnstuckActivated) {
+            doIntakeUnstuck();
+        }
+        doIntakeUnstuck();
         pros::delay(20);
     }
 }

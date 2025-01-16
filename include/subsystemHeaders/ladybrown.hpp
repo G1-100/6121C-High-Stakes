@@ -18,6 +18,8 @@ extern bool calledLBReset;
 
 extern int LBAutonGoal;
 
+extern bool intakeUnstuckActivated;
+
 void LBExtend(int point);
 
 void ChangeLBState(int goal);
