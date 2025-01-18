@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 46 + 0.1; // angle of stopping point 1 actual -10
+double STOP1 = 46 - 1.5; // angle of stopping point 1 actual -10
 double STOP2 = 170; // angle of stop 2 - 130
 double STOP3 = 250;
 
@@ -28,16 +28,25 @@ bool lastPressed = false;
 
 bool intakeUnstuckActivated = false;
 
+int intakeStuckTime = 0;
+
 
 /**
  * ONLY supposed to be used when intaking full mogo and hooks get caught
  */
 void doIntakeUnstuck() {
-    if (fabs(intake.get_actual_velocity()) < 2 && fabs(intake.get_voltage()) > 2000 && LBState == REST) { // if intake is stuck
-        double intakePower = intake.get_power();
-        intake.move(-127);
-        pros::delay(100);
-        intake.move(127);
+    if (fabs(intake.get_actual_velocity()) < 0.5 && fabs(intake.get_voltage()) > 2000 && LBState == REST) { // if intake is stuck
+        if (intakeStuckTime == 0) {
+            intakeStuckTime = pros::millis();
+        } else if (pros::millis() - intakeStuckTime > 500) {
+            master.rumble("-"); // short rumble to notify driver
+            double intakePower = intake.get_power();
+            intake.move(-127);
+            pros::delay(400);
+            intake.move(127);
+            intakeStuckTime = 0;
+        }
+        
     }
 }
 

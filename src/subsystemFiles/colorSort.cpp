@@ -19,7 +19,7 @@ long prevTime = 0;
 void initColorSort() {
     optical.set_led_pwm(100);
     double ambientHue = 50;
-    //pros::Task color_task(colorSortLoop);
+    pros::Task color_task(colorSortLoop);
     optical.set_integration_time(10);
 }
 
