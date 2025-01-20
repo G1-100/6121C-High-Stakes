@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 46 - 1.5; // angle of stopping point 1 actual -10
+double STOP1 = 44.5; // angle of stopping point 1 actual -10
 double STOP2 = 170; // angle of stop 2 - 130
 double STOP3 = 250;
 
@@ -47,6 +47,16 @@ void doIntakeUnstuck() {
             intakeStuckTime = 0;
         }
         
+    }
+}
+
+void doLBAmbientAdjust(double curAngle) {
+    if (STOP1 - curAngle > 1) { // if below stopping point by more than 1 degree
+        ladybrown.move(25);
+    } else if (STOP1 - curAngle < -1) { // if above stopping point by more than 1 degree
+        ladybrown.move(-5);
+    } else {
+        ladybrown.move(10);
     }
 }
 
@@ -180,7 +190,8 @@ void LBLoop() {
     ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     //LBRotation.reset();
     while (true) {
-        ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        //ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        double curAngle = LBRotation.get_position() / 100.0;
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             if (!lastPressed) { // just pressed
                 pressTime = pros::millis();
@@ -191,7 +202,7 @@ void LBLoop() {
                 if (pros::millis() - pressTime > 750) { // held for 0.75 seconds
                     LBRetract();
                 } else { // pressed for normal logic
-                    double curAngle = LBRotation.get_position() / 100.0;
+                    
                     //std::cout << "Button L2 pressed, Current Angle: " << curAngle << "\n";
                     if (curAngle < STOP1 - 5) { // at stopping point 1
                         std::cout << "At rest, extending to point 1\n";
@@ -224,7 +235,7 @@ void LBLoop() {
         }
         prevLBAutonGoal = LBAutonGoal;
         if (LBState == PROPPED) {
-            ladybrown.move(10);
+            doLBAmbientAdjust(curAngle);
         } else if (LBState == EXTENDED) {
             ladybrown.move(-5);
         } else if (LBState == FULLEXTENDED) {

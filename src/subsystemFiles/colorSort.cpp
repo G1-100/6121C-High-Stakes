@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -5.35; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.95; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 32; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -55,6 +55,7 @@ void doColorSort() {
             if (currentColorDiff - ambientColorDiff > 5) { // alliance red and its 100 more blue than before
                 if (!allianceColorBlue) {
                     cout << "BLUE DETECTED" << "\n";
+                    master.rumble(". .");
                     wrongColorDetected = true;
                     setIntake(127);
                     long start = pros::millis();
@@ -69,6 +70,8 @@ void doColorSort() {
                     if (colorUntilActivated) { // intaking until that color
                         ringsSeen++;
                         if (ringsSeen >= colorUntilRings) {
+                            intake.move(-127);
+                            pros::delay(30);
                             intake.move(0);
                             colorUntilActivated = false;
                         }
@@ -85,6 +88,7 @@ void doColorSort() {
             else if (currentColorDiff - ambientColorDiff < -10) { // alliance blue and its a red ring
                 if (allianceColorBlue)  {
                     wrongColorDetected = true;
+                    master.rumble(". .");
                     cout << "RED DETECTED" << "\n";
                     setIntake(127);
                     long start = pros::millis();
