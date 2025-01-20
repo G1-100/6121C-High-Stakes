@@ -3,6 +3,7 @@
 
 extern double RESTANGLE;
 extern double STOP1;
+extern double STOP1_5;
 extern double STOP2;
 extern double STOP3;
 

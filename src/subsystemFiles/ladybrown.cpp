@@ -8,7 +8,8 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 44.5; // angle of stopping point 1 actual -10
+double STOP1 = 44.5;
+double STOP1_5 = STOP1 + 45;
 double STOP2 = 170; // angle of stop 2 - 130
 double STOP3 = 250;
 
@@ -88,6 +89,12 @@ void LBExtend(int point) {
         power = 90;
         negPower = -15;
         angleChange = STOP3 - STOP2;
+        iterationsRequired = 1;
+    } else if (point == 1.5) {
+        GOALANGLE = STOP1_5;
+        power = 70;
+        negPower = -5;
+        angleChange = STOP1_5 - STOP1;
         iterationsRequired = 1;
     }
     long startTime = pros::millis();
@@ -224,7 +231,7 @@ void LBLoop() {
         }
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             std::cout << "DOWN BUTTON PRESSED" << "\n";
-            LBRetract();
+            LBExtend(1.5);
         }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
             ChangeLBAuton(LBAutonGoal);
