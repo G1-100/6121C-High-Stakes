@@ -8,16 +8,17 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 44.5;
+double STOP1 = 41.57 - 0.5; // 42.57
 double STOP1_5 = STOP1 + 45;
-double STOP2 = 170; // angle of stop 2 - 130
+double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
 
 double REST = 0;
 double PROPPED = 1;
 double EXTENDED = 2;
 double FULLEXTENDED = 3;
-int LBState = REST;
+double SEMIEXTENDED = 1.5;
+double LBState = REST;
 
 int LBAutonGoal = REST;
 int prevLBAutonGoal = REST;
@@ -25,6 +26,7 @@ bool calledLBReset = false;
 
 bool LBLoopActive = false;
 long pressTime = 0;
+long totalPressTime = 0;
 bool lastPressed = false;
 
 bool intakeUnstuckActivated = false;
@@ -52,12 +54,30 @@ void doIntakeUnstuck() {
 }
 
 void doLBAmbientAdjust(double curAngle) {
-    if (STOP1 - curAngle > 1) { // if below stopping point by more than 1 degree
-        ladybrown.move(25);
-    } else if (STOP1 - curAngle < -1) { // if above stopping point by more than 1 degree
-        ladybrown.move(-5);
-    } else {
-        ladybrown.move(10);
+    if (LBState == PROPPED) {
+        if (STOP1 - curAngle > 1) { // if below stopping point by more than 1 degree
+            ladybrown.move(25);
+        } else if (STOP1 - curAngle < -1) { // if above stopping point by more than 1 degree
+            ladybrown.move(-5);
+        } else {
+            ladybrown.move(10);
+        }
+    } else if (LBState == SEMIEXTENDED) {
+        if (STOP1_5 - curAngle > 5) { // if below stopping point by more than 1 degree
+            ladybrown.move(25);
+        } else if (STOP1_5 - curAngle < -5) { // if above stopping point by more than 1 degree
+            ladybrown.move(-5);
+        } else {
+            ladybrown.move(10);
+        }
+    } else if (LBState == EXTENDED) {
+        if (STOP2 - curAngle > 5) { // if below stopping point by more than 1 degree
+            ladybrown.move(5);
+        } else if (STOP2 - curAngle < -5) { // if above stopping point by more than 1 degree
+            ladybrown.move(-30 - 15);
+        } else {
+            ladybrown.move(-10);
+        }
     }
 }
 
@@ -66,7 +86,7 @@ void doLBAmbientAdjust(double curAngle) {
  * @brief extend ladybrown to stopping point 1
  * 
  */
-void LBExtend(int point) {
+void LBExtend(double point) {
     double GOALANGLE;
     double power;
     double negPower;
@@ -137,6 +157,8 @@ void LBExtend(int point) {
         LBState = EXTENDED;
     } else if (point == 3) {
         LBState = FULLEXTENDED;
+    } else if (point == 1.5) {
+        LBState = SEMIEXTENDED;
     }
     
 }
@@ -202,11 +224,16 @@ void LBLoop() {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) { // IMPORTANT: must be new_press
             if (!lastPressed) { // just pressed
                 pressTime = pros::millis();
+                totalPressTime = pros::millis();
+            }
+            if (pros::millis() - pressTime > 750) { // held for 0.75 seconds
+                LBRetract();
+                pressTime = pros::millis();
             }
             lastPressed = true;
         } else {
             if (lastPressed) {
-                if (pros::millis() - pressTime > 750) { // held for 0.75 seconds
+                if (pros::millis() - totalPressTime > 600) { // held for 0.6 seconds
                     LBRetract();
                 } else { // pressed for normal logic
                     
@@ -214,7 +241,7 @@ void LBLoop() {
                     if (curAngle < STOP1 - 5) { // at stopping point 1
                         std::cout << "At rest, extending to point 1\n";
                         LBExtend(1); // go to stopping point 2
-                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED) { // at stopping point 2
+                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED) { // at PROPPED
                         std::cout << "At stopping point 1, going to stopping point 2\n";
                         LBExtend(2); // go to rest
                     } else { // at rest
@@ -232,6 +259,7 @@ void LBLoop() {
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             std::cout << "DOWN BUTTON PRESSED" << "\n";
             LBExtend(1.5);
+            //LBState = SEMIEXTENDED;
         }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
             ChangeLBAuton(LBAutonGoal);
@@ -241,13 +269,7 @@ void LBLoop() {
             calledLBReset = false;
         }
         prevLBAutonGoal = LBAutonGoal;
-        if (LBState == PROPPED) {
-            doLBAmbientAdjust(curAngle);
-        } else if (LBState == EXTENDED) {
-            ladybrown.move(-5);
-        } else if (LBState == FULLEXTENDED) {
-            ladybrown.move(-10);
-        }
+        doLBAmbientAdjust(curAngle);
         if (intakeUnstuckActivated) {
             doIntakeUnstuck();
         }

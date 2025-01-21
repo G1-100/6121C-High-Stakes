@@ -7,10 +7,11 @@ extern double STOP1_5;
 extern double STOP2;
 extern double STOP3;
 
-extern int LBState;
+extern double LBState;
 extern double REST;
 extern double PROPPED;
 extern double EXTENDED;
+extern double SEMIEXTENDED;
 extern double FULLEXTENDED;
 
 extern bool LBLoopActive;
@@ -21,7 +22,7 @@ extern int LBAutonGoal;
 
 extern bool intakeUnstuckActivated;
 
-void LBExtend(int point);
+void LBExtend(double point);
 
 void ChangeLBState(int goal);
 
