@@ -67,10 +67,10 @@ void skills() {
 
     // collecting 3 rings
 
-    set_drive(57.5, 3000, 0, 60 + 40 - 20); 
+    set_drive(57.5, 3000, 0, 60 + 30); 
     chassis.waitUntil(30);
     chassis.cancelMotion();
-    set_drive(29 - 2, 3000, 0, 30 + 40 - 20); // intake rings slowly
+    set_drive(29 - 2, 3000, 0, 30 + 40); // intake rings slowly
     chassis.waitUntilDone();
     setIntake(127);
     pros::delay(800 - 200);
@@ -130,19 +130,19 @@ void skills() {
     chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
-    set_drive(27 + 0.5); // move to ring next to wall stake
+    set_drive(27 + 3.5); // move to ring next to wall stake
     chassis.waitUntilDone();
     //chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 1000); // turn to wall stake
     chassis.turnToHeading(0 - 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     chassis.waitUntilDone();
     pros::delay(500);
-    set_drive(6.5 - 2, 1200, 75, 120); // move to wall stake
+    set_drive(6.5 + 0, 1200, 75, 120); // move to wall stake
     chassis.waitUntilDone();
     setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown
     pros::delay(300);
 
-    set_drive(-17 + 2, 3000); // move back
+    set_drive(-17 + 1.5, 3000); // move back
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     setIntake(127);
@@ -189,7 +189,7 @@ void skills() {
     //intake.move(0);
     chassis.turnToHeading(-45, 1500, {.maxSpeed = 75}); // turn to third mogo
     chassis.waitUntilDone();
-    set_drive(-36 + 1, 2000, 0, 75); // go to third mogo
+    set_drive(-36 + 1.5, 2000, 0, 75); // go to third mogo
     chassis.waitUntil(33);
     mogoClamp.toggle();
     //stopColorUntilFunction();
@@ -201,15 +201,15 @@ void skills() {
     ColorLoopActive = true;
 
     chassis.waitUntilDone();
+    pros::delay(200);
     setIntake(0);
     //ChangeLBState(EXTENDED); // extend ladybrown a little
     //setIntake(127);
-    pros::delay(200);
     chassis.turnToHeading(90 - 2, 1500, {.maxSpeed = 75}); // turn to AWS
     chassis.waitUntilDone();
     set_drive(4.5 + 10, 1500, 0, 70); // move to AWS
     chassis.waitUntilDone();
-    set_drive(-10, 1500); // move back
+    set_drive(-8, 1500); // move back
     ChangeLBState(FULLEXTENDED); // extend ladybrown
     pros::delay(700);
     set_drive(-5 + 0.25, 2000, 60, 120); // move back
