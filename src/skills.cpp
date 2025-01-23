@@ -40,11 +40,11 @@ void skills() {
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
 
-    set_drive(28.25 - 0.5); // pickup ring next to wall stake
+    set_drive(28.65 - 0.25); // pickup ring next to wall stake
     chassis.waitUntilDone();
 
-    pros::delay(500);
-    chassis.turnToHeading(180, 1500); // turn to wall stake
+    //pros::delay(500);
+    chassis.turnToHeading(180 + 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     //chassis.swingToHeading(180, lemlib::DriveSide::LEFT, 1000);
     chassis.waitUntilDone();
     pros::delay(300);
@@ -56,13 +56,14 @@ void skills() {
     ChangeLBState(EXTENDED); // extend ladybrown
     pros::delay(350 + 100);
 
-    set_drive(-15.5 + 0.2); // go back a bit
+    set_drive(-15.3 + 1); // go back a bit
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
 
-    chassis.turnToHeading(-89 + 0.3, 1500, {.minSpeed = 60, .earlyExitRange = 2}); // turn to two rings
+    chassis.turnToHeading(-88.7 - 1.5, 1500, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to two rings
     setIntake(127);
     chassis.waitUntilDone();
+    intake.move_voltage(12000);
 
     set_drive(57.5, 3000, 0, 60 + 40); // collecting 3 rings
     chassis.waitUntil(30);
@@ -77,7 +78,7 @@ void skills() {
     chassis.waitUntilDone();
     stopColorUntilFunction();
     setIntake(127);
-    set_drive(14.5 + 1, 1500, 75, 120); // collect last bottom-left ring
+    set_drive(14.5 - 1.5, 1500, 75, 120); // collect last bottom-left ring
     chassis.waitUntilDone();
     startColorUntil(1);
     //pros::delay(400);
@@ -93,7 +94,7 @@ void skills() {
     //pros::delay(350);
     setIntake(0);
 
-    set_drive(6.5 - 0.25, 1500, 60, 120); // move out of corner
+    set_drive(6.5 + 0.25, 1500, 60, 120); // move out of corner
     chassis.waitUntilDone();
     chassis.turnToHeading(179.5 - 0.2, 1500, {.maxSpeed = 80});
     chassis.waitUntilDone();
@@ -123,13 +124,13 @@ void skills() {
     chassis.waitUntilDone();
     pros::delay(300);
 
-    chassis.turnToHeading(-76.5 + 3, 2000, {.maxSpeed = 60});
+    chassis.turnToHeading(-73.5 + 1.75, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
-    set_drive(27.5 + 2.25); // move to ring next to wall stake
+    set_drive(29.75 - 2.25); // move to ring next to wall stake
     chassis.waitUntilDone();
     //chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 1000); // turn to wall stake
-    chassis.turnToHeading(0, 1500); // turn to wall stake
+    chassis.turnToHeading(0 - 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     chassis.waitUntilDone();
     pros::delay(500);
     set_drive(6.5 - 2, 1200, 75, 120); // move to wall stake
@@ -137,36 +138,37 @@ void skills() {
     setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown
     pros::delay(300);
-    set_drive(-17 + 0, 3000); // move back
+    set_drive(-17 + 2, 3000); // move back
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     setIntake(127);
-    chassis.turnToHeading(-93 - 0.5, 2000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to two rings
+    chassis.turnToHeading(-93 - 0.5, 2000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to three rings
     chassis.waitUntilDone();
-
+    intake.move_voltage(12000);
     set_drive(57, 2000, 0, 60 + 30); // intake the three rings
     callLBReset();
     chassis.waitUntil(30);
     chassis.cancelMotion();
-    set_drive(27.5, 2500, 0, 30 + 30); // intake rings slowly
+    set_drive(27.5 + 2, 2500, 0, 30 + 30); // intake rings slowly
     chassis.waitUntilDone();
-    pros::delay(800 - 200);
+    pros::delay(800);
     chassis.turnToHeading(40 - 10, 1000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to last ring before corner
     chassis.waitUntilDone();
-    set_drive(13 + 2); // move to ring before corner
+    set_drive(15 - 5, 1500, 75, 120); // move to ring before corner
     chassis.waitUntilDone();
 
-    chassis.turnToHeading(105 + 2, 1500, {.maxSpeed = 58, .minSpeed = 60, .earlyExitRange = 2}); // turn to corner
+    chassis.turnToHeading(107 + 5, 1500, {.maxSpeed = 58, .minSpeed = 60, .earlyExitRange = 2}); // turn to corner
     chassis.waitUntilDone();
 
-    set_drive(-15 + 1, 700); // back INto corner
+    set_drive(-14 + 2, 700); // back INto corner
     chassis.waitUntilDone();
     intake.move(0);
     mogoClamp.toggle(); // unclamp mogo
     //pros::delay(350);
     ColorLoopActive = true;
+    std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
-    chassis.turnToHeading(112 - 1, 700);
+    chassis.turnToHeading(111 + 1.5, 700);
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //startColorUntil(1); // start color until 1 ring
@@ -176,9 +178,9 @@ void skills() {
     intake.move(127);
     chassis.waitUntilDone();
     //intake.move(0);
-    chassis.turnToHeading(-45 - 3, 1500, {.maxSpeed = 75}); // turn to third mogo
+    chassis.turnToHeading(-48 + 3, 1500, {.maxSpeed = 75}); // turn to third mogo
     chassis.waitUntilDone();
-    set_drive(-36 + 1); // go to third mogo
+    set_drive(-36); // go to third mogo
     chassis.waitUntil(33);
     mogoClamp.toggle();
     //stopColorUntilFunction();
@@ -195,27 +197,28 @@ void skills() {
     //setIntake(127);
     pros::delay(200);
     chassis.turnToHeading(90 - 2, 1500, {.maxSpeed = 75}); // turn to AWS
-    set_drive(2, 1000);
     chassis.waitUntilDone();
-    set_drive(5 + 1, 1500); // move to AWS
+    set_drive(5 + 0.25, 1500); // move to AWS
     chassis.waitUntilDone();
     ChangeLBState(FULLEXTENDED); // extend ladybrown
     pros::delay(700);
-    set_drive(-5 + 1, 2000, 60, 120); // move back
+    set_drive(-5 + 0.25, 2000, 60, 120); // move back
     setIntake(127);
     chassis.turnToHeading(-135 - 5, 1500, {.maxSpeed = 60, .minSpeed = 30, .earlyExitRange = 2}); // turn to ring outside ladder
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
-    set_drive(34 - 2, 2000, 70, 120); // move to ring outside ladder
+    set_drive(32 - 1.5, 2000, 70, 120); // move to ring outside ladder
     chassis.waitUntilDone();
-    chassis.turnToHeading(-45, 1500, {.minSpeed = 60, .earlyExitRange = 2}); // turn to center ring inside ladder
+    pros::delay(400);
+    chassis.turnToHeading(-45, 1500); // turn to center ring inside ladder
     chassis.waitUntilDone();
     setIntake(100);
     set_drive(30 + 3, 2000); // move to center ring inside ladder
     chassis.waitUntilDone();
     startColorUntil(1); // start color until 1 ring
-    chassis.turnToHeading(-35, 1500); // turn to go back
-    set_drive(-39, 2000); // move back
+    chassis.turnToHeading(-35 + 8, 1500); // turn to go back
+    chassis.waitUntilDone();
+    set_drive(-39 - 10, 2000); // move back
     chassis.waitUntilDone();
     chassis.turnToHeading(130 - 5, 1500);
     chassis.waitUntilDone();
@@ -224,10 +227,11 @@ void skills() {
     chassis.follow(skills3_txt, 15, 2300); // pure pursuit two two stacks
     chassis.waitUntilDone();
     pros::delay(300);
-    chassis.turnToHeading(-135 + 5, 1500); // turn to third two stack
+    chassis.turnToHeading(-135, 1500); // turn to third two stack
     chassis.waitUntilDone();
     set_drive(13, 2000); // intake third two stack
     chassis.waitUntilDone();
+    pros::delay(500);
     // set_drive(-13, 2000); // move back
     // chassis.waitUntilDone();
     chassis.swingToHeading(-55, lemlib::DriveSide::LEFT, 1500); // turn to corner
@@ -260,7 +264,7 @@ void skills() {
     set_drive(-15, 1500, 60, 127); // move back
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
-    chassis.turnToHeading(-30, 1000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to two stack
+    chassis.turnToHeading(-50, 1000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to two stack
     chassis.waitUntilDone();
     setIntake(127);
     set_drive(12, 1500, 60, 127); // move back

@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -5.95; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 32; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.35; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 30; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -50,9 +50,10 @@ void doColorSort() {
 
         const int PROXIMITYDIFFREQUIRED = 10;
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
-        //std::cout << "Proximity: " << optical.get_proximity() << "\n";
+        //std::cout << "Proximity: " << optical.get_proximity() << " DIFF: " << currentColorDiff << "\n";
         if (ColorLoopActive) {
-            if (currentColorDiff - ambientColorDiff > 5) { // alliance red and its 100 more blue than before
+            if (currentColorDiff - ambientColorDiff > 5) { // blue ring
+                cout << "BLUE DETECTED" << "\n";
                 if (!allianceColorBlue) {
                     cout << "BLUE DETECTED" << "\n";
                     master.rumble(". .");
@@ -127,6 +128,7 @@ void colorSortLoop() {
     //colorLoopStarted = true;
     while (true) {
         if (LBState == REST) {
+            //cout <<"HI" << "\n";
             doColorSort();
         }
         prevHeading = IMU.get_heading();
