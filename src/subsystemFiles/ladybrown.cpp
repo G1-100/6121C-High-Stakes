@@ -256,6 +256,11 @@ void LBLoop() {
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             LBExtend(3);
         }
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+            set_drive(-8, 1500); // move back
+            chassis.waitUntilDone();
+            LBExtend(3);
+        }
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             std::cout << "DOWN BUTTON PRESSED" << "\n";
             LBExtend(1.5);
