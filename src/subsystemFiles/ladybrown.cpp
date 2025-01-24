@@ -282,3 +282,19 @@ void LBLoop() {
         pros::delay(20);
     }
 }
+
+
+void 2_Ring_LB_Macro() {
+    intake.move(110);
+    startColorUntil(1);
+    LBExtend(2);
+    set_drive(-8, 1000);
+    chassis.waituntildone();
+    set_drive(8, 1000);
+    LBRetract();
+    chassis.waitUntilDone();
+    LBExtend(2);
+    set_drive(-8, 1000);
+    chassis.waitUntilDone();
+    stopColorUntilFunction();
+}
