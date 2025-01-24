@@ -284,12 +284,12 @@ void LBLoop() {
 }
 
 
-void 2_Ring_LB_Macro() {
+void TwoRingLBMacro() {
     intake.move(110);
     startColorUntil(1);
     LBExtend(2);
     set_drive(-8, 1000);
-    chassis.waituntildone();
+    chassis.waitUntilDone();
     set_drive(8, 1000);
     LBRetract();
     chassis.waitUntilDone();

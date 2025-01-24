@@ -143,13 +143,13 @@ void autonomous() {
 
 	//set_drive(72);
 	//intake.move(127);
-	//disruptRingRush(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
-	skills();
+	//skills();
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
