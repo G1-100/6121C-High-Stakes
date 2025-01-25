@@ -36,12 +36,16 @@ void skills() {
     callLBReset();
     chassis.waitUntilDone();
     //pros::delay(800);
-    chassis.turnToHeading(-110, 2000, {.maxSpeed = 60}); // turn to wall stake ring
+    //chassis.turnToHeading(-110, 2000, {.maxSpeed = 60}); // turn to wall stake ring
+    chassis.turnToPoint(-1.2156, -54.6709, 2000, {.maxSpeed = 60}); // turn to wall stake ring
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
 
-    set_drive(28.65 + 0.2); // pickup ring next to wall stake
+    //set_drive(28.65 + 0.2); // pickup ring next to wall stake
+    chassis.moveToPoint(-1.2156, -54.6709, 1500);
     chassis.waitUntilDone();
+
+    std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
     //pros::delay(500);
     chassis.turnToHeading(180, 1500); // turn to wall stake
@@ -127,11 +131,15 @@ void skills() {
     chassis.waitUntilDone();
     pros::delay(300);
 
-    chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
+    //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
+    chassis.turnToPoint(0.69923, 69.8696, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
-    set_drive(27 + 3.5); // move to ring next to wall stake
+    //set_drive(27 + 3.5); // move to ring next to wall stake
+    chassis.moveToPoint(0.699233, 69.86966, 1500);
     chassis.waitUntilDone();
+    std::cout << lemlib::format_as(chassis.getPose()) << "\n";
+
     //chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 1000); // turn to wall stake
     chassis.turnToHeading(0 - 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     chassis.waitUntilDone();
