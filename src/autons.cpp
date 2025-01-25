@@ -63,6 +63,10 @@ void set_drive(double inches, int time, float minSpeed, float maxSpeed) {
     chassis.moveToPoint(cos(trueAngle)*inches + chassis.getPose().x, sin(trueAngle)*inches + chassis.getPose().y, time, {.forwards = inches > 0, .maxSpeed=maxSpeed, .minSpeed=minSpeed});
 }
 
+void set_drive_advanced(double inches, int time, float minSpeed, float maxSpeed, float earlyExitRange) {
+    double trueAngle = chassis.getPose(true, true).theta;
+    chassis.moveToPoint(cos(trueAngle)*inches + chassis.getPose().x, sin(trueAngle)*inches + chassis.getPose().y, time, {.forwards = inches > 0, .maxSpeed=maxSpeed, .minSpeed=minSpeed, .earlyExitRange = earlyExitRange});
+}
 
 using namespace std;
 
@@ -87,6 +91,97 @@ void moveMax(double dist, int timeout) {
     pros::delay(10);
   }
   setDrive(0, 0); // stop moving
+}
+
+void simpleRing(bool isBlue) {
+	int sgn=isBlue?1:-1;
+	chassis.setPose(0, 0, 90 * sgn);
+	set_drive(-34, 2000);
+	chassis.waitUntil(32 - 4);
+	mogoClamp.toggle();
+	chassis.waitUntilDone();
+	pros::delay(1000);
+	//pros::delay(500);
+	intake.move_voltage(12000);
+	pros::delay(700);
+	chassis.turnToHeading(0, 2000);
+	chassis.waitUntilDone();
+	set_drive(21, 2000);
+	chassis.waitUntilDone();
+	pros::delay(1500);
+	set_drive(-10, 1500);
+	chassis.waitUntilDone();
+	chassis.turnToHeading(180, 2000);
+	chassis.waitUntilDone();
+	set_drive(30, 2000);
+	chassis.waitUntilDone();
+	
+}
+
+void simpleMogo(bool isBlue) {
+	int sgn=isBlue?1:-1;
+	chassis.setPose(0, 0, 42 * sgn);
+  LBState = PROPPED;
+  LBRotation.set_position(4600);
+  //ChangeLBState(2);
+  // set_drive(8, 2000, 0, 70);
+  // chassis.waitUntilDone();
+  // chassis.turnToHeading(75, 2000, {.maxSpeed = 70});
+  // chassis.waitUntilDone();
+  ChangeLBState(FULLEXTENDED);
+  pros::delay(650);
+  set_drive(-20, 2000);
+  chassis.waitUntilDone();
+  ChangeLBState(REST);
+  chassis.turnToHeading(90 * sgn, 2000);
+  chassis.waitUntilDone();
+  set_drive(-23, 2000);
+  chassis.waitUntil(15);
+  mogoClamp.toggle();
+  chassis.waitUntilDone();
+
+	// set_drive(-34, 2000);
+	// chassis.waitUntil(32 - 4);
+	// mogoClamp.toggle();
+	// chassis.waitUntilDone();
+	intake.move_voltage(12000);
+	pros::delay(1000);
+	chassis.turnToHeading(180, 2000);
+	chassis.waitUntilDone();
+	set_drive(21, 2000);
+	chassis.waitUntilDone();
+	pros::delay(1500);
+	set_drive(-10, 1500);
+	chassis.waitUntilDone();
+	chassis.turnToHeading(0, 2000);
+	chassis.waitUntilDone();
+	set_drive(30, 2000);
+	chassis.waitUntilDone();
+	
+}
+
+void newMogoRush(bool isBlue) {
+  chassis.setPose(0, 0, 90); // Set position
+  LBState = PROPPED;
+  LBRotation.set_position(4600);
+  set_drive(40 - 3, 2500, 126, 127); // Move to first mogo
+  chassis.waitUntil(20);
+  ChangeLBState(FULLEXTENDED);
+  chassis.waitUntilDone();
+  set_drive(-8, 1500); // Move back
+  chassis.waitUntilDone();
+  chassis.turnToHeading(135, 2000); // Turn to second mogo
+  chassis.waitUntilDone();
+  set_drive(-15, 2000, 0, 60); // Move to second mogo
+  chassis.waitUntilDone();
+  mogoClamp.toggle(); // Clamp second mogo
+  chassis.turnToHeading(200, 2000); // Turn to two stack
+  chassis.waitUntilDone();
+  intake.move(127); // Turn on intake
+  set_drive(15, 2000); // Move to two stack
+  chassis.waitUntilDone();
+
+
 }
 
 
@@ -339,39 +434,42 @@ void disruptRingRush(bool isBlue) {
   int sgn=isBlue?1:-1;
 	chassis.setPose(55 * sgn,30,-(71 + 2.5) * sgn); //Starting Line 71
   setIntake(0);
-  set_drive(38 + 1.5, 2500, 120, 127); //move and grab to rings 
+  set_drive(38 + 1.5, 2500, 100, 127); //move and grab to rings 
   rushLeftPiston.toggle();
   rushRightPiston.toggle();
   chassis.waitUntilDone();
-  set_drive(-12, 2000, 70, 127); // move back a little
+  set_drive(-12 + 1.5 - 3, 2000); // move back a little
   chassis.waitUntilDone();
   chassis.turnToHeading(-97 * sgn, 500); // turn to go back
   chassis.waitUntilDone();
-  
+  set_drive(-4.5 - 3, 1500, 70, 127); // move back
+  chassis.waitUntil(1 + 3);
   rushLeftPiston.toggle();
   rushRightPiston.toggle();
-  pros::delay(300);
-  set_drive(-4.5 - 3 + 2, 1500, 70, 127); // move back
-  chassis.waitUntilDone();
   chassis.waitUntilDone();
   // chassis.turnToPoint(24 * sgn, 21, 3000, {.forwards = false}); // turn to mogo
   //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
-  chassis.turnToHeading((57 - 24) * sgn, 2000); // turn to mogo
+  chassis.turnToHeading((33 - 2) * sgn, 2000, {.maxSpeed = 100, .minSpeed = 30, .earlyExitRange = 1}); // turn to mogo
   chassis.waitUntilDone();
-  set_drive(-18.5 - 20, 1500, 0, 65);
-  chassis.waitUntil(15);
+  set_drive(-18.5 - 5 + 3, 1500, 0, 65 + 10);
+  chassis.waitUntil(14 + 1.5);
   mogoClamp.toggle(); // clamp mogo
   chassis.cancelMotion();
-  set_drive(-20, 1500, 70, 120); // move to mogo
+  set_drive(-12 + 1.5, 1500, 70, 120); // move to mogo
   chassis.waitUntilDone();
-  chassis.turnToHeading((10) * sgn, 3000); // turn to intake rings
+  chassis.turnToHeading((-8) * sgn, 3000, {.maxSpeed = 100, .minSpeed = 30, .earlyExitRange = 1}); // turn to intake rings
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(11 + 30, 2000, 0, 60); // move to intake rings
+  set_drive(41 - 15, 2000, 0, 50 - 5); // move to intake rings
+  chassis.waitUntil(8);
   intake.move(127); // start intake
   chassis.waitUntilDone();
-  pros::delay(200 + 1500);
+  pros::delay(500);
+  set_drive(13 - 2, 1500);
+  chassis.waitUntilDone();
+  
+  pros::delay(500);
   // set_drive(11, 2000, 80);
   // chassis.waitUntilDone();
   // pros::delay(400);
@@ -383,13 +481,45 @@ void disruptRingRush(bool isBlue) {
   // pros::delay(500);
   // set_drive(-24.5 + 15, 2000, 70, 127); // move back
   // chassis.waitUntilDone();
-  chassis.turnToHeading((140 - 5) * sgn, 2000, {.maxSpeed = 80}); // turn to preload
+  chassis.turnToHeading((135 - 1.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
+  chassis.waitUntilDone();
+  set_drive(58.5 - 10, 2000, 70, 127); // move to preload
+  chassis.waitUntil(40 - 30);
+  ChangeLBState(PROPPED);
+  chassis.waitUntilDone();
+  pros::delay(900-300);
+  chassis.turnToHeading((125 - 5.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  chassis.waitUntilDone();
+  intake.move(0);
+  set_drive(11 - 2.25, 1500); // move to preload
+  chassis.waitUntilDone();
+  // chassis.turnToHeading(180 * sgn, 2000); // turn
+  // chassis.waitUntilDone();
+  // intake.move(0);
+  // pros::delay(50);
+  // ChangeLBState(EXTENDED);
+  // pros::delay(400);
+  // intake.move(127);
+  // set_drive(18 - 2, 1500); // move forward further
+  // set_drive(13 + 3, 2000); // move forward
+  // chassis.waitUntil(8);
+  //intake.move(127);
+  // chassis.waitUntilDone();
+  // chassis.turnToHeading((90 - 5) * sgn, 2000); // turn
+  // chassis.waitUntilDone();
+  // set_drive(17 - 10, 1500); // move forward
+  // chassis.waitUntilDone();
+  // set_drive(-8, 1500); // move back
+  ChangeLBState(3);
+  pros::delay(700 - 100);
+  set_drive_advanced(-24.5 + 3 + 8, 2000, 70, 127, 2); // move back
+  chassis.waitUntilDone();
+  ChangeLBState(REST);
+  chassis.turnToHeading((-110) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 2}); // turn to ladder
+  chassis.waitUntilDone();
+  set_drive_advanced(26.5, 1500, 90, 100, 2); // move forward
   chassis.waitUntilDone();
   ChangeLBState(PROPPED);
-  set_drive(24.5 + 25, 2000, 70, 127); // move to preload
-  chassis.waitUntilDone();
-
-
   // chassis.turnToHeading(162 * sgn, 1000, {.earlyExitRange = 4}); // turn to two stack middle
   // chassis.waitUntilDone();
   // set_drive(20 - 4, 2500, 75, 127); // move to two stack middle
@@ -409,7 +539,69 @@ void disruptRingRush(bool isBlue) {
   
 }
 
-
+void disruptRingRushBlue() {
+  int sgn= 1;
+	chassis.setPose(55 * sgn,30,-(71 + 2.5) * sgn); //Starting Line 71
+  setIntake(0);
+  set_drive(38 + 0.25, 2500, 100, 127); //move and grab to rings 
+  rushLeftPiston.toggle();
+  rushRightPiston.toggle();
+  chassis.waitUntilDone();
+  set_drive(-12 + 1.5 - 3, 2000); // move back a little
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-97 * sgn, 500); // turn to go back
+  chassis.waitUntilDone();
+  set_drive(-4.5 - 3, 1500, 70, 127); // move back
+  chassis.waitUntil(1 + 3);
+  rushLeftPiston.toggle();
+  rushRightPiston.toggle();
+  chassis.waitUntilDone();
+  // chassis.turnToPoint(24 * sgn, 21, 3000, {.forwards = false}); // turn to mogo
+  //chassis.swingToHeading(55 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 3000);
+  chassis.turnToHeading((33 - 2) * sgn, 2000, {.maxSpeed = 100, .minSpeed = 30, .earlyExitRange = 1}); // turn to mogo
+  chassis.waitUntilDone();
+  set_drive(-18.5 - 5 + 3, 1500, 0, 65 + 10);
+  chassis.waitUntil(14 + 1.5);
+  mogoClamp.toggle(); // clamp mogo
+  chassis.cancelMotion();
+  set_drive(-12 + 1.5, 1500, 70, 120); // move to mogo
+  chassis.waitUntilDone();
+  chassis.turnToHeading((-8) * sgn, 3000, {.maxSpeed = 100, .minSpeed = 30, .earlyExitRange = 1}); // turn to intake rings
+  //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
+  chassis.waitUntilDone();
+  pros::delay(100);
+  set_drive(41 - 15, 2000, 0, 50 - 5); // move to intake rings
+  chassis.waitUntil(8);
+  intake.move(127); // start intake
+  chassis.waitUntilDone();
+  pros::delay(500);
+  set_drive(13 - 2, 1500);
+  chassis.waitUntilDone();
+  
+  pros::delay(500);
+  chassis.turnToHeading((135 - 1.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
+  chassis.waitUntilDone();
+  set_drive(58.5 - 10, 2000, 70, 127); // move to preload
+  chassis.waitUntil(40 - 30);
+  ChangeLBState(PROPPED);
+  chassis.waitUntilDone();
+  pros::delay(900-300);
+  chassis.turnToHeading((125 - 5.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  chassis.waitUntilDone();
+  intake.move(0);
+  set_drive(11 - 2.25, 1500); // move to preload
+  chassis.waitUntilDone();
+  ChangeLBState(3);
+  pros::delay(700 - 100);
+  set_drive_advanced(-24.5 + 3 + 8, 2000, 70, 127, 2); // move back
+  chassis.waitUntilDone();
+  ChangeLBState(REST);
+  chassis.turnToHeading((-110) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 2}); // turn to ladder
+  chassis.waitUntilDone();
+  set_drive_advanced(26.5, 1500, 90, 100, 2); // move forward
+  chassis.waitUntilDone();
+  ChangeLBState(PROPPED); 
+}
 
 
 void SigSoloAWP(bool isBlue) {

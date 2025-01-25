@@ -24,6 +24,7 @@ void initialize() {
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
+
 }
 
 
@@ -43,7 +44,25 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+	int autonRunning = 0;
+	while (true) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+			autonRunning += 1;
+		}
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+			//autonRunning -= 1;
+		}
+		if (autonRunning >= 1) {
+
+			pros::lcd::set_text(2, "SOLO AWP SELECTED");
+		} else if (autonRunning == 0) {
+			pros::lcd::set_text(2, "RING RUSH SELECTED");
+		}
+
+	}
+
+}
 
 void logger() {
     while (!pros::competition::is_disabled()) {
@@ -55,7 +74,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
         pros::delay(50);
         
@@ -64,53 +83,7 @@ void logger() {
     }
 }
 
-void simpleRing(bool isBlue) {
-	int sgn=isBlue?1:-1;
-	chassis.setPose(0, 0, 90 * sgn);
-	set_drive(-34, 2000);
-	chassis.waitUntil(32 - 4);
-	mogoClamp.toggle();
-	chassis.waitUntilDone();
-	pros::delay(1000);
-	//pros::delay(500);
-	intake.move_voltage(12000);
-	pros::delay(700);
-	chassis.turnToHeading(0, 2000);
-	chassis.waitUntilDone();
-	set_drive(21, 2000);
-	chassis.waitUntilDone();
-	pros::delay(1500);
-	set_drive(-10, 1500);
-	chassis.waitUntilDone();
-	chassis.turnToHeading(180, 2000);
-	chassis.waitUntilDone();
-	set_drive(30, 2000);
-	chassis.waitUntilDone();
-	
-}
 
-void simpleMogo(bool isBlue) {
-	int sgn=isBlue?1:-1;
-	chassis.setPose(0, 0, 90 * sgn);
-	set_drive(-34, 2000);
-	chassis.waitUntil(32 - 4);
-	mogoClamp.toggle();
-	chassis.waitUntilDone();
-	intake.move_voltage(12000);
-	pros::delay(1000);
-	chassis.turnToHeading(180, 2000);
-	chassis.waitUntilDone();
-	set_drive(21, 2000);
-	chassis.waitUntilDone();
-	pros::delay(1500);
-	set_drive(-10, 1500);
-	chassis.waitUntilDone();
-	chassis.turnToHeading(0, 2000);
-	chassis.waitUntilDone();
-	set_drive(30, 2000);
-	chassis.waitUntilDone();
-	
-}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -135,21 +108,25 @@ void autonomous() {
 	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-	ColorLoopActive = false;
+	ColorLoopActive = true;
 	intakeUnstuckActivated = true;
 
 	//pros::Task ret4(logger);
 	pros::Task lb_task(LBLoop);
-
+	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	//ladybrown.move(-10);
 	//set_drive(72);
 	//intake.move(127);
-	disruptRingRush(allianceColorBlue);
+	//disruptRingRush(allianceColorBlue);
+	//disruptRingRushBlue();
+	//simpleMogo(allianceColorBlue);
+	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
-	//skills();
+	skills();
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
@@ -192,7 +169,9 @@ void opcontrol() {
 	ColorLoopActive = true; // starts inactive until tested ambient colors
 
 	intakeUnstuckActivated = false;
-	//skillsMacro();
+	//rushLeftPiston.toggle();
+	//rushRightPiston.toggle();
+	skillsMacro();
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive

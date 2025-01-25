@@ -20,7 +20,7 @@ double FULLEXTENDED = 3;
 double SEMIEXTENDED = 1.5;
 double LBState = REST;
 
-int LBAutonGoal = REST;
+double LBAutonGoal = REST;
 int prevLBAutonGoal = REST;
 bool calledLBReset = false;
 
@@ -186,7 +186,7 @@ void LBRetract() {
     LBRotation.reset_position();
 }
 
-void ChangeLBState(int goal) {
+void ChangeLBState(double goal) {
     LBAutonGoal = goal;
 }
 
@@ -194,7 +194,7 @@ void ChangeLBState(int goal) {
  * @brief Changes the ladybrown to a certain state
  * @param goal the goal to change to
  */
-void ChangeLBAuton(int goal) {
+void ChangeLBAuton(double goal) {
     if (goal == REST) {
         LBRetract();
     } else if (goal == PROPPED) {
@@ -203,6 +203,8 @@ void ChangeLBAuton(int goal) {
         LBExtend(2);
     } else if (goal == FULLEXTENDED) {
         LBExtend(3);
+    } else if (goal == SEMIEXTENDED) {
+        LBExtend(1.5);
     }
 }
 
@@ -253,7 +255,7 @@ void LBLoop() {
             lastPressed = false;
 
         }
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             LBExtend(3);
         }
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
@@ -261,7 +263,7 @@ void LBLoop() {
             chassis.waitUntilDone();
             LBExtend(3);
         }
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
             std::cout << "DOWN BUTTON PRESSED" << "\n";
             LBExtend(1.5);
             //LBState = SEMIEXTENDED;

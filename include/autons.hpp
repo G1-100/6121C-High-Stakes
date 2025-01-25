@@ -6,6 +6,8 @@ void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpee
 
 void ringAuton(bool isBlue);
 
+void disruptRingRushBlue();
+
 void ringAutonRed();
 
 void ringAutonBlue();
@@ -23,6 +25,12 @@ void MogoSideSoloRed();
 void MogoSideSoloBlue();
 
 void SigSoloAWP(bool isBlue);
+
+void simpleRing(bool isBlue);
+
+void simpleMogo(bool isBlue);
+
+void newMogoRush(bool isBlue);
 
 ASSET(ringRushBlue_txt);
 ASSET(ringRushBlueOld_txt);

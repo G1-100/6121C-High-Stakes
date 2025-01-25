@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -5.35; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 30; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -4.4; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -127,7 +127,7 @@ void doColorSort() {
 void colorSortLoop() {
     //colorLoopStarted = true;
     while (true) {
-        if (LBState == REST) {
+        if (LBState != PROPPED) {
             //cout <<"HI" << "\n";
             doColorSort();
         }

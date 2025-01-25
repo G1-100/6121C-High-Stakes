@@ -18,13 +18,13 @@ extern bool LBLoopActive;
 
 extern bool calledLBReset;
 
-extern int LBAutonGoal;
+extern double LBAutonGoal;
 
 extern bool intakeUnstuckActivated;
 
 void LBExtend(double point);
 
-void ChangeLBState(int goal);
+void ChangeLBState(double goal);
 
 void LBReset();
 
