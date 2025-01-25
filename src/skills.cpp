@@ -132,11 +132,11 @@ void skills() {
     pros::delay(300);
 
     //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
-    chassis.turnToPoint(0.69923, 69.8696, 2000, {.maxSpeed = 60});
+    chassis.turnToPoint(0.69923, 69.8696 - 1, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //set_drive(27 + 3.5); // move to ring next to wall stake
-    chassis.moveToPoint(0.699233, 69.86966, 1500);
+    chassis.moveToPoint(0.699233, 69.86966 - 1, 1500);
     chassis.waitUntilDone();
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
@@ -178,7 +178,7 @@ void skills() {
     set_drive(-14 + 2, 700); // back INto corner
     chassis.waitUntilDone();
     callLBReset();
-    pros::delay(300);
+    pros::delay(300 + 100);
     intake.move(0);
     mogoClamp.toggle(); // unclamp mogo
     //pros::delay(350);
