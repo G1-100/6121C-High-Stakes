@@ -59,12 +59,19 @@ void doIntakeUnstuck() {
  * 
  */
 void checkLBBroken() {
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-        panicPressTime = pros::millis(); // start counting
-    } else if (panicPressTime != 0 && !master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) && master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { // buttons are all pressed
+        if (panicPressTime == 0) {
+            panicPressTime = pros::millis(); // start counting
+        }
+    } else if (panicPressTime != 0) { // all four buttons aren't being pressed and were pressed
         panicPressTime = 0; // reset
-    } else if (pros::millis() - panicPressTime > 1500) { // held for 1.5 seconds
+    }
+    if (pros::millis() - panicPressTime > 500) { // held for 0.5 seconds
         LBRetract();
+        pros::Task lb_task(LBLoop);
+        LBLoopActive = true;
+        LBState = REST;
+        LBRotation.set_position(0);
         panicPressTime = pros::millis();
     }
 }
