@@ -45,22 +45,22 @@ void disabled() {}
  * starts.
  */
 void competition_initialize() {
-	int autonRunning = 0;
-	while (true) {
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-			autonRunning += 1;
-		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-			//autonRunning -= 1;
-		}
-		if (autonRunning >= 1) {
+	// int autonRunning = 0;
+	// while (true) {
+	// 	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
+	// 		autonRunning += 1;
+	// 	}
+	// 	if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1) || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+	// 		//autonRunning -= 1;
+	// 	}
+	// 	if (autonRunning >= 1) {
 
-			pros::lcd::set_text(2, "SOLO AWP SELECTED");
-		} else if (autonRunning == 0) {
-			pros::lcd::set_text(2, "RING RUSH SELECTED");
-		}
+	// 		pros::lcd::set_text(2, "SOLO AWP SELECTED");
+	// 	} else if (autonRunning == 0) {
+	// 		pros::lcd::set_text(2, "RING RUSH SELECTED");
+	// 	}
 
-	}
+	// }
 
 }
 
@@ -74,7 +74,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
         pros::delay(50);
         
@@ -108,7 +108,7 @@ void autonomous() {
 	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-	ColorLoopActive = true;
+	ColorLoopActive = false;
 	intakeUnstuckActivated = true;
 
 	//pros::Task ret4(logger);
@@ -117,9 +117,10 @@ void autonomous() {
 	//ladybrown.move(-10);
 	//set_drive(72);
 	//intake.move(127);
-	//disruptRingRush(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
+	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
-	simpleMogo(allianceColorBlue);
+	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
@@ -183,6 +184,8 @@ void opcontrol() {
 		setDoinker();
       	// Activate Mogo Logic
 		setMogoMotors();
+
+		checkLBBroken();
       	// Run Every 20 Seconds
 
 		if (pros::millis() - runStart > 2000 && !testedAmbient) { // 2 seconds after start

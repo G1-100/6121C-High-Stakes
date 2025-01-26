@@ -5,8 +5,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -4.4; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 28; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -20.3; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 31; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 bool colorLoopStarted = false;
@@ -19,7 +19,7 @@ long prevTime = 0;
 void initColorSort() {
     optical.set_led_pwm(100);
     double ambientHue = 50;
-    pros::Task color_task(colorSortLoop);
+    //pros::Task color_task(colorSortLoop);
     optical.set_integration_time(10);
 }
 

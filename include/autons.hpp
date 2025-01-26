@@ -26,6 +26,8 @@ void MogoSideSoloBlue();
 
 void SigSoloAWP(bool isBlue);
 
+void verySimpleMogo(bool isBlue);
+
 void simpleRing(bool isBlue);
 
 void simpleMogo(bool isBlue);

@@ -33,6 +33,8 @@ bool intakeUnstuckActivated = false;
 
 int intakeStuckTime = 0;
 
+long panicPressTime = 0;
+
 
 /**
  * ONLY supposed to be used when intaking full mogo and hooks get caught
@@ -50,6 +52,20 @@ void doIntakeUnstuck() {
             intakeStuckTime = 0;
         }
         
+    }
+}
+
+/**
+ * 
+ */
+void checkLBBroken() {
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+        panicPressTime = pros::millis(); // start counting
+    } else if (panicPressTime != 0 && !master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        panicPressTime = 0; // reset
+    } else if (pros::millis() - panicPressTime > 1500) { // held for 1.5 seconds
+        LBRetract();
+        panicPressTime = pros::millis();
     }
 }
 

@@ -30,6 +30,8 @@ void LBReset();
 
 void LBRetract();
 
+void checkLBBroken();
+
 void LBLoop();
 
 void callLBReset();
