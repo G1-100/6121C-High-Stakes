@@ -258,7 +258,7 @@ void LBLoop() {
             lastPressed = true;
         } else {
             if (lastPressed) {
-                if (pros::millis() - totalPressTime > 600) { // held for 0.6 seconds
+                if (pros::millis() - totalPressTime > 500) { // held for 0.5 seconds
                     LBRetract();
                 } else { // pressed for normal logic
                     
@@ -266,7 +266,10 @@ void LBLoop() {
                     if (curAngle < STOP1 - 5) { // at stopping point 1
                         std::cout << "At rest, extending to point 1\n";
                         LBExtend(1); // go to stopping point 2
-                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED) { // at PROPPED
+                    } else if (LBState == PROPPED && !master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { // propped and will semiextend
+                        std::cout << "Propped, will semiextend\n";
+                        LBExtend(1.5); // go to stopping point 1.5
+                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED && master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //
                         std::cout << "At stopping point 1, going to stopping point 2\n";
                         LBExtend(2); // go to rest
                     } else { // at rest

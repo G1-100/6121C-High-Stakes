@@ -9,7 +9,7 @@ void clampMogo(bool active) {
 
 // Driver Control Functions
 void setMogoMotors() {
-    if (master.get_digital(mogoTrigger)) { // button pressed
+    if (master.get_digital(mogoTrigger) && !master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) { // button pressed and not ladybrown pressed
         mogoClamp.retract();
     } else {
         mogoClamp.extend();
