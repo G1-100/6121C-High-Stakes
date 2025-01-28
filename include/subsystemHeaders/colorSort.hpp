@@ -35,3 +35,6 @@ void activateColorSort();
 void stopColorUntilFunction();
 
 void startColorUntil(int rings);
+
+extern double lastBlue;
+extern double lastRed;

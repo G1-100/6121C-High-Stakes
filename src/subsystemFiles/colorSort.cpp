@@ -22,7 +22,7 @@ long prevTime = 0;
 void initColorSort() {
     optical.set_led_pwm(100);
     double ambientHue = 50;
-    //pros::Task color_task(colorSortLoop);
+    pros::Task color_task(colorSortLoop);
     optical.set_integration_time(10);
 }
 
@@ -54,20 +54,24 @@ void doColorSort() {
         if (curProximity < ambientProximity) {
             ambientProximity = curProximity; // calibrate proximity
         }
+        if (fabs(curProximity - ambientProximity) < 5) {
+            ambientColorDiff = currentColorDiff;
+        }
 
-        const int PROXIMITYDIFFREQUIRED = 50;
+        const int PROXIMITYDIFFREQUIRED = 150;
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         //std::cout << "Proximity: " << optical.get_proximity() << " DIFF: " << currentColorDiff << "\n";
         if (ColorLoopActive) {
             if (curProximity - ambientProximity > PROXIMITYDIFFREQUIRED && (lastBlue != 0 || lastRed != 0) && !rightRingBeingSeen) { // ring detected
-                if (currentColorDiff - (lastBlue - lastRed) > 0) { // blue ring
+                std::cout << "PROXIMITY DETECTED: " << curProximity << "\n";
+                if (currentColorDiff - ambientColorDiff > 5) { // blue ring
                     if (!allianceColorBlue) { // wrong color
                         cout << "BLUE DETECTED" << "\n";
                         master.rumble(". .");
                         wrongColorDetected = true;
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + PROXIMITYDIFFREQUIRED && pros::millis() - start < 500) {
+                        while (optical.get_proximity() > ambientProximity + 10 && pros::millis() - start < 500) {
                             pros::delay(10);
                         }
                         setIntake(-127);
@@ -92,14 +96,14 @@ void doColorSort() {
                             }
                         }
                     }
-                } else if (currentColorDiff - (lastBlue - lastRed) < 0) { // alliance blue and its a red ring
+                } else if (currentColorDiff - ambientColorDiff < -5) { // alliance blue and its a red ring
                     if (allianceColorBlue)  {
                         wrongColorDetected = true;
                         master.rumble(". .");
                         cout << "RED DETECTED" << "\n";
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + PROXIMITYDIFFREQUIRED && pros::millis() - start < 500) {
+                        while (optical.get_proximity() > ambientProximity + 10 && pros::millis() - start < 500) {
                             pros::delay(10);
                         }
                         setIntake(-127);
@@ -127,7 +131,7 @@ void doColorSort() {
             } else {
                 rightRingBeingSeen = false;
             }
-            
+            //cout <<"HI COLOR" << "\n";
             lastBlue = blue_component;
             lastRed = red_component;
         }

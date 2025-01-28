@@ -63,6 +63,14 @@ void competition_initialize() {
 	// }
 
 	initializeSelector(); // TODO: test if this works
+	pros::lcd::set_text(1, "Comp Initialized!");
+	while (true) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+			selector->previousRoutine();
+		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+			selector->nextRoutine();
+		}
+	}
 
 }
 
@@ -76,7 +84,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " LAST DIFFERENCE: " + std::to_string(lastBlue - lastRed) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
         pros::delay(50);
         

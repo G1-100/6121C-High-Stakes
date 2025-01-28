@@ -8,10 +8,13 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 41.57 - 0.5; // 42.57
+double STOP1 = 41.57 - .5; // 42.57
 double STOP1_5 = STOP1 + 45;
 double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
+
+const double DOUBLE_TAP_TIME = 100;
+bool doublePressActivated = false;
 
 double REST = 0;
 double PROPPED = 1;
@@ -66,7 +69,8 @@ void checkLBBroken() {
     } else if (panicPressTime != 0) { // all four buttons aren't being pressed and were pressed
         panicPressTime = 0; // reset
     }
-    if (pros::millis() - panicPressTime > 500) { // held for 0.5 seconds
+    if (pros::millis() - panicPressTime > 500 && panicPressTime != 0) { // held for 0.5 seconds
+        std::cout << "Ladybrown Emergency Activated" << "\n";
         LBRetract();
         pros::Task lb_task(LBLoop);
         LBLoopActive = true;
@@ -258,6 +262,13 @@ void LBLoop() {
             lastPressed = true;
         } else {
             if (lastPressed) {
+                double releaseTime = pros::millis();
+                while (pros::millis() - releaseTime < DOUBLE_TAP_TIME) {
+                    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+                        doublePressActivated = true;
+                        break;
+                    }
+                }
                 if (pros::millis() - totalPressTime > 500) { // held for 0.5 seconds
                     LBRetract();
                 } else { // pressed for normal logic
@@ -266,16 +277,17 @@ void LBLoop() {
                     if (curAngle < STOP1 - 5) { // at stopping point 1
                         std::cout << "At rest, extending to point 1\n";
                         LBExtend(1); // go to stopping point 2
-                    } else if (LBState == PROPPED && !master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { // propped and will semiextend
+                    } else if (LBState == PROPPED && doublePressActivated) { // propped and will semiextend
                         std::cout << "Propped, will semiextend\n";
                         LBExtend(1.5); // go to stopping point 1.5
-                    } else if (curAngle < STOP2 - 5 && LBState != EXTENDED && master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { //
+                    } else if ((curAngle < STOP2 - 5 || !doublePressActivated) && LBState != EXTENDED) { // at 1.5
                         std::cout << "At stopping point 1, going to stopping point 2\n";
                         LBExtend(2); // go to rest
                     } else { // at rest
                         std::cout << "At EXTENDED, going to rest\n";
                         LBRetract(); // go to stopping point 1
                     }
+                    doublePressActivated = false;
                 }
             }
             lastPressed = false;
