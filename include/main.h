@@ -50,6 +50,7 @@
 #include "subsystemHeaders/ladybrown.hpp"
 #include "selection.hpp"
 #include "skills.hpp"
+#include "selection.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

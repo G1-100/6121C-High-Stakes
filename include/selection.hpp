@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 
 #include "main.h"
 
@@ -35,4 +35,4 @@ public:
 // Function to initialize the selector
 void initializeSelector();
 
-AutonomousSelector* selector;*/
+extern AutonomousSelector* selector;

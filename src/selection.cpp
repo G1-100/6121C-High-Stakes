@@ -1,4 +1,4 @@
-/*#include "selection.hpp"
+#include "selection.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 
@@ -21,6 +21,16 @@ AutonomousSelector::AutonomousSelector() : currentRoutine(AutonomousRoutine::DIS
 
 // Implement the rest of the member functions
 // ...rest of the implementation remains the same...
+
+AutonomousSelector* AutonomousSelector::getInstance() {
+    if (instance == nullptr) {
+        instance = new AutonomousSelector();
+    }
+    return instance;
+}
+
+// Define the selector variable
+AutonomousSelector* selector = nullptr;
 
 void AutonomousSelector::nextRoutine() {
     int next = static_cast<int>(currentRoutine) + 1;
@@ -73,28 +83,33 @@ void AutonomousSelector::runSelectedAutonomous() {
 
     switch (currentRoutine) {
         case AutonomousRoutine::RING_BLUE:
-            ringAuton(true);
+            allianceColorBlue = true;
+            disruptRingRush(true);
             break;
         case AutonomousRoutine::RING_RED:
-            ringAuton(false); 
+            allianceColorBlue = false;
+            disruptRingRush(false); 
             break;
         case AutonomousRoutine::MOGO_BLUE:
-            mogoAuton(true);
+            allianceColorBlue = true;
+            //mogoAuton(true);
             break;
         case AutonomousRoutine::MOGO_RED:
-            mogoAuton(false);
+            allianceColorBlue = false;
+            //mogoAuton(false);
             break;
         case AutonomousRoutine::SOLO_AWP_BLUE:
-            soloAWPAuton(true);
+            allianceColorBlue = true;
+            //soloAWPAuton(true);
             break;
         case AutonomousRoutine::SOLO_AWP_RED:
-            soloAWPAuton(false);
+            //soloAWPAuton(false);
             break;
         case AutonomousRoutine::RUSH_MOGO_BLUE:
-            rushMogoAuton(true);
+            //rushMogoAuton(true);
             break;
         case AutonomousRoutine::RUSH_MOGO_RED:
-            rushMogoAuton(false);
+            //rushMogoAuton(false);
             break;
         case AutonomousRoutine::SKILLS:
             skills();
@@ -121,4 +136,3 @@ void initializeSelector() {
         if(selector) selector->nextRoutine();
     });
 }
-*/

@@ -62,6 +62,8 @@ void competition_initialize() {
 
 	// }
 
+	initializeSelector(); // TODO: test if this works
+
 }
 
 void logger() {
@@ -117,7 +119,8 @@ void autonomous() {
 	//ladybrown.move(-10);
 	//set_drive(72);
 	//intake.move(127);
-	disruptRingRush(allianceColorBlue);
+	//disruptRingRush(allianceColorBlue);
+	selector->runSelectedAutonomous();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
 	//simpleMogo(allianceColorBlue);
