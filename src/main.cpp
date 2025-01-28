@@ -128,11 +128,11 @@ void autonomous() {
 	//set_drive(72);
 	//intake.move(127);
 	//disruptRingRush(allianceColorBlue);
-	selector->runSelectedAutonomous();
+	//selector->runSelectedAutonomous();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
 	//simpleMogo(allianceColorBlue);
-	//newMogoRush(allianceColorBlue);
+	newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);

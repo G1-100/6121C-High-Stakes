@@ -199,21 +199,22 @@ void simpleMogo(bool isBlue) {
 }
 
 void newMogoRush(bool isBlue) {
-  chassis.setPose(0, 0, 90); // Set position
+  int sgn=isBlue?1:-1;
+  chassis.setPose(0, 0, -110 * sgn); // Set position
   LBState = PROPPED;
   LBRotation.set_position(4600);
-  set_drive(40 - 3, 2500, 126, 127); // Move to first mogo
-  chassis.waitUntil(20);
-  ChangeLBState(FULLEXTENDED);
+  set_drive(37 - 3, 2500, 126, 127); // Move to first mogo
+  chassis.waitUntil(20 - 8);
+  ChangeLBState(EXTENDED);
   chassis.waitUntilDone();
-  set_drive(-8, 1500); // Move back
+  set_drive(-8, 1500, 0, 60); // Move back
   chassis.waitUntilDone();
-  chassis.turnToHeading(135, 2000); // Turn to second mogo
+  chassis.turnToHeading(-135 * sgn, 2000); // Turn to second mogo
   chassis.waitUntilDone();
   set_drive(-15, 2000, 0, 60); // Move to second mogo
   chassis.waitUntilDone();
   mogoClamp.toggle(); // Clamp second mogo
-  chassis.turnToHeading(200, 2000); // Turn to two stack
+  chassis.turnToHeading(-170 * sgn, 2000); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
   set_drive(15, 2000); // Move to two stack
