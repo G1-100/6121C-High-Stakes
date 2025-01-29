@@ -204,12 +204,12 @@ void newMogoRush(bool isBlue) {
   LBState = PROPPED;
   LBRotation.set_position(4600);
   set_drive(37 - 3, 2500, 126, 127); // Move to first mogo
-  chassis.waitUntil(20 - 8);
+  chassis.waitUntil(20 - 8 + 1);
   ChangeLBState(EXTENDED);
   chassis.waitUntilDone();
   set_drive(-8, 1500, 0, 60); // Move back
   chassis.waitUntilDone();
-  chassis.turnToHeading(-135 * sgn, 2000); // Turn to second mogo
+  chassis.turnToHeading(-150 * sgn, 2000); // Turn to second mogo
   chassis.waitUntilDone();
   set_drive(-15, 2000, 0, 60); // Move to second mogo
   chassis.waitUntilDone();
@@ -217,7 +217,7 @@ void newMogoRush(bool isBlue) {
   chassis.turnToHeading(-170 * sgn, 2000); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
-  set_drive(15, 2000); // Move to two stack
+  set_drive(16, 2000); // Move to two stack
   chassis.waitUntilDone();
 
 
