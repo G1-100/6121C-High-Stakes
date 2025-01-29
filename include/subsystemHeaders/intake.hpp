@@ -8,6 +8,8 @@
 // Constants
 const int INTAKE_POWER = 12000; // Maximum motor power
 
+extern bool stopDriverIntake;
+
 // Helper functions
 void setIntake(int power);  // Sets intake motor power
 

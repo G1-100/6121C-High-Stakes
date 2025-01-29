@@ -15,7 +15,7 @@ bool testedAmbient = false;
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(1, "Hello 6121C!");
 	chassis.calibrate();
 	LBRotation.set_position(0);
 	LBRotation.reset_position();
@@ -24,6 +24,7 @@ void initialize() {
 	// initializeSelector();  // Commented out selector initialization
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
+	std::cout << "initialize done" << "\n";
 
 }
 
@@ -61,9 +62,10 @@ void competition_initialize() {
 	// 	}
 
 	// }
-
-	initializeSelector(); // TODO: test if this works
+	pros::lcd::initialize();
 	pros::lcd::set_text(2, "Comp Initialized!");
+	std::cout << "Competition Initialized!" << "\n";
+	initializeSelector(); // TODO: test if this works
 	while (true) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			selector->previousRoutine();
@@ -84,8 +86,9 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " LAST DIFFERENCE: " + std::to_string(lastBlue - lastRed) << "\n";
+		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " LAST DIFFERENCE: " + std::to_string(lastBlue - lastRed) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
+		std::cout << stopDriverIntake << "\n";
         pros::delay(50);
         
         // Add a way to break the loop if needed
@@ -118,7 +121,7 @@ void autonomous() {
 	left_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-	ColorLoopActive = false;
+	ColorLoopActive = true;
 	intakeUnstuckActivated = true;
 
 	//pros::Task ret4(logger);

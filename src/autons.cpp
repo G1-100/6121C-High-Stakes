@@ -203,21 +203,41 @@ void newMogoRush(bool isBlue) {
   chassis.setPose(0, 0, -110 * sgn); // Set position
   LBState = PROPPED;
   LBRotation.set_position(4600);
-  set_drive(37 - 3, 2500, 126, 127); // Move to first mogo
-  chassis.waitUntil(20 - 8 + 1);
-  ChangeLBState(EXTENDED);
+  set_drive(37 + 1, 2500, 126, 127); // Move to first mogo
+  chassis.waitUntil(12 -.5);
+  ChangeLBState(ALMOSTFULLEXTENDED);
   chassis.waitUntilDone();
-  set_drive(-8, 1500, 0, 60); // Move back
+  // pros::delay(500);
+  // chassis.turnToHeading(-150 * sgn, 2000, {.minSpeed = 60}); // Turn mogo to disrupt
+  // chassis.waitUntilDone();
+  set_drive(-12 - 6, 1500, 0, 60); // Move back
   chassis.waitUntilDone();
-  chassis.turnToHeading(-150 * sgn, 2000); // Turn to second mogo
+  ChangeLBState(REST);
+  chassis.turnToHeading((-180) * sgn, 2000); // Turn to second mogo
   chassis.waitUntilDone();
-  set_drive(-15, 2000, 0, 60); // Move to second mogo
-  chassis.waitUntilDone();
+  set_drive(-25 + 5, 2000, 0, 60); // Move to second mogo
+  chassis.waitUntil(15);
   mogoClamp.toggle(); // Clamp second mogo
-  chassis.turnToHeading(-170 * sgn, 2000); // Turn to two stack
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-160 * sgn, 2000); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
-  set_drive(16, 2000); // Move to two stack
+  set_drive(16 + 18, 2000); // Move to two stack
+  chassis.waitUntilDone();
+  chassis.turnToHeading(105 * sgn, 2000); // turn to corner
+  chassis.waitUntilDone();
+  //doinker.toggle();
+  set_drive(40 + 6, 2000); // Move to corner
+  chassis.waitUntilDone();
+  pros::delay(500);
+  set_drive(-15 + 3, 2000); // Move back
+  chassis.waitUntilDone();
+  set_drive(17 - 1, 2000); // Move to corner
+  chassis.waitUntilDone();
+  pros::delay(500);
+  set_drive(-15 + 3, 2000); // Move back
+  chassis.waitUntilDone();
+  set_drive(17 - 1, 2000); // Move to corner
   chassis.waitUntilDone();
 
 

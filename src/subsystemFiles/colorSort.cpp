@@ -6,7 +6,7 @@ using namespace std;
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
 double ambientColorDiff = -20.3; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 31; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 30; // TODO: NEEDS TO BE TUNED AT COMPETITION
 double ambientRed = 0;
 double ambientBlue = 0;
 double lastBlue = 0;
@@ -58,7 +58,7 @@ void doColorSort() {
             ambientColorDiff = currentColorDiff;
         }
 
-        const int PROXIMITYDIFFREQUIRED = 150;
+        const int PROXIMITYDIFFREQUIRED = 70;
         //std::cout << "RED: " << std::to_string(optical.get_rgb().red) << " BLUE: " << std::to_string(optical.get_rgb().blue) << "\n";
         //std::cout << "Proximity: " << optical.get_proximity() << " DIFF: " << currentColorDiff << "\n";
         if (ColorLoopActive) {
@@ -86,6 +86,7 @@ void doColorSort() {
                                 intake.move(-127);
                                 pros::delay(30);
                                 intake.move(0);
+                                stopDriverIntake = true;
                                 colorUntilActivated = false;
                             } else if (safeScoring) { // wait until not scoring
                                 cout << (IMU.get_heading() - prevHeading) / (pros::millis() - prevTime) << "\n";
@@ -115,7 +116,11 @@ void doColorSort() {
                         if (colorUntilActivated) { // intaking until that color
                             ringsSeen++;
                             if (ringsSeen >= colorUntilRings) {
+                                std::cout <<"right red seen" << "\n";
+                                intake.move(-127);
+                                pros::delay(30);
                                 intake.move(0);
+                                stopDriverIntake = true;
                                 colorUntilActivated = false;
                             }
                         } else if (safeScoring) { // wait until not turning

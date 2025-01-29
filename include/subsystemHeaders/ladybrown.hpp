@@ -13,6 +13,7 @@ extern double PROPPED;
 extern double EXTENDED;
 extern double SEMIEXTENDED;
 extern double FULLEXTENDED;
+extern double ALMOSTFULLEXTENDED;
 
 extern bool LBLoopActive;
 

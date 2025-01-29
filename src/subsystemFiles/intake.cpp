@@ -3,6 +3,7 @@
 
 auto liftButton = pros::E_CONTROLLER_DIGITAL_A;
 bool wrongColorDetected;
+bool stopDriverIntake = false;
 
 // Helper functions
 void setIntake(int power) {
@@ -22,9 +23,13 @@ void setIntakeMotors() {
     //   - Neither pressed: Stop intake (0 RPM)
     
     int intakePower = 0;  // Default state: stopped
+
+    if (stopDriverIntake && master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
+        stopDriverIntake = false;
+    }
     
-    // Priority system: if both buttons pressed, R2 takes priority
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    // Priority system: if both buttons pressed, R1 takes priority
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && !stopDriverIntake) {
         intakePower = INTAKE_POWER;     // Full speed intake
 
     } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {

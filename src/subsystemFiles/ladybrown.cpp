@@ -21,6 +21,7 @@ double PROPPED = 1;
 double EXTENDED = 2;
 double FULLEXTENDED = 3;
 double SEMIEXTENDED = 1.5;
+double ALMOSTFULLEXTENDED = 2.8;
 double LBState = REST;
 
 double LBAutonGoal = REST;
@@ -105,6 +106,8 @@ void doLBAmbientAdjust(double curAngle) {
         } else {
             ladybrown.move(-10);
         }
+    } else if (LBState == FULLEXTENDED) {
+        ladybrown.move(-10);
     }
 }
 
@@ -131,8 +134,12 @@ void LBExtend(double point) {
         negPower = -10;
         angleChange = STOP2 - STOP1;
         iterationsRequired = 1;
-    } else if (point == 3) {
-        GOALANGLE = STOP3;
+    } else if (point > 2) {
+        if (point == 2.8) {
+            GOALANGLE = STOP3 - 30;
+        } else if (point == 3) {
+            GOALANGLE = STOP3;
+        }
         power = 90;
         negPower = -15;
         angleChange = STOP3 - STOP2;
@@ -158,7 +165,7 @@ void LBExtend(double point) {
             ladybrown.move(negPower);
         } else {
             if (point == 1) {
-                ladybrown.move(power * (abs(GOALANGLE - curAngle) / angleChange + 0.3));
+                ladybrown.move(power * (abs(GOALANGLE - curAngle) / angleChange + 0.2));
             } else {
                 ladybrown.move(power);
             }
@@ -188,10 +195,11 @@ void LBExtend(double point) {
         LBState = PROPPED;
     } else if (point == 2) {
         LBState = EXTENDED;
-    } else if (point == 3) {
+    } else if (point > 2) {
         LBState = FULLEXTENDED;
     } else if (point == 1.5) {
         LBState = SEMIEXTENDED;
+        startColorUntil(1);
     }
     
 }
@@ -230,14 +238,8 @@ void ChangeLBState(double goal) {
 void ChangeLBAuton(double goal) {
     if (goal == REST) {
         LBRetract();
-    } else if (goal == PROPPED) {
-        LBExtend(1);
-    } else if (goal == EXTENDED) {
-        LBExtend(2);
-    } else if (goal == FULLEXTENDED) {
-        LBExtend(3);
-    } else if (goal == SEMIEXTENDED) {
-        LBExtend(1.5);
+    } else {
+        LBExtend(goal);
     }
 }
 
@@ -284,6 +286,7 @@ void LBLoop() {
                         LBExtend(2); // go to rest
                     } else { // at rest
                         std::cout << "At EXTENDED, going to rest\n";
+                        stopDriverIntake = false;
                         LBRetract(); // go to stopping point 1
                     }
                     doublePressActivated = false;
@@ -317,7 +320,6 @@ void LBLoop() {
         if (intakeUnstuckActivated) {
             doIntakeUnstuck();
         }
-        doIntakeUnstuck();
         pros::delay(20);
     }
 }
