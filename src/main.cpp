@@ -63,7 +63,7 @@ void competition_initialize() {
 	// }
 
 	initializeSelector(); // TODO: test if this works
-	pros::lcd::set_text(1, "Comp Initialized!");
+	pros::lcd::set_text(2, "Comp Initialized!");
 	while (true) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			selector->previousRoutine();
