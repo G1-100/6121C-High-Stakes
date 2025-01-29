@@ -203,26 +203,28 @@ void newMogoRush(bool isBlue) {
   chassis.setPose(0, 0, -110 * sgn); // Set position
   LBState = PROPPED;
   LBRotation.set_position(4600);
-  set_drive(37 + 1, 2500, 126, 127); // Move to first mogo
+  set_drive(37 + 0, 2500, 126, 127); // Move to first mogo
   chassis.waitUntil(12 -.5);
   ChangeLBState(ALMOSTFULLEXTENDED);
   chassis.waitUntilDone();
   // pros::delay(500);
   // chassis.turnToHeading(-150 * sgn, 2000, {.minSpeed = 60}); // Turn mogo to disrupt
   // chassis.waitUntilDone();
-  set_drive(-12 - 6, 1500, 0, 60); // Move back
+  set_drive(-12 - 7.5, 1500, 0, 80); // Move back
   chassis.waitUntilDone();
   ChangeLBState(REST);
   chassis.turnToHeading((-180) * sgn, 2000); // Turn to second mogo
+  pros::delay(100);
+  ChangeLBState(REST);
   chassis.waitUntilDone();
-  set_drive(-25 + 5, 2000, 0, 60); // Move to second mogo
+  set_drive(-25 + 3.5, 2000, 0, 60); // Move to second mogo
   chassis.waitUntil(15);
   mogoClamp.toggle(); // Clamp second mogo
   chassis.waitUntilDone();
-  chassis.turnToHeading(-160 * sgn, 2000); // Turn to two stack
+  chassis.turnToHeading(-175 * sgn, 2000); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
-  set_drive(16 + 18, 2000); // Move to two stack
+  set_drive(16 + 18.5, 2000); // Move to two stack
   chassis.waitUntilDone();
   chassis.turnToHeading(105 * sgn, 2000); // turn to corner
   chassis.waitUntilDone();
@@ -230,16 +232,19 @@ void newMogoRush(bool isBlue) {
   set_drive(40 + 6, 2000); // Move to corner
   chassis.waitUntilDone();
   pros::delay(500);
+  chassis.turnToHeading(310, 2000);
+  chassis.turnToHeading(260, 2000);
   set_drive(-15 + 3, 2000); // Move back
+  chassis.turnToHeading(315, 2000);
   chassis.waitUntilDone();
   set_drive(17 - 1, 2000); // Move to corner
   chassis.waitUntilDone();
   pros::delay(500);
+  chassis.turnToHeading(310, 2000);
   set_drive(-15 + 3, 2000); // Move back
   chassis.waitUntilDone();
   set_drive(17 - 1, 2000); // Move to corner
   chassis.waitUntilDone();
-
 
 }
 
