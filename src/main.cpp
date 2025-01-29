@@ -25,6 +25,10 @@ void initialize() {
 	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 	std::cout << "initialize done" << "\n";
+	pros::lcd::initialize();
+	pros::lcd::set_text(2, "Comp Initialized!");
+	std::cout << "Competition Initialized!" << "\n";
+	initializeSelector(); // TODO: test if this works
 
 }
 
@@ -62,10 +66,6 @@ void competition_initialize() {
 	// 	}
 
 	// }
-	pros::lcd::initialize();
-	pros::lcd::set_text(2, "Comp Initialized!");
-	std::cout << "Competition Initialized!" << "\n";
-	initializeSelector(); // TODO: test if this works
 	while (true) {
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
 			selector->previousRoutine();
@@ -142,6 +142,7 @@ void autonomous() {
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
+	
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);

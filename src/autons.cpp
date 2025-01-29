@@ -228,7 +228,7 @@ void newMogoRush(bool isBlue) {
   chassis.waitUntilDone();
   chassis.turnToHeading(105 * sgn, 2000); // turn to corner
   chassis.waitUntilDone();
-  //doinker.toggle();
+  doinker.toggle();
   set_drive(40 + 6, 2000); // Move to corner
   chassis.waitUntilDone();
   pros::delay(500);

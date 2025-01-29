@@ -93,9 +93,11 @@ void AutonomousSelector::runSelectedAutonomous() {
         case AutonomousRoutine::MOGO_BLUE:
             allianceColorBlue = true;
             //mogoAuton(true);
+            newMogoRush(true);
             break;
         case AutonomousRoutine::MOGO_RED:
             allianceColorBlue = false;
+            newMogoRush(false);
             //mogoAuton(false);
             break;
         case AutonomousRoutine::SOLO_AWP_BLUE:
