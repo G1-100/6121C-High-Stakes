@@ -171,9 +171,15 @@ void LBExtend(double point) {
         if (curAngle > GOALANGLE && point > 1) {
             break;
         }
-        // if (ladybrown.get_efficiency() < 10 && pros::millis() - startTime > 500) { // not moving after 500 milliseconds
-        //     break;
-        // }
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2) && point == EXTENDED && curAngle < STOP1_5) { // if L2 pressed again and before stopping point 1.5
+            // Switch to only extend up to point 1.5
+            point = SEMIEXTENDED;
+            GOALANGLE = STOP1_5;
+            power = 70;
+            negPower = -5;
+            angleChange = STOP1_5 - STOP1;
+            iterationsRequired = 1;
+        }
         pros::delay(10);
     }
     std::cout << "Reached Goal Angle: " << curAngle << "\n";
@@ -261,14 +267,7 @@ void LBLoop() {
             }
             lastPressed = true;
         } else {
-            if (lastPressed) {
-                double releaseTime = pros::millis();
-                while (pros::millis() - releaseTime < DOUBLE_TAP_TIME) {
-                    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-                        doublePressActivated = true;
-                        break;
-                    }
-                }
+            if (lastPressed) { // just released
                 if (pros::millis() - totalPressTime > 500) { // held for 0.5 seconds
                     LBRetract();
                 } else { // pressed for normal logic
@@ -277,10 +276,10 @@ void LBLoop() {
                     if (curAngle < STOP1 - 5) { // at stopping point 1
                         std::cout << "At rest, extending to point 1\n";
                         LBExtend(1); // go to stopping point 2
-                    } else if (LBState == PROPPED && doublePressActivated) { // propped and will semiextend
-                        std::cout << "Propped, will semiextend\n";
-                        LBExtend(1.5); // go to stopping point 1.5
-                    } else if ((curAngle < STOP2 - 5 || !doublePressActivated) && LBState != EXTENDED) { // at 1.5
+                    // } else if (LBState == PROPPED) { // propped and will semiextend
+                    //     std::cout << "Propped, will semiextend\n";
+                    //     LBExtend(1.5); // go to stopping point 1.5
+                    } else if ((curAngle < STOP2 - 5) && LBState != EXTENDED) { // at 1.5
                         std::cout << "At stopping point 1, going to stopping point 2\n";
                         LBExtend(2); // go to rest
                     } else { // at rest
