@@ -136,7 +136,7 @@ void LBExtend(double point) {
         iterationsRequired = 1;
     } else if (point > 2) {
         if (point == 2.8) {
-            GOALANGLE = STOP3 - 30;
+            GOALANGLE = STOP3 - 20;
         } else if (point == 3) {
             GOALANGLE = STOP3;
         }

@@ -142,7 +142,7 @@ void autonomous() {
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
-	
+
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
