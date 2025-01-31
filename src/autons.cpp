@@ -218,7 +218,7 @@ void newMogoRush(bool isBlue) {
   ChangeLBState(FULLEXTENDED);
   chassis.waitUntilDone();
   ChangeLBState(REST);
-  chassis.turnToHeading((-180 - 60) * sgn, 2000); // Turn to second mogo
+  chassis.turnToHeading((-180 - 60 -10+3) * sgn, 2000); // Turn to second mogo
   pros::delay(100);
   callLBReset();
   chassis.waitUntilDone();
@@ -228,23 +228,24 @@ void newMogoRush(bool isBlue) {
   chassis.waitUntilDone();
   set_drive(20, 2000, 65, 127); // Move back
   chassis.waitUntilDone();
-  chassis.turnToHeading((-140 + 5) * sgn, 2000, {.maxSpeed = 90, .minSpeed = 30, .earlyExitRange = 1}); // Turn to two stack
+  chassis.turnToHeading((-140 + 5 + 5 + 5) * sgn, 2000, {.maxSpeed = 90, .minSpeed = 30, .earlyExitRange = 1}); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
   set_drive(34.5 - 3, 2000); // Move to two stack
   chassis.waitUntilDone();
-  chassis.turnToHeading(106 * sgn, 2000); // turn to corner
+  pros::delay(200);
+  chassis.turnToHeading((106-10) * sgn, 2000); // turn to corner
   chassis.waitUntilDone();
   doinker.toggle();
   set_drive(40 - 5, 1500, 60, 127); // Move to corner
   chassis.waitUntilDone();
   pros::delay(500);
-  chassis.turnToHeading(-310 * sgn, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.turnToHeading(isBlue?-180:-310, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   doinker.toggle();
   chassis.turnToHeading(-260 * sgn, 2000, {.minSpeed = 50, .earlyExitRange = 1.5}); // Turn to 2nd mogo
   chassis.waitUntilDone();
-  set_drive(15 - 5, 2000, 60, 120); // Move back
+  set_drive(15 - 5, 2000, 60, 120); // Move forward
   chassis.waitUntilDone();
   set_drive(-10, 2000); // Move back
   chassis.waitUntilDone();
@@ -258,10 +259,10 @@ void newMogoRush(bool isBlue) {
   // chassis.waitUntilDone();
   chassis.turnToHeading(-40 * sgn, 2000, {.minSpeed = 40, .earlyExitRange = 1}); // Turn to ladder
   chassis.waitUntilDone();
-  set_drive(30, 2000); // Move to ladder
+  set_drive(46, 2000); // Move to ladder
   ChangeLBState(SEMIEXTENDED);
   chassis.waitUntilDone();
-
+  ChangeLBState(EXTENDED);
 }
 
 
