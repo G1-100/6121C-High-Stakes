@@ -6,12 +6,17 @@
 AutonomousSelector* AutonomousSelector::instance = nullptr;
 
 // Implementation of the singleton constructor
-AutonomousSelector::AutonomousSelector() : currentRoutine(AutonomousRoutine::DISABLED) {
+AutonomousSelector::AutonomousSelector() : currentRoutine(AutonomousRoutine::Disabled) {
     const char* names[] = {
-        "Ring Blue", "Ring Red", "Mogo Blue", "Mogo Red",
-        "Solo AWP Blue", "Solo AWP Red", "Rush Mogo Blue",
-        "Rush Mogo Red", "Skills", "Disabled"
+    "Four Ring Ring Rush",
+    "Two Ring Safe Ring",
+    "Three Ring Mogo Rush",
+    "Regional Solo AWP Mogo Side",
+    "Two Ring Safe Mogo",
+    "Skills",
+    "Disabled"
     };
+    int routineCount = 7;
     std::copy(std::begin(names), std::end(names), routineNames);
     
     // Initialize selector UI
@@ -34,19 +39,26 @@ AutonomousSelector* selector = nullptr;
 
 void AutonomousSelector::nextRoutine() {
     int next = static_cast<int>(currentRoutine) + 1;
-    if (next >= 10) next = 0;
+    if (next >= 7) next = 0;
     currentRoutine = static_cast<AutonomousRoutine>(next);
     updateDisplay();
 }
 
 void AutonomousSelector::previousRoutine() {
     int prev = static_cast<int>(currentRoutine) - 1;
-    if (prev < 0) prev = 9;
+    if (prev < 0) prev = routineCount - 1;
     currentRoutine = static_cast<AutonomousRoutine>(prev);
     updateDisplay();
 }
 
+void AutonomousSelector::toggleAllianceColor() {
+    allianceColorBlue = !allianceColorBlue;
+    updateDisplay();
+}
+
 void AutonomousSelector::updateDisplay() {
+    std::cout <<"Currrent Routine: " << routineNames[static_cast<int>(currentRoutine)] << "\n";
+    std::cout << "routine count: " << routineCount << "\n";
     // Clear each line individually since there's no clear() function
     pros::lcd::clear_line(1);
     pros::lcd::clear_line(2);
@@ -70,6 +82,9 @@ void AutonomousSelector::updateDisplay() {
         status += "Not Connected";
     }
     pros::lcd::set_text(3, status);
+
+    // Display alliance color
+    pros::lcd::set_text(4, allianceColorBlue ? "Alliance: Blue" : "Alliance: Red");
 }
 
 void AutonomousSelector::runSelectedAutonomous() {
@@ -81,42 +96,29 @@ void AutonomousSelector::runSelectedAutonomous() {
     driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
+
     switch (currentRoutine) {
-        case AutonomousRoutine::RING_BLUE:
-            allianceColorBlue = true;
-            disruptRingRush(true);
+        case AutonomousRoutine::Four_Ring_Ring_Rush:
+            disruptRingRush(allianceColorBlue);
             break;
-        case AutonomousRoutine::RING_RED:
+        case AutonomousRoutine::Three_Ring_Mogo_Rush:
+            newMogoRush(allianceColorBlue);
+            break;
+        case AutonomousRoutine::Regional_Solo_AWP_Mogo_Side:
+            simpleMogo(allianceColorBlue);
+            break;
+        case AutonomousRoutine::Two_Ring_Safe_Mogo:
+            verySimpleMogo(allianceColorBlue);
+            break;
+        case AutonomousRoutine::Two_Ring_Safe_Ring:
+            simpleRing(allianceColorBlue);
+            break;
+        case AutonomousRoutine::Skills:
             allianceColorBlue = false;
-            disruptRingRush(false); 
-            break;
-        case AutonomousRoutine::MOGO_BLUE:
-            allianceColorBlue = true;
-            //mogoAuton(true);
-            newMogoRush(true);
-            break;
-        case AutonomousRoutine::MOGO_RED:
-            allianceColorBlue = false;
-            newMogoRush(false);
-            //mogoAuton(false);
-            break;
-        case AutonomousRoutine::SOLO_AWP_BLUE:
-            allianceColorBlue = true;
-            //soloAWPAuton(true);
-            break;
-        case AutonomousRoutine::SOLO_AWP_RED:
-            //soloAWPAuton(false);
-            break;
-        case AutonomousRoutine::RUSH_MOGO_BLUE:
-            //rushMogoAuton(true);
-            break;
-        case AutonomousRoutine::RUSH_MOGO_RED:
-            //rushMogoAuton(false);
-            break;
-        case AutonomousRoutine::SKILLS:
             skills();
             break;
-        case AutonomousRoutine::DISABLED:
+        case AutonomousRoutine::Disabled:
+            break;
         default:
             break;
     }
@@ -131,7 +133,7 @@ void initializeSelector() {
     });
     
     pros::lcd::register_btn1_cb([]() {
-        if(selector) selector->updateDisplay();
+        if(selector) selector->toggleAllianceColor();
     });
 
     pros::lcd::register_btn2_cb([]() {

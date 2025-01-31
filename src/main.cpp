@@ -22,13 +22,11 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = false; // VERY IMPORTANT
+	allianceColorBlue = true; // VERY IMPORTANT
 	initColorSort();
 	std::cout << "initialize done" << "\n";
 	pros::lcd::initialize();
-	pros::lcd::set_text(2, "Comp Initialized!");
-	std::cout << "Competition Initialized!" << "\n";
-	initializeSelector(); // TODO: test if this works
+	initializeSelector();
 
 }
 
@@ -66,13 +64,6 @@ void competition_initialize() {
 	// 	}
 
 	// }
-	while (true) {
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
-			selector->previousRoutine();
-		} else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-			selector->nextRoutine();
-		}
-	}
 
 }
 
@@ -88,7 +79,8 @@ void logger() {
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
 		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " LAST DIFFERENCE: " + std::to_string(lastBlue - lastRed) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
-		std::cout << stopDriverIntake << "\n";
+		//std::cout << stopDriverIntake << "\n";
+		std::cout << allianceColorBlue	<< "\n";
         pros::delay(50);
         
         // Add a way to break the loop if needed
@@ -112,6 +104,8 @@ void logger() {
 void autonomous() {
     // Remove direct call to ringAuton and only use selector
     // selector->runSelectedAutonomous();  // Commented out selector usage
+	pros::lcd::set_text(4, "Autonomous Running!");
+	std::cout << "Autonomous Running!" << "\n";
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -168,6 +162,7 @@ void opcontrol() {
 	optical.set_led_pwm(100);
 	// OP CONTROL RESET:
 	brakeModeCoast();
+	std::cout << "Opcontrol Running!" << "\n";
 	runStart = pros::millis();
 	// INIT LADY BROWN:
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);

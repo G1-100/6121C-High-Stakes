@@ -4,16 +4,13 @@
 
 // Autonomous routine options
 enum class AutonomousRoutine {
-    RING_BLUE,
-    RING_RED,
-    MOGO_BLUE,
-    MOGO_RED, 
-    SOLO_AWP_BLUE,
-    SOLO_AWP_RED,
-    RUSH_MOGO_BLUE,
-    RUSH_MOGO_RED,
-    SKILLS,
-    DISABLED
+    Four_Ring_Ring_Rush,
+    Two_Ring_Safe_Ring,
+    Three_Ring_Mogo_Rush,
+    Regional_Solo_AWP_Mogo_Side,
+    Two_Ring_Safe_Mogo,
+    Skills,
+    Disabled
 };
 
 class AutonomousSelector {
@@ -21,6 +18,7 @@ private:
     static AutonomousSelector* instance;
     AutonomousRoutine currentRoutine;
     const char* routineNames[10];
+    int routineCount;
 
     AutonomousSelector(); // Private constructor for singleton
 
@@ -30,6 +28,7 @@ public:
     void previousRoutine(); 
     void updateDisplay();
     void runSelectedAutonomous();
+    void toggleAllianceColor(); // New function to toggle alliance color
 };
 
 // Function to initialize the selector

@@ -29,7 +29,7 @@ void setIntakeMotors() {
     }
     
     // Priority system: if both buttons pressed, R1 takes priority
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && !stopDriverIntake) {
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) { // TODO: took out stopDriverIntake
         intakePower = INTAKE_POWER;     // Full speed intake
 
     } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
