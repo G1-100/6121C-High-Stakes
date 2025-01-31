@@ -132,7 +132,7 @@ void skills() {
     pros::delay(300);
 
     //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
-    chassis.turnToPoint(0.69923, 69.8696 - 1, 2000, {.maxSpeed = 60});
+    chassis.turnToPoint(0.69923 - 1, 69.8696 - 1, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //set_drive(27 + 3.5); // move to ring next to wall stake
@@ -144,7 +144,7 @@ void skills() {
     chassis.turnToHeading(0 - 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     chassis.waitUntilDone();
     pros::delay(500);
-    set_drive(6.5 + 0, 1200, 75, 120); // move to wall stake
+    set_drive(6.5, 1200, 75 + 10, 120); // move to wall stake
     chassis.waitUntilDone();
     setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown

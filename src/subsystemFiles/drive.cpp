@@ -60,6 +60,15 @@ void brakeModeCoast() {
 	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
+void brakeModeHold() {
+    driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveLeftMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveLeftFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+}
+
 // Driver Control Functions
 void setDriveMotors() {
 

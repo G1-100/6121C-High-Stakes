@@ -234,13 +234,13 @@ void newMogoRush(bool isBlue) {
   set_drive(34.5 - 3, 2000); // Move to two stack
   chassis.waitUntilDone();
   pros::delay(200);
-  chassis.turnToHeading((106-10) * sgn, 2000); // turn to corner
+  chassis.turnToHeading(isBlue?(106-10):-106, 2000); // turn to corner
   chassis.waitUntilDone();
   doinker.toggle();
   set_drive(40 - 5, 1500, 60, 127); // Move to corner
   chassis.waitUntilDone();
   pros::delay(500);
-  chassis.turnToHeading(isBlue?-180:-310, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.turnToHeading(isBlue?-180:310, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   doinker.toggle();
   chassis.turnToHeading(-260 * sgn, 2000, {.minSpeed = 50, .earlyExitRange = 1.5}); // Turn to 2nd mogo

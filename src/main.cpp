@@ -161,7 +161,8 @@ void autonomous() {
 void opcontrol() {
 	optical.set_led_pwm(100);
 	// OP CONTROL RESET:
-	brakeModeCoast();
+	//brakeModeCoast();
+	brakeModeHold();
 	std::cout << "Opcontrol Running!" << "\n";
 	runStart = pros::millis();
 	// INIT LADY BROWN:
@@ -170,9 +171,9 @@ void opcontrol() {
 	if (!LBLoopActive) { 
 		pros::Task lb_task(LBLoop);
 	}
-	if (!colorLoopStarted) {
-		//pros::Task color_task(colorSortLoop);
-	}
+
+	selector->runSelectedAutonomous();
+
 	// Create tasks with proper handling
 	pros::Task logger_task(logger);
 	pros::Task temp_task(checkTemp);

@@ -14,6 +14,8 @@ void setDriveMotors();
 
 void brakeModeCoast();
 
+void brakeModeHold();
+
 // Autonomous Functions
 void translate(int units, int voltage);
 
