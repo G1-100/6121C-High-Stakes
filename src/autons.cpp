@@ -195,8 +195,8 @@ void simpleMogo(bool isBlue) {
   chassis.waitUntilDone();
   chassis.turnToHeading(-45 * sgn, 2000);
   chassis.waitUntilDone();
-  set_drive(5 + 1, 2000, 70, 120);
-  chassis.waitUntilDone();
+  // set_drive(5 + 1, 2000, 70, 120);
+  // chassis.waitUntilDone();
   ChangeLBState(EXTENDED);
 	
 }
@@ -206,15 +206,15 @@ void newMogoRush(bool isBlue) {
   chassis.setPose(0, 0, -110 * sgn); // Set position
   LBState = PROPPED;
   LBRotation.set_position(4600);
-  set_drive(37 + 0, 2500, 126, 127); // Move to first mogo
-  chassis.waitUntil(12 - 1);
+  set_drive(37 + 2, 2500, 126, 127); // Move to first mogo
+  chassis.waitUntil(11 + 1);
   ChangeLBState(ALMOSTFULLEXTENDED);
   chassis.waitUntilDone();
   // pros::delay(500);
   // chassis.turnToHeading(-150 * sgn, 2000, {.minSpeed = 60}); // Turn mogo to disrupt
   // chassis.waitUntilDone();
   set_drive(-19.5 - 25 + 12, 1500, 120); // Move back
-  chassis.waitUntil(15 + 15);
+  chassis.waitUntil(30 - 14);
   ChangeLBState(FULLEXTENDED);
   chassis.waitUntilDone();
   ChangeLBState(REST);
@@ -231,10 +231,10 @@ void newMogoRush(bool isBlue) {
   chassis.turnToHeading((-140 + 5 + 5 + 5) * sgn, 2000, {.maxSpeed = 90, .minSpeed = 30, .earlyExitRange = 1}); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
-  set_drive(34.5 - 3, 2000); // Move to two stack
+  set_drive(34.5 - 3 + 4, 2000); // Move to two stack
   chassis.waitUntilDone();
   pros::delay(200);
-  chassis.turnToHeading(isBlue?(106-10):-106, 2000); // turn to corner
+  chassis.turnToHeading(isBlue?(106-10 + 5):-106, 2000); // turn to corner
   chassis.waitUntilDone();
   doinker.toggle();
   set_drive(40 - 5, 1500, 60, 127); // Move to corner
