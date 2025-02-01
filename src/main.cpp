@@ -125,11 +125,11 @@ void autonomous() {
 	//set_drive(72);
 	//intake.move(127);
 	//disruptRingRush(allianceColorBlue);
-	//selector->runSelectedAutonomous();
+	selector->runSelectedAutonomous();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
 	//simpleMogo(allianceColorBlue);
-	newMogoRush(allianceColorBlue);
+	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
 	//pros::Task color_task(intakeUntilColor);
@@ -172,7 +172,7 @@ void opcontrol() {
 		pros::Task lb_task(LBLoop);
 	}
 
-	selector->runSelectedAutonomous();
+	//selector->runSelectedAutonomous();
 
 	// Create tasks with proper handling
 	pros::Task logger_task(logger);
