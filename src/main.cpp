@@ -180,9 +180,13 @@ void opcontrol() {
 	ColorLoopActive = true; // starts inactive until tested ambient colors
 
 	intakeUnstuckActivated = false;
+
+	callLBReset();
+	ChangeLBState(REST);
+
 	//rushLeftPiston.toggle();
 	//rushRightPiston.toggle();
-	skillsMacro();
+	//skillsMacro();
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive
