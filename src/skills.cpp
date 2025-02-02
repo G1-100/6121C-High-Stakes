@@ -48,17 +48,17 @@ void skills() {
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
     //pros::delay(500);
-    chassis.turnToHeading(180, 1500, {.maxSpeed = 90, .minSpeed = 20, .earlyExitRange = 1}); // turn to wall stake
+    chassis.turnToHeading(183, 1500, {.maxSpeed = 90, .minSpeed = 20, .earlyExitRange = 1}); // turn to wall stake
     //chassis.swingToHeading(180, lemlib::DriveSide::LEFT, 1000);
     chassis.waitUntilDone();
-    pros::delay(300 - 50);
+    pros::delay(300 - 150);
 
     set_drive(5, 1200 - 700); // move to wall stake
     chassis.waitUntilDone();
 
     intake.move(0);
     ChangeLBState(EXTENDED); // extend ladybrown
-    pros::delay(350 + 100);
+    pros::delay(350-75);
 
     set_drive(-15.3 + 2.5); // go back a bit
     chassis.waitUntilDone();
@@ -71,7 +71,7 @@ void skills() {
 
     // collecting 3 rings
 
-    set_drive(57.5, 3000, 0, 60 + 30 - 30); 
+    set_drive(56, 3000, 0, 60 + 30 - 30 +5); 
     chassis.waitUntil(30 - 1);
     chassis.cancelMotion();
     set_drive(27 - 1, 3000, 0, 30 + 40 - 30); // intake rings slowly
@@ -111,7 +111,7 @@ void skills() {
     chassis.waitUntil(60);
     chassis.cancelMotion();
     set_drive(-21, 1500, 0, 60);
-    chassis.waitUntil(20 - 2);
+    chassis.waitUntil(20 - 0.5+1);
     mogoClamp.toggle(); // clamp mogo
     chassis.waitUntilDone();
 
@@ -132,11 +132,11 @@ void skills() {
     pros::delay(300);
 
     //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
-    chassis.turnToPoint(0.69923 - 0.5, 69.8696 - 1, 2000, {.maxSpeed = 60});
+    chassis.turnToPoint(0.699233+2.5-1.5, 69.8696 - 2, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //set_drive(27 + 3.5); // move to ring next to wall stake
-    chassis.moveToPoint(0.699233, 69.86966 - 1, 1500);
+    chassis.moveToPoint(0.699233+2.5-1.5, 69.86966 - 2, 1500);
     chassis.waitUntilDone();
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
@@ -144,7 +144,7 @@ void skills() {
     chassis.turnToHeading(0 - 5, 1500, {.minSpeed = 60, .earlyExitRange = 1.5}); // turn to wall stake
     chassis.waitUntilDone();
     pros::delay(500);
-    set_drive(6.5 + 0, 1200 - 500, 75, 120); // move to wall stake
+    set_drive(6.5 + 2, 1200 - 500, 30, 50); // move to wall stake
     chassis.waitUntilDone();
     setIntake(0);
     ChangeLBState(EXTENDED); // extend ladybrown
@@ -154,17 +154,17 @@ void skills() {
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     setIntake(127);
-    chassis.turnToHeading(-93 + 1.5, 2000, {.minSpeed = 60, .earlyExitRange = 1}); // turn to three rings
+    chassis.turnToHeading(-93 + 1.5-3.5, 2000, {.minSpeed = 60, .earlyExitRange = 1}); // turn to three rings
     chassis.waitUntilDone();
     intake.move_voltage(12000);
 
     // collecting 3 rings
 
-    set_drive(57, 2000, 0, 60 + 30 - 20);
+    set_drive(57, 2000, 0, 60 + 30 - 20 - 10);
     callLBReset();
     chassis.waitUntil(30 - 1);
     chassis.cancelMotion();
-    set_drive(27.25, 2500, 0, 30 + 30 - 20); // intake rings slowly
+    set_drive(27.25, 2500, 0, 30 + 30 - 20 - 10); // intake rings slowly
     chassis.waitUntilDone();
     pros::delay(800);
     chassis.turnToHeading(40, 1000, {.maxSpeed = 70, .minSpeed = 30, .earlyExitRange = 1.5}); // turn to last ring before corner
@@ -197,7 +197,7 @@ void skills() {
     //intake.move(0);
     chassis.turnToHeading(-45, 1500, {.maxSpeed = 75}); // turn to third mogo
     chassis.waitUntilDone();
-    set_drive(-36 + 1.5, 2000, 0, 75); // go to third mogo
+    set_drive(-36 + 1.5 - 1, 2000, 0, 75); // go to third mogo
     chassis.waitUntil(33);
     mogoClamp.toggle();
     //stopColorUntilFunction();
@@ -222,7 +222,7 @@ void skills() {
     pros::delay(700);
     set_drive(-5 + 0.25, 2000, 60, 120); // move back
     setIntake(127);
-    chassis.turnToHeading(-135 - 5, 1500, {.maxSpeed = 60, .minSpeed = 30, .earlyExitRange = 2}); // turn to ring outside ladder
+    chassis.turnToHeading(-135 - 5, 1500, {.maxSpeed = 90, .minSpeed = 50, .earlyExitRange = 2}); // turn to ring outside ladder
     chassis.waitUntilDone();
     ChangeLBState(REST); // retract ladybrown
     set_drive(32 - 1.5, 2000, 70, 120); // move to ring outside ladder
@@ -236,14 +236,16 @@ void skills() {
     startColorUntil(1); // start color until 1 ring
     chassis.turnToHeading(-35 + 7, 1500); // turn to go back
     chassis.waitUntilDone();
-    set_drive(-60 - 3.5, 2000, 80, 127); // move back
+    set_drive(-60 - 3.5, 2000, 50, 127); // move back
     chassis.waitUntilDone();
     chassis.turnToHeading(130 - 55, 1500);
     chassis.waitUntilDone();
     stopColorUntilFunction();
     setIntake(127);
     //chassis.follow(skills3_txt, 15, 2300); // pure pursuit two two stacks
-    set_drive(16, 1500, 100, 120); // move to first stack
+
+
+     set_drive(16, 1500, 100, 120); // move to first stack
     chassis.waitUntilDone();
     //pros::delay(500);
     chassis.turnToHeading(90, 1000);
@@ -258,6 +260,8 @@ void skills() {
     pros::delay(500);
     // set_drive(-13, 2000); // move back
     // chassis.waitUntilDone();
+
+    
     chassis.turnToHeading(-55 - 3, 1000, {.minSpeed = 60, .earlyExitRange = 2}); // turn to corner
     //chassis.swingToHeading(-55 + 20, lemlib::DriveSide::LEFT, 1000); // turn to corner
     chassis.waitUntilDone();
@@ -268,11 +272,11 @@ void skills() {
     setIntake(0);
     setIntake(0);
     //pros::delay(200);
-    chassis.turnToHeading(-45, 1500); // turn to corner
+    chassis.turnToHeading(-45, 1500, {.minSpeed = 70}); // turn to corner
     chassis.waitUntilDone();
-    set_drive(20 - 3, 2000, 80, 127); // move out of corner
+    set_drive(20 - 3, 2000, 90, 127); // move out of corner
     chassis.waitUntilDone();
-    chassis.turnToHeading(20, 1500, {.minSpeed = 60, .earlyExitRange = 2}); // turn to 4th mogo
+    chassis.turnToHeading(20, 1500, {.minSpeed = 80, .earlyExitRange = 2}); // turn to 4th mogo
 
 
     /////////////////////////// FOURTH MOGO ///////////////////////////
@@ -282,7 +286,7 @@ void skills() {
     chassis.waitUntilDone();
     callLBReset();
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
-    set_drive(108 - 4, 3200, 100 + 10, 127); // push other mogo to corner
+    set_drive(108 - 4, 3200, 120, 127); // push other mogo to corner
     chassis.waitUntilDone();
     set_drive(-10, 1500, 0, 60); // move back
     // chassis.follow(skills4_txt, 15, 3500); // pure pursuit two two stacks
