@@ -7,8 +7,6 @@ AutonomousSelector* AutonomousSelector::instance = nullptr;
 
 // Implementation of the singleton constructor
 AutonomousSelector::AutonomousSelector() : currentRoutine(6) { // Default to Disabled
-    routineCount = sizeof(routineNames) / sizeof(routineNames[0]);
-    
     // Initialize selector UI
     pros::lcd::initialize();
     updateDisplay();

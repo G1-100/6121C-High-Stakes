@@ -24,7 +24,7 @@ private:
         "No alignment needed",
         "No autonomous"
     };
-    int routineCount;
+    int routineCount = sizeof(routineNames) / sizeof(routineNames[0]);
 
     AutonomousSelector(); // Private constructor for singleton
 
