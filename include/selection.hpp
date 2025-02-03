@@ -16,13 +16,13 @@ private:
         "Disabled"
     };
     const char* routineNotes[10] = {
-        "Align with left wall",
-        "Align with right wall",
-        "Align with center line",
-        "Align with mogo",
-        "Align with ring",
-        "No alignment needed",
-        "No autonomous"
+        "Notes: Align 7 regular nibs from wall, taped line to inner edge closer to rings",
+        "Notes: Align with right wall",
+        "Notes: Align with center line",
+        "Notes: Align with mogo clamp center and inner tile edge",
+        "Notes: Align with mogo clamp center and inner tile edge",
+        "Notes: Align 9 by 9 nibs from corner",
+        "Notes: No autonomous"
     };
     int routineCount = sizeof(routineNames) / sizeof(routineNames[0]);
 

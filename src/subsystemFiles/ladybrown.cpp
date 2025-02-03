@@ -13,8 +13,6 @@ double STOP1_5 = STOP1 + 45 - 15;
 double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
 
-const double DOUBLE_TAP_TIME = 100;
-bool doublePressActivated = false;
 
 double REST = 0;
 double PROPPED = 1;
@@ -44,10 +42,16 @@ long panicPressTime = 0;
  * ONLY supposed to be used when intaking full mogo and hooks get caught
  */
 void doIntakeUnstuck() {
-    if (fabs(intake.get_actual_velocity()) < 0.5 && fabs(intake.get_voltage()) > 2000 && LBState == REST) { // if intake is stuck
+    if (fabs(intake.get_actual_velocity()) < 0.5 && fabs(intake.get_voltage()) > 2000) { // if intake is stuck
         if (intakeStuckTime == 0) {
             intakeStuckTime = pros::millis();
-        } else if (pros::millis() - intakeStuckTime > 500) {
+        } else if (pros::millis() - intakeStuckTime > 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
+            intake.move(0);
+            LBExtend(SEMIEXTENDED);
+            if (pros::competition::is_autonomous()) {
+                intake.move(127); // restart intake if autonomous running
+            }
+        } else if (pros::millis() - intakeStuckTime > 500 && LBState != PROPPED) {
             master.rumble("-"); // short rumble to notify driver
             double intakePower = intake.get_power();
             intake.move(-127);
@@ -289,7 +293,6 @@ void LBLoop() {
                         stopDriverIntake = false;
                         LBRetract(); // go to stopping point 1
                     }
-                    doublePressActivated = false;
                 }
             }
             lastPressed = false;

@@ -9,10 +9,6 @@ extern bool colorLoopStarted;
 
 extern double ambientHue;
 
-extern double ambientRed;
-
-extern double ambientBlue;
-
 extern double ambientProximity;
 
 extern bool colorUntilActivated;
@@ -26,15 +22,8 @@ void initColorSort();
 
 void doColorSort();
 
-void intakeUntilColor();
-
 void colorSortLoop();
-
-void activateColorSort();
 
 void stopColorUntilFunction();
 
 void startColorUntil(int rings);
-
-extern double lastBlue;
-extern double lastRed;

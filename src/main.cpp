@@ -77,7 +77,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " LAST DIFFERENCE: " + std::to_string(lastBlue - lastRed) << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
 		//std::cout << stopDriverIntake << "\n";
         pros::delay(50);
@@ -101,8 +101,6 @@ void logger() {
  * from where it left off.
  */
 void autonomous() {
-    // Remove direct call to ringAuton and only use selector
-    // selector->runSelectedAutonomous();  // Commented out selector usage
 	pros::lcd::set_text(4, "Autonomous Running!");
 	std::cout << "Autonomous Running!" << "\n";
 	driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -117,31 +115,17 @@ void autonomous() {
 	ColorLoopActive = true;
 	intakeUnstuckActivated = true;
 
-	//pros::Task ret4(logger);
 	pros::Task lb_task(LBLoop);
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	//ladybrown.move(-10);
-	//set_drive(72);
-	//intake.move(127);
 	//disruptRingRush(allianceColorBlue);
-	selector->runSelectedAutonomous();
+	//selector->runSelectedAutonomous();
+	testAuton();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
 	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
-	//mogoRushAuton(allianceColorBlue);
-	//pros::Task color_task(intakeUntilColor);
-	//ringAuton(allianceColorBlue);
-	//MogoSideSoloAWP(allianceColorBlue);
 	//skills();
-
-	//pros::delay(20000);
-	//SigSoloAWP(allianceColorBlue);
-	//mogoAdvayAuton(allianceColorBlue);
-	//VexmenSoloAWP(allianceColorBlue);
-	//simpleMogoAuton(allianceColorBlue);
-	//soloAWPAutonTunedLMSD(allianceColorBlue);
 }
 
 /**
@@ -201,13 +185,6 @@ void opcontrol() {
 
 		checkLBBroken();
       	// Run Every 20 Seconds
-
-		if (pros::millis() - runStart > 2000 && !testedAmbient) { // 2 seconds after start
-			testedAmbient = true;
-			ambientHue = optical.get_hue();
-			activateColorSort();
-			//cout << "Ambient Diff:" << optical.get_rgb().blue - optical.get_rgb().red << "ambient proximity: " << optical.get_proximity() << "\n";
-		}
 
 		pros::delay(10);
 		
