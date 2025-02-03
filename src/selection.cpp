@@ -6,26 +6,14 @@
 AutonomousSelector* AutonomousSelector::instance = nullptr;
 
 // Implementation of the singleton constructor
-AutonomousSelector::AutonomousSelector() : currentRoutine(AutonomousRoutine::Disabled) {
-    const char* names[] = {
-    "Four Ring Ring Rush",
-    "Two Ring Safe Ring",
-    "Three Ring Mogo Rush",
-    "Regional Solo AWP Mogo Side",
-    "Two Ring Safe Mogo",
-    "Skills",
-    "Disabled"
-    };
-    int routineCount = 7;
-    std::copy(std::begin(names), std::end(names), routineNames);
-    
+AutonomousSelector::AutonomousSelector() : currentRoutine(6) { // Default to Disabled
     // Initialize selector UI
     pros::lcd::initialize();
     updateDisplay();
 }
 
 // Implement the rest of the member functions
-// ...rest of the implementation remains the same...
+// ...existing code...
 
 AutonomousSelector* AutonomousSelector::getInstance() {
     if (instance == nullptr) {
@@ -38,16 +26,16 @@ AutonomousSelector* AutonomousSelector::getInstance() {
 AutonomousSelector* selector = nullptr;
 
 void AutonomousSelector::nextRoutine() {
-    int next = static_cast<int>(currentRoutine) + 1;
-    if (next >= 7) next = 0;
-    currentRoutine = static_cast<AutonomousRoutine>(next);
+    int next = currentRoutine + 1;
+    if (next >= routineCount) next = 0;
+    currentRoutine = next;
     updateDisplay();
 }
 
 void AutonomousSelector::previousRoutine() {
-    int prev = static_cast<int>(currentRoutine) - 1;
+    int prev = currentRoutine - 1;
     if (prev < 0) prev = routineCount - 1;
-    currentRoutine = static_cast<AutonomousRoutine>(prev);
+    currentRoutine = prev;
     updateDisplay();
 }
 
@@ -57,15 +45,17 @@ void AutonomousSelector::toggleAllianceColor() {
 }
 
 void AutonomousSelector::updateDisplay() {
-    std::cout <<"Currrent Routine: " << routineNames[static_cast<int>(currentRoutine)] << "\n";
+    std::cout <<"Currrent Routine: " << routineNames[currentRoutine] << "\n";
     std::cout << "routine count: " << routineCount << "\n";
     // Clear each line individually since there's no clear() function
     pros::lcd::clear_line(1);
     pros::lcd::clear_line(2);
     pros::lcd::clear_line(3);
+    pros::lcd::clear_line(4);
     
     pros::lcd::set_text(1, "Selected Autonomous:");
-    pros::lcd::set_text(2, routineNames[static_cast<int>(currentRoutine)]);
+    pros::lcd::set_text(2, routineNames[currentRoutine]);
+    pros::lcd::set_text(3, routineNotes[currentRoutine]);
     
     // Display competition status
     std::string status = "Status: ";
@@ -81,10 +71,10 @@ void AutonomousSelector::updateDisplay() {
     } else {
         status += "Not Connected";
     }
-    pros::lcd::set_text(3, status);
+    pros::lcd::set_text(4, status);
 
     // Display alliance color
-    pros::lcd::set_text(4, allianceColorBlue ? "Alliance: Blue" : "Alliance: Red");
+    pros::lcd::set_text(5, allianceColorBlue ? "Alliance: Blue" : "Alliance: Red");
 }
 
 void AutonomousSelector::runSelectedAutonomous() {
@@ -96,28 +86,27 @@ void AutonomousSelector::runSelectedAutonomous() {
     driveRightMiddle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     driveRightFront.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-
     switch (currentRoutine) {
-        case AutonomousRoutine::Four_Ring_Ring_Rush:
+        case 0:
             disruptRingRush(allianceColorBlue);
             break;
-        case AutonomousRoutine::Three_Ring_Mogo_Rush:
-            newMogoRush(allianceColorBlue);
-            break;
-        case AutonomousRoutine::Regional_Solo_AWP_Mogo_Side:
-            simpleMogo(allianceColorBlue);
-            break;
-        case AutonomousRoutine::Two_Ring_Safe_Mogo:
-            verySimpleMogo(allianceColorBlue);
-            break;
-        case AutonomousRoutine::Two_Ring_Safe_Ring:
+        case 1:
             simpleRing(allianceColorBlue);
             break;
-        case AutonomousRoutine::Skills:
+        case 2:
+            newMogoRush(allianceColorBlue);
+            break;
+        case 3:
+            simpleMogo(allianceColorBlue);
+            break;
+        case 4:
+            verySimpleMogo(allianceColorBlue);
+            break;
+        case 5:
             allianceColorBlue = false;
             skills();
             break;
-        case AutonomousRoutine::Disabled:
+        case 6:
             break;
         default:
             break;

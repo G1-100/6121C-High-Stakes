@@ -2,23 +2,29 @@
 
 #include "main.h"
 
-// Autonomous routine options
-enum class AutonomousRoutine {
-    Four_Ring_Ring_Rush,
-    Two_Ring_Safe_Ring,
-    Three_Ring_Mogo_Rush,
-    Regional_Solo_AWP_Mogo_Side,
-    Two_Ring_Safe_Mogo,
-    Skills,
-    Disabled
-};
-
 class AutonomousSelector {
 private:
     static AutonomousSelector* instance;
-    AutonomousRoutine currentRoutine;
-    const char* routineNames[10];
-    int routineCount;
+    int currentRoutine;
+    const char* routineNames[10] = {
+        "Four Ring Ring Rush",
+        "Two Ring Safe Ring",
+        "Three Ring Mogo Rush",
+        "Regional Solo AWP Mogo Side",
+        "Two Ring Safe Mogo",
+        "Skills",
+        "Disabled"
+    };
+    const char* routineNotes[10] = {
+        "Align with left wall",
+        "Align with right wall",
+        "Align with center line",
+        "Align with mogo",
+        "Align with ring",
+        "No alignment needed",
+        "No autonomous"
+    };
+    int routineCount = sizeof(routineNames) / sizeof(routineNames[0]);
 
     AutonomousSelector(); // Private constructor for singleton
 
