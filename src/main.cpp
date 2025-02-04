@@ -117,6 +117,11 @@ void autonomous() {
 
 	pros::Task lb_task(LBLoop);
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+
+					// AUTON RUNS
+
+
 	//disruptRingRush(allianceColorBlue);
 	//selector->runSelectedAutonomous();
 	testAuton();
