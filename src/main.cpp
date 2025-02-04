@@ -163,7 +163,7 @@ void opcontrol() {
 	
 	ColorLoopActive = true; // starts inactive until tested ambient colors
 
-	intakeUnstuckActivated = false;
+	intakeUnstuckActivated = true;
 
 	//callLBReset();
 	//ChangeLBState(REST);
