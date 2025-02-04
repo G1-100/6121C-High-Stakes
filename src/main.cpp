@@ -124,13 +124,14 @@ void autonomous() {
 
 	//disruptRingRush(allianceColorBlue);
 	//selector->runSelectedAutonomous();
-	testAuton();
+	//testAuton();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
 	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//skills();
+	safeFourRing(allianceColorBlue);
 }
 
 /**
@@ -175,7 +176,7 @@ void opcontrol() {
 
 	//rushLeftPiston.toggle();
 	//rushRightPiston.toggle();
-	skillsMacro();
+	//skillsMacro();
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive
