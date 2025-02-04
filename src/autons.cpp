@@ -508,6 +508,10 @@ void disruptRingRushBlue() {
 
 void testAuton() {
   intake.move(127);
-  set_drive(70, 3000, 120, 127);
+  set_drive(50, 3000, 120, 127);
+  pros::delay(1000);
+  ChangeLBState(PROPPED);
+  pros::delay(500);
+  ChangeLBState(FULLEXTENDED);
   chassis.waitUntilDone();
 }
