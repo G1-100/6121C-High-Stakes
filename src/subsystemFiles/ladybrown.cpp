@@ -47,10 +47,12 @@ void doIntakeUnstuck() {
             intakeStuckTime = pros::millis();
         } else if (pros::millis() - intakeStuckTime > 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
             intake.move(0);
+            wrongColorDetected = true;
             LBExtend(SEMIEXTENDED);
             if (pros::competition::is_autonomous()) {
                 intake.move(127); // restart intake if autonomous running
             }
+            wrongColorDetected = false;
         } else if (pros::millis() - intakeStuckTime > 500 && LBState != PROPPED) {
             master.rumble("-"); // short rumble to notify driver
             double intakePower = intake.get_power();
