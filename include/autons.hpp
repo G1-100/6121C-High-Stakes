@@ -26,6 +26,8 @@ void newMogoRush(bool isBlue);
 
 void testAuton();
 
+void safeFourRing(bool isBlue);
+
 ASSET(ringRushBlue_txt);
 ASSET(ringRushBlueOld_txt);
 ASSET(ringRushRed_txt);

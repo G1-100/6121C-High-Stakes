@@ -522,62 +522,64 @@ void safeFourRing(bool isBlue) {
 
 
     // GETS CORNER
-
+// Note: it does need to be this fast
 
 	int sgn=isBlue?1:-1;
 	chassis.setPose(0, 0, (33 + 1) * sgn);
-  LBState = PROPPED;
+
+// AWS
+
+  LBState = PROPPED; // Prop LB for preload
   LBRotation.set_position(4600);
-  ChangeLBState(FULLEXTENDED);
+  ChangeLBState(FULLEXTENDED); // Extend LB for AWS
   pros::delay(650);
-  set_drive(-15, 2000);
+  
+  set_drive(-15 + 2, 2000, 80);
   chassis.waitUntilDone();
   ChangeLBState(REST);
-  chassis.turnToHeading(90 * sgn, 2000);
+  chassis.turnToHeading(90 * sgn, 1000, {.minSpeed = 70});
   chassis.waitUntilDone();
-  set_drive(-23 - 11 + 3, 2000, 0, 70);
+  set_drive(-23 - 11 + 3, 2000, 50, 100);
   chassis.waitUntil(25 + 1);
   mogoClamp.toggle();
   chassis.waitUntilDone();
-
-	// set_drive(-34, 2000);
-	// chassis.waitUntil(32 - 4);
-	// mogoClamp.toggle();
-	// chassis.waitUntilDone();
 	intake.move_voltage(12000);
-	//pros::delay(1000);
-	chassis.turnToHeading(180, 2000);
+	chassis.turnToHeading(180, 2000, {.minSpeed = 80});
 	chassis.waitUntilDone();
-	set_drive(21, 2000);
+	set_drive(21, 2000, 100);
 	chassis.waitUntilDone();
 	pros::delay(500);
-	set_drive(-20, 1500);
+	set_drive(-20, 1500, 100);
 	chassis.waitUntilDone();
-	//chassis.turnToHeading(0, 2000);
-  chassis.turnToHeading((45 - 2) * sgn, 1500, {.maxSpeed = 80});
+  chassis.turnToHeading((45 - 2) * sgn, 1500, {.minSpeed = 70});
 	chassis.waitUntilDone();
-	set_drive(50 - 20, 2000, 0, 60);
+	set_drive(50 - 20, 2000, 70, 120);
 	chassis.waitUntilDone();
   intake.move(127);
-  pros::delay(1000);
-  set_drive(15, 1500);
+  pros::delay(500);
+  set_drive(15, 1500, 80);
   chassis.waitUntilDone();
   set_drive(-24 - 15, 1500, 70, 120);
   chassis.waitUntilDone();
   doinker.toggle();
-  chassis.turnToHeading(70, 2000);
-  set_drive(20);
-  chassis.turnToHeading(100, 2000);
-  set_drive(-10);
-  chassis.turnToHeading(115, 2000);
-  set_drive(10);
-  pros::delay(2000);
-  set_drive(-20);
-  chassis.turnToHeading(-45 * sgn, 2000);
+  chassis.turnToHeading(225, 2000, {.minSpeed = 80});
   chassis.waitUntilDone();
-  set_drive(15);
-  // set_drive(5 + 1, 2000, 70, 120);
-  // chassis.waitUntilDone();
+  set_drive(65, 1000, 80);
+  chassis.waitUntilDone();
+  chassis.turnToHeading(255, 2000, {.minSpeed = 80});
+  chassis.waitUntilDone();
+  pros::delay(200);
+  set_drive(-10, 1000, 80);
+  chassis.waitUntilDone();
+  chassis.turnToHeading(260, 2000, {.minSpeed = 80});
+  chassis.waitUntilDone();
+  set_drive(10, 1000, 127);
+  chassis.waitUntilDone();
+  set_drive(-10, 100, 127);
+  chassis.waitUntilDone();
+  chassis.turnToHeading(-45 * sgn, 2000, {.minSpeed = 80});
+  chassis.waitUntilDone();
+  set_drive(35, 1000, 127);
   ChangeLBState(EXTENDED);
 	
 }
