@@ -4,6 +4,8 @@ void moveMax(double dist, int timeout, double slowAt);
 
 void set_drive(double inches, int time = 3000, float minSpeed = 0, float maxSpeed=127);
 
+void set_drive_advanced(double inches, int time, float minSpeed, float maxSpeed, float earlyExitRange);
+
 void disruptRingRushBlue();
 
 void MogoSideSoloAWP(bool isBlue);

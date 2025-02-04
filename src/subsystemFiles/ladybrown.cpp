@@ -191,6 +191,11 @@ void LBExtend(double point) {
             angleChange = STOP1_5 - STOP1;
             iterationsRequired = 1;
         }
+        if (prevLBAutonGoal != LBAutonGoal) { // auton cancel lb
+            prevLBAutonGoal = LBAutonGoal;
+            ChangeLBAuton(LBAutonGoal);
+            return;
+        }
         pros::delay(10);
     }
     std::cout << "Reached Goal Angle: " << curAngle << "\n";
@@ -312,6 +317,7 @@ void LBLoop() {
             //LBState = SEMIEXTENDED;
         }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
+            prevLBAutonGoal = LBAutonGoal;
             ChangeLBAuton(LBAutonGoal);
         }
         if (calledLBReset) {

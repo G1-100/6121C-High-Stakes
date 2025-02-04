@@ -27,6 +27,8 @@ void LBExtend(double point);
 
 void ChangeLBState(double goal);
 
+void ChangeLBAuton(double goal);
+
 void LBReset();
 
 void LBRetract();
