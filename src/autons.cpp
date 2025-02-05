@@ -571,10 +571,12 @@ void safeFourRing(bool isBlue) {
   chassis.waitUntilDone();
   doinker.toggle();
   chassis.turnToHeading(-225 * sgn, 2000, {.minSpeed = 80}); // face corner
+  chassis.turnToHeading(isBlue?-210:225, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   set_drive(70 + 3, 1000, 100); // move to corner
   chassis.waitUntilDone();
   chassis.turnToHeading(-300 * sgn, 2000, {.minSpeed = 80, .earlyExitRange = 2}); // sweep corner
+  chassis.turnToHeading(isBlue?180:300, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   doinker.toggle();
   chassis.turnToHeading(-240 * sgn, 2000, {.minSpeed = 80}); // face corner
