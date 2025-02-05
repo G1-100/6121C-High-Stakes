@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 41.57 - .5; // 42.57
+double STOP1 = 41 - 3; // 42.57
 double STOP1_5 = STOP1 + 45 - 15;
 double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
@@ -131,7 +131,11 @@ void LBExtend(double point) {
     if (point == 1) {
         GOALANGLE = STOP1;
         power = 70;
-        negPower = 0;
+        if (LBRotation.get_position() / 100.0 > GOALANGLE) { // over and going back
+            negPower = -30;
+        } else {
+            negPower = 0;
+        }
         iterationsRequired = 40;
         angleChange = STOP1 - 0;
     } else if (point == 2) {
@@ -210,8 +214,8 @@ void LBExtend(double point) {
         LBState = FULLEXTENDED;
     } else if (point == 1.5) {
         LBState = SEMIEXTENDED;
-        startColorUntil(1);
     }
+    LBAutonGoal = point;
     
 }
 
@@ -228,13 +232,13 @@ void LBReset() {
  */
 void LBRetract() {
     ladybrown.move(-127); // move beyond stopping point 2
-    //pros::delay(1000);
     pros::delay(200);
     while (fabs(ladybrown.get_actual_velocity()) > 1) {
         pros::delay(20);
     }
     ladybrown.move(0);
     LBState = REST;
+    LBAutonGoal = REST;
     LBRotation.reset_position();
 }
 
@@ -248,6 +252,7 @@ void ChangeLBState(double goal) {
  */
 void ChangeLBAuton(double goal) {
     if (goal == REST) {
+        std::cout << goal << "\n";
         LBRetract();
     } else {
         LBExtend(goal);
@@ -313,11 +318,11 @@ void LBLoop() {
             chassis.waitUntilDone();
             LBExtend(3);
         }
-        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-            std::cout << "DOWN BUTTON PRESSED" << "\n";
-            LBExtend(1.5);
-            //LBState = SEMIEXTENDED;
-        }
+        // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+        //     std::cout << "DOWN BUTTON PRESSED" << "\n";
+        //     LBExtend(1.5);
+        //     //LBState = SEMIEXTENDED;
+        // }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
             prevLBAutonGoal = LBAutonGoal;
             ChangeLBAuton(LBAutonGoal);

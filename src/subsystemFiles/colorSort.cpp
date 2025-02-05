@@ -5,7 +5,7 @@ using namespace std;
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
 double ambientColorDiff = -4; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 32; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 35; // TODO: NEEDS TO BE TUNED AT COMPETITION
 bool colorLoopStarted = false;
 int ringsSeen = 0;
 int colorUntilRings = 0;
@@ -73,11 +73,12 @@ void doColorSort() {
                         wrongColorDetected = true; // stop driver intake when color sorting
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + 10 && pros::millis() - start < 500) { // fling ring after 500 ms or until undetected
+                        while (optical.get_proximity() > ambientProximity + 9 && pros::millis() - start < 500) { // fling ring after 500 ms or until undetected
+                            intake.move(110);
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150);
+                        pros::delay(150 + 100);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color
@@ -105,11 +106,12 @@ void doColorSort() {
                         cout << "RED DETECTED" << "\n";
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + 10 && pros::millis() - start < 500) { // wait until undetected or 500 ms to fling
+                        while (optical.get_proximity() > ambientProximity + 9 && pros::millis() - start < 500) { // wait until undetected or 500 ms to fling
+                            intake.move(110);
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150);
+                        pros::delay(150 + 100);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color

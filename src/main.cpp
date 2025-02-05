@@ -77,7 +77,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
 		//std::cout << stopDriverIntake << "\n";
         pros::delay(50);
@@ -131,7 +131,10 @@ void autonomous() {
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//skills();
-	safeFourRing(allianceColorBlue);
+	ChangeLBState(EXTENDED);
+	pros::delay(1000);
+	ChangeLBState(PROPPED);
+	//safeFourRing(allianceColorBlue);
 }
 
 /**
@@ -150,8 +153,8 @@ void autonomous() {
 void opcontrol() {
 	optical.set_led_pwm(100);
 	// OP CONTROL RESET:
-	//brakeModeCoast();
-	brakeModeHold();
+	brakeModeCoast();
+	//brakeModeHold();
 	std::cout << "Opcontrol Running!" << "\n";
 	runStart = pros::millis();
 	// INIT LADY BROWN:
