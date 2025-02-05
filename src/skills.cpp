@@ -140,6 +140,7 @@ void skills() {
     //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
     chassis.turnToPoint(0.699233+1 - 2, 69.8696 + 3, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
+    ColorLoopActive = true;
     startColorUntil(1);
     // ChangeLBState(PROPPED); // prop up ladybrown
     //set_drive(27 + 3.5); // move to ring next to wall stake
