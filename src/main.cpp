@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 	// initializeSelector();  // Commented out selector initialization
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 	initColorSort();
 	std::cout << "initialize done" << "\n";
 	pros::lcd::initialize();
@@ -130,10 +130,10 @@ void autonomous() {
 	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
-	//skills();
-	ChangeLBState(EXTENDED);
-	pros::delay(1000);
-	ChangeLBState(PROPPED);
+	skills();
+	// ChangeLBState(EXTENDED);
+	// pros::delay(1000);
+	// ChangeLBState(PROPPED);
 	//safeFourRing(allianceColorBlue);
 }
 
