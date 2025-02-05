@@ -538,25 +538,25 @@ void safeFourRing(bool isBlue) {
   set_drive(-11 + 3, 2000, 80); // move back from AWS
   chassis.waitUntilDone();
   ChangeLBState(REST); // retract ladybrown
-  chassis.turnToHeading(90 * sgn, 1000, {.minSpeed = 70}); // turn to mogo
+  chassis.turnToHeading(isBlue?-270:90 * sgn, 1000, {.minSpeed = 70}); // turn to mogo
   chassis.waitUntilDone();
   callLBReset();
   set_drive(-29, 2000, 100); // move to mogo
   chassis.waitUntil(20);
   chassis.cancelMotion();
-  set_drive(-10, 1500, 0, 70);
+  set_drive(-10 - 2, 1500, 0, 70);
   chassis.waitUntil(6);
   mogoClamp.toggle();
   chassis.waitUntilDone();
 	intake.move_voltage(12000);
 	chassis.turnToHeading(180, 2000, {.minSpeed = 80}); // turn to two stack rings
 	chassis.waitUntilDone();
-	set_drive(21, 2000, 100);
+	set_drive(21 + 1.5, 2000, 100);
 	chassis.waitUntilDone();
 	//pros::delay(500);
 	set_drive(-20 + 7, 1500, 100);
 	chassis.waitUntilDone();
-  chassis.turnToHeading((45 - 2) * sgn, 1500, {.minSpeed = 70}); // turn to middle two stack
+  chassis.turnToHeading(isBlue?-325:(45 - 2) * sgn, 1500, {.minSpeed = 70}); // turn to middle two stack
 	chassis.waitUntilDone();
 	set_drive(35, 2000, 80, 120); // move to middle two stck
   chassis.waitUntil(18);
@@ -571,15 +571,15 @@ void safeFourRing(bool isBlue) {
   chassis.waitUntilDone();
   doinker.toggle();
   //chassis.turnToHeading(-225 * sgn, 2000, {.minSpeed = 80}); // face corner
-  chassis.turnToHeading(isBlue?-210:225, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.turnToHeading(isBlue?-225:225, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   set_drive(70 + 3, 1000, 100); // move to corner
   chassis.waitUntilDone();
   //chassis.turnToHeading(-300 * sgn, 2000, {.minSpeed = 80, .earlyExitRange = 2}); // sweep corner
-  chassis.turnToHeading(isBlue?180:300, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.turnToHeading(isBlue?-23:300, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   doinker.toggle();
-  chassis.turnToHeading(-240 * sgn, 2000, {.minSpeed = 80}); // face corner
+  chassis.turnToHeading(isBlue?-180:-240 * sgn, 2000, {.minSpeed = 80}); // face corner
   chassis.waitUntilDone();
   // set_drive(-10, 1000, 80); // move back
   // chassis.waitUntilDone();
