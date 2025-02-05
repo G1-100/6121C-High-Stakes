@@ -78,7 +78,7 @@ void doColorSort() {
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150 + 100);
+                        pros::delay(150 + 50);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color
@@ -111,7 +111,7 @@ void doColorSort() {
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150 + 100);
+                        pros::delay(150 + 50);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color
