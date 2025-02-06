@@ -6,13 +6,11 @@
 #include "subsystemHeaders/globals.hpp"
 #include "main.h"
 #include <string>
-
 double RESTANGLE = 0; // actual -30
 double STOP1 = 41 - 3 + 3; // 42.57
 double STOP1_5 = STOP1 + 45 - 15;
 double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
-
 
 double REST = 0;
 double PROPPED = 1;
@@ -23,7 +21,7 @@ double ALMOSTFULLEXTENDED = 2.8;
 double LBState = REST;
 
 double LBAutonGoal = REST;
-int prevLBAutonGoal = REST;
+double prevLBAutonGoal = REST;
 bool calledLBReset = false;
 
 bool LBLoopActive = false;
@@ -36,7 +34,6 @@ bool intakeUnstuckActivated = false;
 int intakeStuckTime = 0;
 
 long panicPressTime = 0;
-
 
 /**
  * ONLY supposed to be used when intaking full mogo and hooks get caught
@@ -87,32 +84,33 @@ void checkLBBroken() {
     }
 }
 
+void tempFunction(double state, double stop, 
+                  double curAng, 
+                  double degreeOne, double degreeTwo, 
+                  double moveOne, double moveTwo, double moveThree) {
+    if(LBState = state)
+    {
+        if(stop - curAng > degreeOne)
+        {
+            ladybrown.move(moveOne);
+        }
+        else if(stop - curAng < degreeTwo)
+        {
+            ladybrown.move(moveTwo);
+        }
+        else
+        {
+            ladybrown.move(moveThree);
+        }
+    }
+}
+
+
 void doLBAmbientAdjust(double curAngle) {
-    if (LBState == PROPPED) {
-        if (STOP1 - curAngle > 1) { // if below stopping point by more than 1 degree
-            ladybrown.move(25);
-        } else if (STOP1 - curAngle < -1) { // if above stopping point by more than 1 degree
-            ladybrown.move(-5);
-        } else {
-            ladybrown.move(10);
-        }
-    } else if (LBState == SEMIEXTENDED) {
-        if (STOP1_5 - curAngle > 5) { // if below stopping point by more than 1 degree
-            ladybrown.move(25);
-        } else if (STOP1_5 - curAngle < -5) { // if above stopping point by more than 1 degree
-            ladybrown.move(-5);
-        } else {
-            ladybrown.move(10);
-        }
-    } else if (LBState == EXTENDED) {
-        if (STOP2 - curAngle > 5) { // if below stopping point by more than 1 degree
-            ladybrown.move(5);
-        } else if (STOP2 - curAngle < -5) { // if above stopping point by more than 1 degree
-            ladybrown.move(-30 - 15);
-        } else {
-            ladybrown.move(-10);
-        }
-    } else if (LBState == FULLEXTENDED) {
+    tempFunction(PROPPED, STOP1, curAngle, 1, -1, 25, -5, 10);
+    tempFunction(SEMIEXTENDED, STOP1_5, curAngle, 5, -5, 25, -5, 10);
+    tempFunction(EXTENDED, STOP2, curAngle, 5, -5, 5, -30 - 15, -10);
+    if (LBState == FULLEXTENDED) {
         ladybrown.move(-10);
     }
 }
@@ -122,13 +120,10 @@ void doLBAmbientAdjust(double curAngle) {
  * @brief extend ladybrown to stopping point 1
  * 
  */
-void LBExtend(double point) {
-    double GOALANGLE;
-    double power;
-    double negPower;
-    double angleChange;
-    double iterationsRequired;
-    if (point == 1) {
+//TODO: breakup the function into smaller functions
+void setupLBExtendParams(double point, double GOALANGLE, double power, double negPower, double angleChange, double iterationsRequired)
+{
+        if (point == 1) {
         GOALANGLE = STOP1;
         power = 70;
         if (LBRotation.get_position() / 100.0 > GOALANGLE) { // over and going back
@@ -161,13 +156,25 @@ void LBExtend(double point) {
         angleChange = STOP1_5 - STOP1;
         iterationsRequired = 1;
     }
+}
+
+void LBExtend(double point) {
+    double GOALANGLE;
+    double power;
+    double negPower;
+    double angleChange;
+    double iterationsRequired;
+
     long startTime = pros::millis();
     double timeStayedGood = 0; // time stayed within range
     double curAngle = LBRotation.get_position() / 100.0;
+    
+    setupLBExtendParams(point, GOALANGLE, power, negPower, angleChange, iterationsRequired);
+
     std::cout << "Extending to point " << point << ", Goal Angle: " << GOALANGLE << "\n";
     
     ladybrown.move(power);
-      
+    
     while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 2500) { // ends once above goal angle
         curAngle = LBRotation.get_position() / 100.0;
         //std::cout << "Current Angle: " << curAngle << "\n";
@@ -206,24 +213,27 @@ void LBExtend(double point) {
     }
     std::cout << "Reached Goal Angle: " << curAngle << "\n";
     ladybrown.move(0); // stop once done
-    if (point == 1) {
-        LBState = PROPPED;
-    } else if (point == 2) {
-        LBState = EXTENDED;
-    } else if (point > 2) {
-        LBState = FULLEXTENDED;
-    } else if (point == 1.5) {
-        LBState = SEMIEXTENDED;
-    }
+    stateSetter(point);
     LBAutonGoal = point;
-    
 }
 
-void LBReset() {
-    ladybrown.move(100);
-    pros::delay(2500);
-    ladybrown.move(0);
-    LBState = EXTENDED;
+void stateSetter(double point) {
+    switch (static_cast<int>(point)) {
+        case 1:
+            LBState = PROPPED;
+            break;
+        case 2:
+            LBState = EXTENDED;
+            break;
+        case 3:
+            LBState = FULLEXTENDED;
+            break;
+        case 4:
+            LBState = SEMIEXTENDED;
+            break;
+        default:
+            break;
+    }
 }
 
 /**
@@ -339,7 +349,6 @@ void LBLoop() {
         pros::delay(20);
     }
 }
-
 
 void TwoRingLBMacro() {
     intake.move(110);
