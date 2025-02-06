@@ -341,6 +341,7 @@ void skillsMacro() {
     chassis.waitUntil(12);
     mogoClamp.toggle(); // clamp mogo
     chassis.waitUntilDone();
+    //LBRetract();
     ChangeLBState(REST); // retract ladybrown
     master.rumble("."); // short rumble to notify driver
 }
