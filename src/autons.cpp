@@ -523,6 +523,8 @@ void safeFourRing(bool isBlue) {
 
     // GETS CORNER
 // Note: it does need to be this fast
+// Another Note: Blue side general movements should be good, but most are still off and need to be tuned
+// Also things are happening with syncing, these notes are for allowing the auton changes to be commited
 
 	int sgn=isBlue?1:-1;
 	chassis.setPose(0, 0, (33 + 1) * sgn);
