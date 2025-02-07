@@ -21,11 +21,8 @@ void initialize() {
 	LBRotation.reset_position();
 	pros::delay(1000);
 	optical.set_led_pwm(100);
-	// initializeSelector();  // Commented out selector initialization
 
-
-	allianceColorBlue = true; // VERY IMPORTANT
-
+	allianceColorBlue = false; // VERY IMPORTANT
 
 	initColorSort();
 	std::cout << "initialize done" << "\n";
@@ -138,7 +135,6 @@ void autonomous() {
 	//pros::Task color_task(intakeUntilColor);
 	//ringAuton(allianceColorBlue);
 	//MogoSideSoloAWP(allianceColorBlue);
-	skills();
 	//pros::delay(20000);
 	//SigSoloAWP(allianceColorBlue);
 	//mogoAdvayAuton(allianceColorBlue);
