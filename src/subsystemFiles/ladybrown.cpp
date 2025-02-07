@@ -8,7 +8,7 @@
 #include <string>
 
 double RESTANGLE = 0; // actual -30
-double STOP1 = 41 - 3; // 42.57
+double STOP1 = 41 + 1; // 42.57
 double STOP1_5 = STOP1 + 45 - 15;
 double STOP2 = 170 + 20; // angle of stop 2 - 130
 double STOP3 = 250;
@@ -23,7 +23,7 @@ double ALMOSTFULLEXTENDED = 2.8;
 double LBState = REST;
 
 double LBAutonGoal = REST;
-int prevLBAutonGoal = REST;
+double prevLBAutonGoal = REST;
 bool calledLBReset = false;
 
 bool LBLoopActive = false;
@@ -46,9 +46,11 @@ void doIntakeUnstuck() {
         if (intakeStuckTime == 0) {
             intakeStuckTime = pros::millis();
         } else if (pros::millis() - intakeStuckTime > 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
+            std::cout << "LB Raise Activated" << "\n";
             intake.move(0);
             wrongColorDetected = true;
             LBExtend(SEMIEXTENDED);
+            intakeStuckTime = 0;
             if (pros::competition::is_autonomous()) {
                 intake.move(127); // restart intake if autonomous running
             }
@@ -98,9 +100,9 @@ void doLBAmbientAdjust(double curAngle) {
         }
     } else if (LBState == SEMIEXTENDED) {
         if (STOP1_5 - curAngle > 5) { // if below stopping point by more than 1 degree
-            ladybrown.move(25);
+            ladybrown.move(20);
         } else if (STOP1_5 - curAngle < -5) { // if above stopping point by more than 1 degree
-            ladybrown.move(-5);
+            ladybrown.move(0);
         } else {
             ladybrown.move(10);
         }
@@ -190,6 +192,7 @@ void LBExtend(double point) {
         }
         if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2) && point == EXTENDED && curAngle < STOP1_5) { // if L2 pressed again and before stopping point 1.5
             // Switch to only extend up to point 1.5
+            std::cout << "LB Cancel Activated" << "\n";
             point = SEMIEXTENDED;
             GOALANGLE = STOP1_5;
             power = 70;
@@ -198,6 +201,7 @@ void LBExtend(double point) {
             iterationsRequired = 1;
         }
         if (prevLBAutonGoal != LBAutonGoal) { // auton cancel lb
+            std::cout << "LB Auton Cancel Activated" << "\n";
             prevLBAutonGoal = LBAutonGoal;
             ChangeLBAuton(LBAutonGoal);
             return;
@@ -216,6 +220,7 @@ void LBExtend(double point) {
         LBState = SEMIEXTENDED;
     }
     LBAutonGoal = point;
+    prevLBAutonGoal = point;
     
 }
 
@@ -324,6 +329,7 @@ void LBLoop() {
         //     //LBState = SEMIEXTENDED;
         // }
         if (LBAutonGoal != prevLBAutonGoal) { // interact with LB in auton mode
+            std::cout << prevLBAutonGoal << " " << LBAutonGoal << "\n";
             prevLBAutonGoal = LBAutonGoal;
             ChangeLBAuton(LBAutonGoal);
         }

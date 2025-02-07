@@ -134,6 +134,8 @@ void skills() {
     chassis.follow(skills2_txt, 15, 4000); // pure pursuit 3 rings
     chassis.waitUntilDone();
     ChangeLBState(PROPPED);
+    chassis.turnToHeading(30, 700); // turn to go to wall stake
+    chassis.waitUntilDone();
     set_drive(-45, 1500, 80); // move back
     chassis.waitUntilDone();
 
@@ -210,7 +212,7 @@ void skills() {
     // chassis.waitUntil(33);
     // mogoClamp.toggle();
 
-    chassis.turnToHeading(135, 700 + 100);
+    chassis.turnToHeading(135 + 5, 700 + 100);
     chassis.waitUntilDone();
     startColorUntil(1); // stop first red ring at top
     set_drive(110, 3000, 80, 127); // go to intake ring

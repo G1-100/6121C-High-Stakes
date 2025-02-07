@@ -134,8 +134,8 @@ void autonomous() {
 	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
-	//skills();
-	safeFourRing(allianceColorBlue);
+	skills();
+	//safeFourRing(allianceColorBlue);
 }
 
 /**
