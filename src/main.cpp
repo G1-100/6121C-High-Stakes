@@ -134,6 +134,17 @@ void autonomous() {
 	//simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
+	//mogoRushAuton(allianceColorBlue);
+	//pros::Task color_task(intakeUntilColor);
+	//ringAuton(allianceColorBlue);
+	//MogoSideSoloAWP(allianceColorBlue);
+	skills();
+	//pros::delay(20000);
+	//SigSoloAWP(allianceColorBlue);
+	//mogoAdvayAuton(allianceColorBlue);
+	//VexmenSoloAWP(allianceColorBlue);
+	//simpleMogoAuton(allianceColorBlue);
+	//soloAWPAutonTunedLMSD(allianceColorBlue);
 	skills();
 	//safeFourRing(allianceColorBlue);
 }
