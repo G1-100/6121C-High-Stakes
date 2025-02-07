@@ -507,10 +507,20 @@ void disruptRingRushBlue() {
 
 
 void testAuton() {
-  ChangeLBState(PROPPED);
-  intake.move(127);
-  // set_drive(50, 3000, 120, 127);
+  LBState = PROPPED;
+  LBRotation.set_position(4600);
+  set_drive(41, 2500, 126, 127); // Move to first mogo
+  chassis.waitUntil(13.5);
+  ChangeLBState(ALMOSTFULLEXTENDED);
   chassis.waitUntilDone();
+  // pros::delay(500);
+  // chassis.turnToHeading(-150 * sgn, 2000, {.minSpeed = 60}); // Turn mogo to disrupt
+  // chassis.waitUntilDone();
+  set_drive(-19.5 - 25 + 12, 1500, 120); // Move back
+  chassis.waitUntil(30 - 14);
+  ChangeLBState(FULLEXTENDED);
+  chassis.waitUntilDone();
+  ChangeLBState(REST);
 }
 
 
