@@ -156,7 +156,7 @@ void simpleMogo(bool isBlue) {
   LBRotation.set_position(4600);
   ChangeLBState(EXTENDED);
   pros::delay(650);
-  set_drive(-15, 2000);
+  set_drive(-15 + 2, 2000);
   chassis.waitUntilDone();
   ChangeLBState(REST);
   chassis.turnToHeading(90 * sgn, 2000);

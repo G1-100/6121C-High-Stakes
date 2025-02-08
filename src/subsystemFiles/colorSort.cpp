@@ -4,8 +4,8 @@ using namespace std;
 
 bool ColorLoopActive = false;
 bool colorUntilActivated = false;
-double ambientColorDiff = -4; // TODO: NEEDS TO BE TUNED AT COMPETITION
-double ambientProximity = 35; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientColorDiff = -5.5; // TODO: NEEDS TO BE TUNED AT COMPETITION
+double ambientProximity = 34; // TODO: NEEDS TO BE TUNED AT COMPETITION
 bool colorLoopStarted = false;
 int ringsSeen = 0;
 int colorUntilRings = 0;
@@ -58,7 +58,7 @@ void doColorSort() {
         if (curProximity < ambientProximity) {
             ambientProximity = curProximity; // calibrate proximity
         }
-        if (fabs(curProximity - ambientProximity) < 2) {
+        if (fabs(curProximity - ambientProximity) < 4.5) {
             ambientColorDiff = currentColorDiff;
         }
 
@@ -74,7 +74,7 @@ void doColorSort() {
                         setIntake(127);
                         long start = pros::millis();
                         while (optical.get_proximity() > ambientProximity + 9 + 4 && pros::millis() - start < 500) { // fling ring after 500 ms or until undetected
-                            intake.move(105);
+                            intake.move(120);
                             pros::delay(10);
                         }
                         setIntake(-127);
@@ -99,7 +99,7 @@ void doColorSort() {
                             }
                         }
                     }
-                } else if (currentColorDiff - ambientColorDiff < -8) { // red ring
+                } else if (currentColorDiff - ambientColorDiff < -5) { // red ring
                     if (allianceColorBlue)  { // wrong color
                         wrongColorDetected = true; // stop driver intake
                         master.rumble(". .");
@@ -107,7 +107,7 @@ void doColorSort() {
                         setIntake(127);
                         long start = pros::millis();
                         while (optical.get_proximity() > ambientProximity + 9 + 4 && pros::millis() - start < 500) { // wait until undetected or 500 ms to fling
-                            intake.move(105);
+                            intake.move(120);
                             pros::delay(10);
                         }
                         setIntake(-127);

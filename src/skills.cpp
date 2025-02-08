@@ -9,7 +9,7 @@ void skills() {
     LBState = EXTENDED;
     LBRotation.set_position(4600);
     ChangeLBState(FULLEXTENDED);
-    intakeUnstuckActivated = false;
+    intakeUnstuckActivated = true;
     ColorLoopActive = false;
     allianceColorBlue = false;
 
@@ -180,7 +180,7 @@ void skills() {
     chassis.turnToHeading(112 - 3, 1500, {.maxSpeed = 58, .minSpeed = 60, .earlyExitRange = 2}); // turn to corner
     chassis.waitUntilDone();
 
-    set_drive(-14, 700, 70); // back INto corner
+    set_drive(-14 - 1, 700, 70); // back INto corner
     chassis.waitUntilDone();
     callLBReset();
     pros::delay(300 + 100);
@@ -190,7 +190,7 @@ void skills() {
     ColorLoopActive = true;
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
-    chassis.turnToHeading(112.75 + 1, 700);
+    chassis.turnToHeading(113 - 0.5, 700);
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //startColorUntil(1); // start color until 1 ring
