@@ -45,7 +45,7 @@ void doIntakeUnstuck() {
     if (fabs(intake.get_actual_velocity()) < 0.5 && fabs(intake.get_voltage()) > 2000) { // if intake is stuck
         if (intakeStuckTime == 0) {
             intakeStuckTime = pros::millis();
-        } else if (pros::millis() - intakeStuckTime > 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
+        } else if (pros::millis() - intakeStuckTime > 100 + 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
             std::cout << "LB Raise Activated" << "\n";
             intake.move(0);
             wrongColorDetected = true;
@@ -55,14 +55,15 @@ void doIntakeUnstuck() {
                 intake.move(127); // restart intake if autonomous running
             }
             wrongColorDetected = false;
-        } else if (pros::millis() - intakeStuckTime > 500 && LBState != PROPPED) {
-            master.rumble("-"); // short rumble to notify driver
-            double intakePower = intake.get_power();
-            intake.move(-127);
-            pros::delay(400);
-            intake.move(127);
-            intakeStuckTime = 0;
-        }
+        } 
+        // else if (pros::millis() - intakeStuckTime > 500 && LBState != PROPPED) {
+        //     master.rumble("-"); // short rumble to notify driver
+        //     double intakePower = intake.get_power();
+        //     intake.move(-127);
+        //     pros::delay(400);
+        //     intake.move(127);
+        //     intakeStuckTime = 0;
+        // }
         
     }
 }
@@ -170,7 +171,7 @@ void LBExtend(double point) {
     
     ladybrown.move(power);
       
-    while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 2500) { // ends once above goal angle
+    while ((abs(GOALANGLE - curAngle) > 3 || timeStayedGood < iterationsRequired) && pros::millis() - startTime < 1500) { // ends once above goal angle
         curAngle = LBRotation.get_position() / 100.0;
         //std::cout << "Current Angle: " << curAngle << "\n";
         if (curAngle > GOALANGLE) {

@@ -18,6 +18,8 @@ extern int colorUntilRings;
 extern bool safeScoring;
 extern double prevHeading;
 
+extern double ambientColorDiff;
+
 void initColorSort();
 
 void doColorSort();

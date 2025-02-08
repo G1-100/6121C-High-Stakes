@@ -11,6 +11,7 @@ private:
         "Two Ring Safe Ring",
         "Three Ring Mogo Rush",
         "Regional Solo AWP Mogo Side",
+        "Four Ring Safe Mogo Side",
         "Two Ring Safe Mogo",
         "Skills",
         "Disabled"
@@ -19,12 +20,13 @@ private:
         "Notes: Align 7 regular nibs from wall, taped line to inner edge closer to rings",
         "Notes: Align with right wall",
         "Notes: Align with center line",
-        "Notes: Align with mogo clamp center and inner tile edge",
+        "Notes: Align with 13 nibs from corner, towards AWS",
+        "Notes: Align with 13 nibs from corner, towards AWS",
         "Notes: Align with mogo clamp center and inner tile edge",
         "Notes: Align 9 by 9 nibs from corner",
         "Notes: No autonomous"
     };
-    int routineCount = sizeof(routineNames) / sizeof(routineNames[0]);
+    int routineCount = 8;
 
     AutonomousSelector(); // Private constructor for singleton
 

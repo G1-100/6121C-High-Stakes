@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 
 	initColorSort();
 	std::cout << "initialize done" << "\n";
@@ -78,7 +78,7 @@ void logger() {
 		//std::cout << LBRotation.get_position() / 100.0 << "\n";
 		//std::cout << "LBState: " << LBState << "\n";
 		//std::cout << "VELOCITY: " + std::to_string(intake.get_actual_velocity()) << " VOLTAGE: " + std::to_string(intake.get_voltage()) << "\n";
-		//std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << "\n";
+		std::cout << "PROXIMITY: " << optical.get_proximity() << " DIFFERENCE: " << std::to_string(optical.get_rgb().blue - optical.get_rgb().red) << " AMBIENT: " << ambientColorDiff << "\n";
 		//std::cout << "LED PWM" << optical.get_led_pwm() << "\n";
 		//std::cout << stopDriverIntake << "\n";
         pros::delay(50);
@@ -114,7 +114,7 @@ void autonomous() {
 	right_side_motors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	ColorLoopActive = true;
-	intakeUnstuckActivated = true;
+	intakeUnstuckActivated = false;
 
 	pros::Task lb_task(LBLoop);
 	ladybrown.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -123,7 +123,7 @@ void autonomous() {
 					// AUTON RUNS
 
 
-	//disruptRingRush(allianceColorBlue);
+	disruptRingRush(allianceColorBlue);
 	//selector->runSelectedAutonomous();
 	//testAuton();
 	//verySimpleMogo(allianceColorBlue);
@@ -142,7 +142,7 @@ void autonomous() {
 	//simpleMogoAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(allianceColorBlue);
 	//skills();
-	testAuton();
+	//testAuton();
 	//safeFourRing(allianceColorBlue);
 }
 
@@ -173,7 +173,7 @@ void opcontrol() {
 		pros::Task lb_task(LBLoop);
 	}
 
-	//selector->runSelectedAutonomous();
+	selector->runSelectedAutonomous();
 
 	// Create tasks with proper handling
 	pros::Task logger_task(logger);

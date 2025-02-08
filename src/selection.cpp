@@ -6,7 +6,7 @@
 AutonomousSelector* AutonomousSelector::instance = nullptr;
 
 // Implementation of the singleton constructor
-AutonomousSelector::AutonomousSelector() : currentRoutine(6) { // Default to Disabled
+AutonomousSelector::AutonomousSelector() : currentRoutine(7) { // Default to Disabled
     // Initialize selector UI
     pros::lcd::initialize();
     updateDisplay();
@@ -100,13 +100,16 @@ void AutonomousSelector::runSelectedAutonomous() {
             simpleMogo(allianceColorBlue);
             break;
         case 4:
-            verySimpleMogo(allianceColorBlue);
+            safeFourRing(allianceColorBlue);
             break;
         case 5:
+            verySimpleMogo(allianceColorBlue);
+            break;
+        case 6:
             allianceColorBlue = false;
             skills();
             break;
-        case 6:
+        case 7:
             break;
         default:
             break;

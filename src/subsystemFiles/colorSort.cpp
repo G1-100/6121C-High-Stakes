@@ -58,7 +58,7 @@ void doColorSort() {
         if (curProximity < ambientProximity) {
             ambientProximity = curProximity; // calibrate proximity
         }
-        if (fabs(curProximity - ambientProximity) < 5) {
+        if (fabs(curProximity - ambientProximity) < 2) {
             ambientColorDiff = currentColorDiff;
         }
 
@@ -73,12 +73,12 @@ void doColorSort() {
                         wrongColorDetected = true; // stop driver intake when color sorting
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + 9 && pros::millis() - start < 500) { // fling ring after 500 ms or until undetected
-                            intake.move(110);
+                        while (optical.get_proximity() > ambientProximity + 9 + 4 && pros::millis() - start < 500) { // fling ring after 500 ms or until undetected
+                            intake.move(105);
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150 + 100);
+                        pros::delay(150 + 75);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color
@@ -99,19 +99,19 @@ void doColorSort() {
                             }
                         }
                     }
-                } else if (currentColorDiff - ambientColorDiff < -5) { // red ring
+                } else if (currentColorDiff - ambientColorDiff < -8) { // red ring
                     if (allianceColorBlue)  { // wrong color
                         wrongColorDetected = true; // stop driver intake
                         master.rumble(". .");
                         cout << "RED DETECTED" << "\n";
                         setIntake(127);
                         long start = pros::millis();
-                        while (optical.get_proximity() > ambientProximity + 9 && pros::millis() - start < 500) { // wait until undetected or 500 ms to fling
-                            intake.move(110);
+                        while (optical.get_proximity() > ambientProximity + 9 + 4 && pros::millis() - start < 500) { // wait until undetected or 500 ms to fling
+                            intake.move(105);
                             pros::delay(10);
                         }
                         setIntake(-127);
-                        pros::delay(150 + 100);
+                        pros::delay(150 + 75);
                         setIntake(127);
                         wrongColorDetected = false;
                     } else { // right color

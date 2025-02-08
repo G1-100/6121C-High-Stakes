@@ -202,7 +202,7 @@ void newMogoRush(bool isBlue) {
   LBState = PROPPED;
   LBRotation.set_position(4600);
   set_drive(37 + 2, 2500, 126, 127); // Move to first mogo
-  chassis.waitUntil(11 + 1);
+  chassis.waitUntil(11 - 1);
   ChangeLBState(ALMOSTFULLEXTENDED);
   chassis.waitUntilDone();
   // pros::delay(500);
@@ -213,7 +213,7 @@ void newMogoRush(bool isBlue) {
   ChangeLBState(FULLEXTENDED);
   chassis.waitUntilDone();
   ChangeLBState(REST);
-  chassis.turnToHeading((-180 - 60 -10+3) * sgn, 2000); // Turn to second mogo
+  chassis.turnToHeading((-180 - 67 + 6) * sgn, 1200); // Turn to second mogo
   pros::delay(100);
   callLBReset();
   chassis.waitUntilDone();
@@ -221,25 +221,30 @@ void newMogoRush(bool isBlue) {
   chassis.waitUntil(33 - 15);
   mogoClamp.toggle(); // Clamp second mogo
   chassis.waitUntilDone();
-  set_drive(20, 2000, 65, 127); // Move back
+  chassis.turnToHeading(-210 * sgn, 700);
   chassis.waitUntilDone();
-  chassis.turnToHeading((-140 + 5 + 5 + 5) * sgn, 2000, {.maxSpeed = 90, .minSpeed = 30, .earlyExitRange = 1}); // Turn to two stack
+  set_drive(25 + 5, 2000, 65, 127); // Move back
+  chassis.waitUntilDone();
+  chassis.turnToHeading((-100) * sgn, 2000, {.maxSpeed = 90, .minSpeed = 30, .earlyExitRange = 1}); // Turn to two stack
   chassis.waitUntilDone();
   intake.move(127); // Turn on intake
   set_drive(34.5 - 3 + 4, 2000); // Move to two stack
   chassis.waitUntilDone();
   pros::delay(200);
-  chassis.turnToHeading(isBlue?(106-10 + 5):-106, 2000); // turn to corner
+  chassis.turnToHeading(isBlue?(106-10 + 5):-106 - 3, 1200); // turn to corner
   chassis.waitUntilDone();
   doinker.toggle();
-  set_drive(40 - 5, 1500, 60, 127); // Move to corner
+  set_drive(40 - 1, 1200, 60, 127); // Move to corner
   chassis.waitUntilDone();
-  pros::delay(500);
+  setIntake(0);
+  //pros::delay(500);
   chassis.turnToHeading(isBlue?-180:310, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
   chassis.waitUntilDone();
   doinker.toggle();
-  chassis.turnToHeading(-260 * sgn, 2000, {.minSpeed = 50, .earlyExitRange = 1.5}); // Turn to 2nd mogo
+  chassis.turnToHeading(-260 * sgn, 2000, {.minSpeed = 50, .earlyExitRange = 1.5}); // Turn to corner ring
+  intake.move(127);
   chassis.waitUntilDone();
+
   set_drive(15 - 5, 2000, 60, 120); // Move forward
   chassis.waitUntilDone();
   set_drive(-10, 2000); // Move back
@@ -412,7 +417,7 @@ void disruptRingRush(bool isBlue) {
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(41 - 15, 2000, 0, 50 - 5); // move to intake rings
+  set_drive(26 - 3, 2000, 0, 50 - 5); // move to intake rings
   chassis.waitUntil(8);
   intake.move(127); // start intake
   chassis.waitUntilDone();
@@ -428,16 +433,18 @@ void disruptRingRush(bool isBlue) {
   ChangeLBState(PROPPED);
   chassis.waitUntilDone();
   pros::delay(900-300);
-  chassis.turnToHeading((125 - 5.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  chassis.turnToHeading((119.5 - 2) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
   chassis.waitUntilDone();
   intake.move(0);
-  set_drive(11 - 2.25, 1500); // move to preload and score
+  set_drive(8.75 - 1, 1500); // move to preload and score
   chassis.waitUntilDone();
-  ChangeLBState(3);
+  ChangeLBState(EXTENDED);
   pros::delay(700 - 100);
-  set_drive_advanced(-24.5 + 3 + 8, 2000, 70, 127, 2); // move back
-  chassis.waitUntilDone();
+  set_drive_advanced(-24.5 + 3 + 8, 2000, 100, 127, 2); // move back
+  chassis.waitUntil(10);
   ChangeLBState(REST);
+  chassis.waitUntilDone();
+
   
 }
 
@@ -547,51 +554,58 @@ void safeFourRing(bool isBlue) {
   pros::delay(650 - 50);
   ladybrown.move(-15); // jank way to make sure LB doesn't get stuck
   
-  set_drive(-11 + 3, 2000, 80); // move back from AWS
+  set_drive(-11 + 1, 2000, 80); // move back from AWS
   chassis.waitUntilDone();
   ChangeLBState(REST); // retract ladybrown
-  chassis.turnToHeading(isBlue?-270:90 * sgn, 1000, {.minSpeed = 70}); // turn to mogo
+  chassis.turnToHeading(isBlue?91.5:90 * sgn, 1000, {.minSpeed = 70}); // turn to mogo
   chassis.waitUntilDone();
   callLBReset();
   set_drive(-29, 2000, 100); // move to mogo
-  chassis.waitUntil(20);
+  chassis.waitUntil(20 - 4);
   chassis.cancelMotion();
-  set_drive(-10 - 2, 1500, 0, 70);
-  chassis.waitUntil(6);
+  set_drive(-12 - 4, 1500, 0, 70 - 5);
+  chassis.waitUntil(6 + 4);
   mogoClamp.toggle();
   chassis.waitUntilDone();
 	intake.move_voltage(12000);
-	chassis.turnToHeading(180, 2000, {.minSpeed = 80}); // turn to two stack rings
+	chassis.turnToHeading((182 + 1.5) * sgn, 2000, {.minSpeed = 50, .earlyExitRange = 2}); // turn to two stack rings
 	chassis.waitUntilDone();
-	set_drive(21 + 1.5, 2000, 100);
+	set_drive(22.5 - 3, 2000, 100);
 	chassis.waitUntilDone();
-	//pros::delay(500);
-	set_drive(-20 + 7, 1500, 100);
+	pros::delay(300);
+	set_drive(-13 + 3, 1500, 100);
 	chassis.waitUntilDone();
-  chassis.turnToHeading(isBlue?-325:(45 - 2) * sgn, 1500, {.minSpeed = 70}); // turn to middle two stack
+  chassis.turnToHeading(isBlue?37:(43 - 2) * sgn, 1500, {.maxSpeed = 90, .minSpeed = 40, .earlyExitRange = 1.5}); // turn to middle two stack
 	chassis.waitUntilDone();
 	set_drive(35, 2000, 80, 120); // move to middle two stck
   chassis.waitUntil(18);
   chassis.cancelMotion();
-  set_drive(15 + 2, 2500, 0, 60);
+  set_drive(17 + 1, 2500, 0, 60);
   chassis.waitUntilDone();
   intake.move(127);
-  pros::delay(500 - 200);
+  pros::delay(500);
   set_drive(15, 1500, 80); // move to intake right color
   chassis.waitUntilDone();
-  set_drive(-40, 1500, 90, 120); // move back
-  chassis.waitUntilDone();
-  doinker.toggle();
+  
+  //set_drive(-40 - 3, 1500, 90, 120); // move back
+  //chassis.waitUntilDone();
+  //doinker.toggle();
   //chassis.turnToHeading(-225 * sgn, 2000, {.minSpeed = 80}); // face corner
-  chassis.turnToHeading(isBlue?-225:225, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
-  chassis.waitUntilDone();
-  set_drive(70 + 3, 1000, 100); // move to corner
-  chassis.waitUntilDone();
-  //chassis.turnToHeading(-300 * sgn, 2000, {.minSpeed = 80, .earlyExitRange = 2}); // sweep corner
-  chassis.turnToHeading(isBlue?-23:300, 1500, {.minSpeed = 80, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.turnToHeading(isBlue?-188:-170, 1500, {.minSpeed = 40, .earlyExitRange = 1.5}); // Turn to corner rings
   chassis.waitUntilDone();
   doinker.toggle();
-  chassis.turnToHeading(isBlue?-180:-240 * sgn, 2000, {.minSpeed = 80}); // face corner
+  chassis.waitUntilDone();
+  set_drive_advanced(90 - 2, 1600, 100, 127, 2.5); // move to corner
+  //pros::delay(1000);
+  // chassis.turnToHeading(isBlue?-213:235, 1500, {.minSpeed = 80}); // turn a bit
+  // chassis.waitUntilDone();
+  pros::delay(200);
+  //chassis.turnToHeading(-300 * sgn, 2000, {.minSpeed = 80, .earlyExitRange = 2}); // sweep corner
+  chassis.turnToHeading(isBlue?-140:300, 1500, {.minSpeed = 110, .earlyExitRange = 1.5}); // Turn to knock away corner rings
+  chassis.waitUntilDone();
+  //set_drive(4, 500, 127);
+  doinker.toggle();
+  chassis.turnToHeading(isBlue?-190:-240 * sgn, 2000, {.minSpeed = 80}); // face corner
   chassis.waitUntilDone();
   // set_drive(-10, 1000, 80); // move back
   // chassis.waitUntilDone();
@@ -599,13 +613,14 @@ void safeFourRing(bool isBlue) {
   // chassis.waitUntilDone();
   set_drive(10, 1000, 127);
   chassis.waitUntilDone();
+  pros::delay(100);
   set_drive(-10, 100, 127);
   chassis.waitUntilDone();
   chassis.turnToHeading(-45 * sgn, 2000, {.minSpeed = 80});
   chassis.waitUntilDone();
-  set_drive(42, 1000, 127);
-  //chassis.waitUntil(25);
-  chassis.waitUntilDone();
+  set_drive(43 + 5, 1000, 127);
+  chassis.waitUntil(40);
   ChangeLBState(EXTENDED);
+  chassis.waitUntilDone();
 	
 }
