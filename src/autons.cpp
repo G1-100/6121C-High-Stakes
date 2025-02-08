@@ -1,7 +1,9 @@
+#include "lemlib/chassis/chassis.hpp"
 #include "main.h"
 #include "pros/motors.h"
 #include "pros/rtos.hpp"
 #include "lemlib/api.hpp"
+#include "subsystemHeaders/ladybrown.hpp"
 
 const int DRIVE_SPEED = 110; // This is 110/127 (around 87% of max speed).  We don't suggest making this 127.
                              // If this is 127 and the robot tries to heading correct, it's only correcting by
@@ -417,39 +419,71 @@ void disruptRingRush(bool isBlue) {
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(26 - 3, 2000, 0, 50 - 5); // move to intake rings
-  chassis.waitUntil(8);
-  intake.move(127); // start intake
+  // set_drive(26 - 3, 2000, 0, 50 - 5); // move to intake rings
+  // chassis.waitUntil(8);
+  // intake.move(127); // start intake
+  // chassis.waitUntilDone();
+    intake.move(127); // start intake
+    set_drive(10+4, 2000, 0, 50 - 5); // move to intake rings
   chassis.waitUntilDone();
-  pros::delay(500);
-  set_drive(13 - 2, 1500);
+  pros::delay(300);
+      set_drive(13-4, 2000, 0, 50 - 5); // move to intake rings
+  chassis.waitUntilDone();
+  pros::delay(300);
+  set_drive(13 - 2-1.5, 1500);
   chassis.waitUntilDone();
   
   pros::delay(500);
-  chassis.turnToHeading((135 - 1.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
+  chassis.turnToHeading((135 - 1.5+1.5+2+1-2) * sgn, 1000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
   chassis.waitUntilDone();
-  set_drive(58.5 - 10, 2000, 70, 127); // move to preload
-  chassis.waitUntil(40 - 30);
+  set_drive(58.5 - 10 + 4+2.5+3-2, 2000, 70, 127); // move to preload
+  chassis.waitUntil(20);
   ChangeLBState(PROPPED);
   chassis.waitUntilDone();
-  pros::delay(900-300);
-  chassis.turnToHeading((119.5 - 2) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  pros::delay(300);
+  ChangeLBState(SEMIEXTENDED);
+  pros::delay(200);
+  chassis.swingToHeading(87 * sgn, isBlue?lemlib::DriveSide::LEFT:lemlib::DriveSide::RIGHT, 600);
   chassis.waitUntilDone();
-  intake.move(0);
-  set_drive(8.75 - 1, 1500); // move to preload and score
+  set_drive(4, 500, 100); 
   chassis.waitUntilDone();
-  ChangeLBState(EXTENDED);
-  pros::delay(700 - 100);
-  set_drive_advanced(-24.5 + 3 + 8, 2000, 100, 127, 2); // move back
-  chassis.waitUntil(10);
-  ChangeLBState(REST);
-  chassis.waitUntilDone();
+  set_drive(-8, 1500); // move back
+    setIntake(0);
+    chassis.waitUntil(1);
+    ChangeLBState(FULLEXTENDED); // extend ladybrown
+    pros::delay(700);
+        chassis.waitUntilDone();
+    set_drive(-5 + 0.25, 2000, 80, 120); // move back
+    chassis.waitUntilDone();
+    ChangeLBState(FULLEXTENDED); // extend ladybrown
+   chassis.turnToHeading((-90) * sgn, 1000, {.maxSpeed = 120, .minSpeed = 80, .earlyExitRange = 1});
+   chassis.waitUntilDone();
+    set_drive(10, 2000, 100, 120); 
+
+
+    
+  // set_drive(58.5 - 10, 2000, 70, 127); // move to preload
+  // chassis.waitUntil(40 - 30);
+  // ChangeLBState(PROPPED);
+  // chassis.waitUntilDone();
+  // pros::delay(900-300);
+  // chassis.turnToHeading((119.5 - 2) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  // chassis.waitUntilDone();
+  // intake.move(0);
+  // set_drive(8.75 - 1-1.5-1, 1500); // move to preload and score
+  // chassis.waitUntilDone();
+  // ChangeLBState(FULLEXTENDED);
+  // pros::delay(700 - 100);
+  // set_drive_advanced(-24.5 + 3 + 8, 2000, 100, 127, 2); // move back
+  // chassis.waitUntil(10);
+  // ChangeLBState(REST);
+  // chassis.waitUntilDone();
 
   
 }
 
 void disruptRingRushBlue() {
-  int sgn= 1;
+   int sgn= 1;
 	chassis.setPose(55 * sgn,30,-(71 + 2.5) * sgn); //Starting Line 71
   setIntake(0);
   set_drive(38 + 0.25, 2500, 100, 127); //move and grab to rings 
@@ -473,43 +507,52 @@ void disruptRingRushBlue() {
   chassis.waitUntil(14 + 1.5);
   mogoClamp.toggle(); // clamp mogo
   chassis.cancelMotion();
-  set_drive(-12 + 1.5, 1500, 70, 120); // move to mogo
+  set_drive(-12 + 1.5+2, 1500, 70, 120); // move to mogo
   chassis.waitUntilDone();
   chassis.turnToHeading((-8) * sgn, 3000, {.maxSpeed = 100, .minSpeed = 30, .earlyExitRange = 1}); // turn to intake rings
   //chassis.turnToPoint((24 - 4) * sgn, 60, 3000); // turn to intake rings
   chassis.waitUntilDone();
   pros::delay(100);
-  set_drive(41 - 15, 2000, 0, 50 - 5); // move to intake rings
-  chassis.waitUntil(8);
-  intake.move(127); // start intake
+  // set_drive(26 - 3, 2000, 0, 50 - 5); // move to intake rings
+  // chassis.waitUntil(8);
+  // intake.move(127); // start intake
+  // chassis.waitUntilDone();
+    intake.move(127); // start intake
+    set_drive(10+4, 2000, 0, 50 - 5); // move to intake rings
   chassis.waitUntilDone();
-  pros::delay(500);
-  set_drive(13 - 2, 1500);
+  pros::delay(300);
+      set_drive(13-4, 2000, 0, 50 - 5); // move to intake rings
+  chassis.waitUntilDone();
+  pros::delay(300);
+  set_drive(13 - 2-1.5-1, 1500);
   chassis.waitUntilDone();
   
   pros::delay(500);
-  chassis.turnToHeading((135 - 1.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
+chassis.turnToHeading((135 - 1.5+1.5+2+1+1-3) * sgn, 1000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1}); // turn to preload
   chassis.waitUntilDone();
-  set_drive(58.5 - 10, 2000, 70, 127); // move to preload
-  chassis.waitUntil(40 - 30);
+  set_drive(58.5 - 10 + 4+2.5+3-2-1, 2000, 70, 127); // move to preload
+  chassis.waitUntil(20);
   ChangeLBState(PROPPED);
   chassis.waitUntilDone();
-  pros::delay(900-300);
-  chassis.turnToHeading((125 - 5.5) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 30, .earlyExitRange = 1});
+  pros::delay(300);
+  ChangeLBState(SEMIEXTENDED);
+  pros::delay(200);
+  chassis.swingToHeading(87 * sgn, lemlib::DriveSide::LEFT, 600);
   chassis.waitUntilDone();
-  intake.move(0);
-  set_drive(11 - 2.25, 1500); // move to preload
+  set_drive(5, 500, 100); 
   chassis.waitUntilDone();
-  ChangeLBState(3);
-  pros::delay(700 - 100);
-  set_drive_advanced(-24.5 + 3 + 8, 2000, 70, 127, 2); // move back
-  chassis.waitUntilDone();
-  ChangeLBState(REST);
-  chassis.turnToHeading((-110) * sgn, 2000, {.maxSpeed = 80, .minSpeed = 50, .earlyExitRange = 2}); // turn to ladder
-  chassis.waitUntilDone();
-  set_drive_advanced(26.5, 1500, 90, 100, 2); // move forward
-  chassis.waitUntilDone();
-  ChangeLBState(PROPPED); 
+  set_drive(-8, 1500); // move back
+    setIntake(0);
+    chassis.waitUntil(1);
+    ChangeLBState(FULLEXTENDED); // extend ladybrown
+    pros::delay(700);
+        chassis.waitUntilDone();
+    set_drive(-5 + 0.25, 2000, 80, 120); // move back
+    chassis.waitUntilDone();
+    ChangeLBState(FULLEXTENDED); // extend ladybrown
+   chassis.turnToHeading((-90) * sgn, 1000, {.maxSpeed = 120, .minSpeed = 80, .earlyExitRange = 1});
+   chassis.waitUntilDone();
+    set_drive(10, 2000, 100, 120); 
 }
 
 

@@ -87,7 +87,7 @@ void doColorSort() {
                             rightRingBeingSeen = true;
                             if (ringsSeen >= colorUntilRings) { // stop color until
                                 intake.move(-127);
-                                pros::delay(30);
+                                pros::delay(20);
                                 intake.move(0);
                                 colorUntilActivated = false;
                             } else if (safeScoring) { // wait until not scoring
@@ -121,7 +121,7 @@ void doColorSort() {
                             if (ringsSeen >= colorUntilRings) {
                                 std::cout <<"right red seen" << "\n";
                                 intake.move(-127);
-                                pros::delay(30);
+                                pros::delay(20);
                                 intake.move(0);
                                 colorUntilActivated = false;
                             }
