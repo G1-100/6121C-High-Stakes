@@ -180,7 +180,7 @@ void skills() {
     chassis.turnToHeading(112 - 3, 1500, {.maxSpeed = 58, .minSpeed = 60, .earlyExitRange = 2}); // turn to corner
     chassis.waitUntilDone();
 
-    set_drive(-14 + 2, 700); // back INto corner
+    set_drive(-14, 700, 70); // back INto corner
     chassis.waitUntilDone();
     callLBReset();
     pros::delay(300 + 100);

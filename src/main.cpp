@@ -128,7 +128,7 @@ void autonomous() {
 	//testAuton();
 	//verySimpleMogo(allianceColorBlue);
 	//disruptRingRushBlue();
-	//simpleMogo(allianceColorBlue);
+	simpleMogo(allianceColorBlue);
 	//newMogoRush(allianceColorBlue);
 	//simpleRing(allianceColorBlue);
 	//mogoRushAuton(allianceColorBlue);
@@ -141,7 +141,7 @@ void autonomous() {
 	//VexmenSoloAWP(allianceColorBlue);
 	//simpleMogoAuton(allianceColorBlue);
 	//soloAWPAutonTunedLMSD(allianceColorBlue);
-	skills();
+	//skills();
 	//testAuton();
 	//safeFourRing(allianceColorBlue);
 }
