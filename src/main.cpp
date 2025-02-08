@@ -22,7 +22,7 @@ void initialize() {
 	pros::delay(1000);
 	optical.set_led_pwm(100);
 
-	allianceColorBlue = true; // VERY IMPORTANT
+	allianceColorBlue = false; // VERY IMPORTANT
 
 	initColorSort();
 	std::cout << "initialize done" << "\n";
@@ -181,14 +181,18 @@ void opcontrol() {
 	
 	ColorLoopActive = true; // starts inactive until tested ambient colors
 
-	intakeUnstuckActivated = true;
+	intakeUnstuckActivated = false;
 
 	//callLBReset();
-	//ChangeLBState(REST);
+	//startColorUntil(1);
 
 	//rushLeftPiston.toggle();
 	//rushRightPiston.toggle();
+	//if (selector->currentRoutine == 6) {
+		//skillsMacro();
+	//}
 	//skillsMacro();
+	//ChangeLBState(REST);
 	// DRIVE CODE:
 	while (true) {
        	// Arcade drive

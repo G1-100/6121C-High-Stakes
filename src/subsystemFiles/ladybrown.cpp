@@ -45,7 +45,7 @@ void doIntakeUnstuck() {
     if (fabs(intake.get_actual_velocity()) < 0.5 && fabs(intake.get_voltage()) > 2000) { // if intake is stuck
         if (intakeStuckTime == 0) {
             intakeStuckTime = pros::millis();
-        // } else if (pros::millis() - intakeStuckTime > 100 + 100 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
+        // } else if (pros::millis() - intakeStuckTime > 800 && LBState == PROPPED) { // ring caught on ladybrown, extend a little
         //     std::cout << "LB Raise Activated" << "\n";
         //     intake.move(0);
         //     wrongColorDetected = true;

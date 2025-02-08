@@ -153,9 +153,9 @@ void simpleMogo(bool isBlue) {
 	int sgn=isBlue?1:-1;
 	chassis.setPose(0, 0, (33 + 1) * sgn);
   LBState = PROPPED;
-  LBRotation.set_position(4600);
+  LBRotation.set_position(4600 - 200);
   ChangeLBState(EXTENDED);
-  pros::delay(650);
+  pros::delay(650 + 100);
   set_drive(-15 + 2, 2000);
   chassis.waitUntilDone();
   ChangeLBState(REST);

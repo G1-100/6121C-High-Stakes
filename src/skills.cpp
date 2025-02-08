@@ -38,12 +38,12 @@ void skills() {
     chassis.waitUntilDone();
     //pros::delay(800);
     //chassis.turnToHeading(-110, 2000, {.maxSpeed = 60}); // turn to wall stake ring
-    chassis.turnToPoint(-1.2156, -54.6709, 2000, {.maxSpeed = 60}); // turn to wall stake ring
+    chassis.turnToPoint(-1.2156 + 3 - .4, -54.6709 + 1, 2000, {.maxSpeed = 60}); // turn to wall stake ring
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
 
     //set_drive(28.65 + 0.2); // pickup ring next to wall stake
-    chassis.moveToPoint(-1.2156, -54.6709, 1500);
+    chassis.moveToPoint(-1.2156 + 3 - 0.4, -54.6709 + 1, 1500);
     chassis.waitUntilDone();
 
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
@@ -135,11 +135,11 @@ void skills() {
     pros::delay(300);
 
     //chassis.turnToHeading(-71.75 + 1.5, 2000, {.maxSpeed = 60});
-    chassis.turnToPoint(0.69923 - 1.75, 69.8696 - 4, 2000, {.maxSpeed = 60});
+    chassis.turnToPoint(0.69923 - 1.75 - 2, 69.8696 - 4, 2000, {.maxSpeed = 60});
     chassis.waitUntilDone();
     ChangeLBState(PROPPED); // prop up ladybrown
     //set_drive(27 + 3.5); // move to ring next to wall stake
-    chassis.moveToPoint(0.699233 - 1.75, 69.86966 - 4, 1500);
+    chassis.moveToPoint(0.699233 - 1.75 - 2, 69.86966 - 4, 1500);
     chassis.waitUntilDone();
     std::cout << lemlib::format_as(chassis.getPose()) << "\n";
 
@@ -211,7 +211,6 @@ void skills() {
     /////////////////////////// THIRD MOGO ///////////////////////////
     /////////////////////////// THIRD MOGO ///////////////////////////
 
-    ColorLoopActive = true;
 
 
     chassis.waitUntilDone();
@@ -238,12 +237,12 @@ void skills() {
     //pros::delay(400);
     chassis.turnToHeading(-45 - 3, 1500, {.maxSpeed = 90}); // turn to center ring inside ladder
     chassis.waitUntilDone();
-    setIntake(100);
+    setIntake(120);
     ColorLoopActive = true;
     set_drive(30 + 3, 2000); // move to center ring inside ladder
     chassis.waitUntilDone();
     startColorUntil(1); // start color until 1 ring
-    chassis.turnToHeading(-35 + 7, 1500); // turn to go back
+    chassis.turnToHeading(-35 + 3, 1500); // turn to go back
     chassis.waitUntilDone();
     set_drive(-60 - 5, 2000); // move back
     chassis.waitUntilDone();

@@ -5,7 +5,6 @@
 class AutonomousSelector {
 private:
     static AutonomousSelector* instance;
-    int currentRoutine;
     const char* routineNames[10] = {
         "Four Ring Ring Rush",
         "Two Ring Safe Ring",
@@ -33,6 +32,7 @@ private:
 public:
     static AutonomousSelector* getInstance();
     void nextRoutine();
+    int currentRoutine;
     void previousRoutine(); 
     void updateDisplay();
     void runSelectedAutonomous();
