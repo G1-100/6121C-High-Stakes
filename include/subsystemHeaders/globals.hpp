@@ -4,6 +4,7 @@
 #include "pros/misc.h"
 #include "pros/rotation.hpp"
 #include "lemlib/api.hpp"
+#include "EZ-Template/api.hpp"
 
 //MOTORS
 

@@ -1,7 +1,7 @@
 #include "main.h"
 #include "pros/motors.h"
 #include "lemlib/api.hpp"
-
+#include "EZ-Template/api.hpp"
 
 
 //MOTORS
